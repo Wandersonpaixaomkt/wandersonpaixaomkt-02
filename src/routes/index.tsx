@@ -1110,12 +1110,12 @@ function Proof() {
 // ============================================================
 function About() {
   const bullets = [
-    "Especialista em marketing e soluções digitais",
+    "Especialista em captação e conversão para clínicas",
     "Formado em Administração",
-    "Estudante de Psicologia",
-    "Gestor de campanhas Google e Meta",
-    "Foco em estratégia antes de ferramenta",
-    "Pesquisador contínuo de tecnologia, IA e vendas",
+    "Estudante de Psicologia (comportamento de consumo)",
+    "Gestor certificado de campanhas Google e Meta",
+    "Estratégia sempre antes da ferramenta",
+    "Estudo contínuo em IA, dados e vendas consultivas",
   ];
   return (
     <Section id="sobre" className="bg-surface/30">
