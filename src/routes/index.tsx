@@ -455,9 +455,10 @@ function Problems() {
       </div>
       <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[color:var(--color-border-brand)] bg-card/50 p-5 text-center">
         <p className="text-sm font-medium text-foreground md:text-base">
-          Gerar mais contatos não resolve sozinho quando a jornada entre o anúncio e o
-          atendimento está{" "}
-          <span className="text-brand">quebrada</span>.
+          Mais contatos não resolvem uma jornada{" "}
+          <span className="text-brand">quebrada</span>. Aumentam o desperdício.
+        </p>
+      </div>
         </p>
       </div>
     </Section>
