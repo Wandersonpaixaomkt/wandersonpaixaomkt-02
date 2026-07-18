@@ -1246,16 +1246,15 @@ function DiagnosticForm() {
             <CheckCircle2 className="h-7 w-7" />
           </span>
           <h2 className="mt-6 font-display text-3xl font-semibold md:text-4xl">
-            Recebi suas informações.
+            Diagnóstico recebido.
           </h2>
           <p className="mt-4 text-[color:var(--color-text-muted-2)]">
-            Agora vou analisar seu cenário e verificar qual caminho pode fazer mais
-            sentido para sua operação.
+            Vou analisar seu cenário com atenção e retorno em até 3 dias úteis com uma leitura clara do que está travando sua captação — e o caminho recomendado.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <PrimaryButton href={waLink}>Continuar no WhatsApp</PrimaryButton>
+            <PrimaryButton href={waLink}>Adiantar contato pelo WhatsApp</PrimaryButton>
             <SecondaryButton href={waLink} external>
-              Agendar reunião
+              Agendar reunião estratégica
             </SecondaryButton>
           </div>
         </div>
@@ -1264,10 +1263,10 @@ function DiagnosticForm() {
   }
 
   const benefits = [
-    "Identificação dos principais gargalos",
-    "Prioridades claras para os próximos passos",
-    "Recomendações baseadas no cenário real",
-    "Indicação do serviço adequado",
+    "Mapa claro dos principais gargalos de captação",
+    "Prioridades definidas para os próximos 90 dias",
+    "Recomendações ancoradas no cenário real da clínica",
+    "Indicação honesta do próximo passo — com ou sem contratação",
   ];
 
   return (
@@ -1282,14 +1281,13 @@ function DiagnosticForm() {
       />
       <div className="grid gap-8 lg:grid-cols-[0.95fr_1.1fr] lg:items-start">
         <div>
-          <EyebrowTag>Oferta principal</EyebrowTag>
+          <EyebrowTag>Ponto de partida gratuito</EyebrowTag>
           <h2 className="mt-5 text-balance font-display text-3xl font-semibold leading-[1.1] md:text-4xl lg:text-5xl">
             Diagnóstico Estratégico de{" "}
             <span className="text-brand">Captação e Conversão</span>
           </h2>
           <p className="mt-5 text-[color:var(--color-text-muted-2)] md:text-lg">
-            Identifique o que está impedindo sua clínica de gerar, organizar ou
-            converter mais oportunidades.
+            Uma análise honesta do que está impedindo sua clínica de gerar, organizar e converter mais oportunidades — sem compromisso de contratação.
           </p>
           <ul className="mt-8 space-y-3">
             {benefits.map((b) => (
