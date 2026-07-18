@@ -31,7 +31,7 @@ import {
 const CONFIG = {
   whatsapp: "5599999999999", // <- DDI+DDD+número, ex: 5511999999999
   whatsappMessage:
-    "Olá Wanderson, gostaria de solicitar um diagnóstico para minha clínica.",
+    "Olá, Wanderson. Quero entender onde minha clínica está perdendo oportunidades. Podemos conversar?",
   email: "contato@avex.com.br",
   instagram: "https://instagram.com/wandersonpaixao",
   cidade: "Atendimento online em todo o Brasil",
@@ -46,17 +46,17 @@ const waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AVEX · Wanderson Paixão — Diagnóstico de Captação para Clínicas" },
+      { title: "AVEX · Diagnóstico de Captação e Conversão para Clínicas" },
       {
         name: "description",
         content:
-          "Consultoria estratégica para clínicas, consultórios e profissionais da saúde. Análise de posicionamento, anúncios, páginas, WhatsApp, recepção e conversão.",
+          "Descubra onde sua clínica perde pacientes entre o anúncio e a agenda. Diagnóstico estratégico de posicionamento, mídia, WhatsApp, recepção e conversão — por Wanderson Paixão.",
       },
-      { property: "og:title", content: "AVEX · Wanderson Paixão" },
+      { property: "og:title", content: "AVEX · Diagnóstico para Clínicas" },
       {
         property: "og:description",
         content:
-          "Estratégia, tecnologia e melhoria contínua entre o anúncio e o agendamento.",
+          "Mais contatos não resolvem uma jornada quebrada. Analisamos cada etapa entre o anúncio e o agendamento.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
