@@ -507,7 +507,7 @@ function DiagnosticSplit() {
             ))}
           </ul>
           <div className="mt-8">
-            <PrimaryButton href="#diagnostico">Solicitar análise</PrimaryButton>
+            <PrimaryButton href="#diagnostico">Mapear meus gargalos</PrimaryButton>
           </div>
         </div>
 
