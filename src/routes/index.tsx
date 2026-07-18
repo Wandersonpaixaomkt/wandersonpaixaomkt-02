@@ -1608,19 +1608,17 @@ function FinalCTA() {
       <div className="mx-auto max-w-3xl text-center">
         <EyebrowTag>Último passo</EyebrowTag>
         <h2 className="mt-6 text-balance font-display text-4xl font-semibold leading-[1.05] md:text-5xl lg:text-[64px]">
-          Antes de investir mais, descubra onde sua operação está{" "}
-          <span className="text-gradient-brand">perdendo oportunidades</span>.
+          Antes de gastar mais em anúncio, descubra onde sua clínica está{" "}
+          <span className="text-gradient-brand">perdendo pacientes</span>.
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-pretty text-base text-[color:var(--color-text-muted-2)] md:text-lg">
-          Uma análise estratégica pode mostrar se o principal problema está na
-          captação, na mensagem, na página, no atendimento ou na falta de
-          acompanhamento.
+          Uma análise honesta mostra em minutos se o problema está na captação, na mensagem, na página, no atendimento — ou na falta de acompanhamento.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
-          <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico</PrimaryButton>
+          <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico gratuito</PrimaryButton>
           <SecondaryButton href={waLink} external>
             <MessageCircle className="h-4 w-4" />
-            Falar com Wanderson
+            Falar direto com Wanderson
           </SecondaryButton>
         </div>
       </div>
