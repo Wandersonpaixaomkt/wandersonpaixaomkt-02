@@ -1565,7 +1565,8 @@ function FAQ() {
     <Section id="faq">
       <SectionHead
         eyebrow="Perguntas frequentes"
-        title="Dúvidas comuns antes de solicitar o diagnóstico."
+        title="Respostas honestas antes de você decidir."
+        subtitle="Se sua dúvida não estiver aqui, mande uma mensagem — respondo pessoalmente."
       />
       <div className="mx-auto max-w-3xl divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
         {items.map((it, i) => (
