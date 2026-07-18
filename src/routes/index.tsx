@@ -311,29 +311,25 @@ function Hero() {
       />
 
       <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-        <EyebrowTag>Diagnóstico estratégico para clínicas</EyebrowTag>
+        <EyebrowTag>Consultoria de captação para clínicas</EyebrowTag>
         <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-6xl lg:text-[68px]">
-          Descubra onde sua clínica está{" "}
-          <span className="text-gradient-brand">perdendo oportunidades</span>{" "}
-          entre o anúncio e o agendamento.
+          Você não precisa de mais mensagens. Precisa de uma jornada que{" "}
+          <span text-gradient-brand="" className="text-gradient-brand">converta</span>.
         </h1>
         <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg">
-          Análise de posicionamento, presença digital, anúncios, páginas, WhatsApp,
-          recepção, qualificação, acompanhamento e conversão. O objetivo não é gerar
-          apenas mais mensagens — é organizar o caminho da procura até o agendamento.
+          Do primeiro anúncio ao paciente na cadeira: mapeamos onde sua clínica está perdendo oportunidades e estruturamos o caminho que transforma procura em agendamento.
         </p>
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico</PrimaryButton>
+          <PrimaryButton href="#diagnostico">Quero meu diagnóstico gratuito</PrimaryButton>
           <SecondaryButton href={waLink} external>
             <MessageCircle className="h-4 w-4" />
-            Falar com Wanderson
+            Conversar no WhatsApp
           </SecondaryButton>
         </div>
 
         <p className="mt-5 max-w-xl text-sm text-[color:var(--color-text-dim)]">
-          Análise estratégica, sem promessas irreais e com recomendações baseadas no
-          cenário da sua operação.
+          Análise consultiva, sem promessas de faturamento e sem venda de pacote. Recomendação baseada no cenário real da sua operação.
         </p>
       </div>
 
