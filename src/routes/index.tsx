@@ -856,52 +856,52 @@ function GrowthVisual() {
 function Plans() {
   const plans = [
     {
-      tag: "Plano 01",
-      title: "Gerar demanda em contato",
-      desc: "Para negócios que precisam aumentar a entrada de novas oportunidades.",
+      tag: "Plano 01 · Iniciar",
+      title: "Começar a captar com previsibilidade",
+      desc: "Para clínicas que dependem de indicação e querem abrir um canal ativo de novos pacientes.",
       items: [
-        "Diagnóstico inicial",
-        "Planejamento",
+        "Diagnóstico inicial da operação",
+        "Planejamento estratégico",
         "Meta Ads ou Google Ads",
-        "Landing page ou WhatsApp",
+        "Direcionamento para landing page ou WhatsApp",
         "Rastreamento e otimização",
-        "Relatório",
+        "Relatório mensal de leitura simples",
       ],
     },
     {
-      tag: "Plano 02",
-      title: "Gerar demanda e escalar",
-      desc: "Para quem já tem alguma estrutura e precisa de volume e previsibilidade.",
+      tag: "Plano 02 · Escalar",
+      title: "Aumentar volume sem perder eficiência",
+      desc: "Para clínicas que já captam, mas precisam de mais volume, previsibilidade e leitura de dados.",
       items: [
-        "Meta Ads e Google Ads",
-        "Remarketing",
-        "Testes de ofertas",
+        "Meta Ads + Google Ads em conjunto",
+        "Remarketing e recuperação de contatos",
+        "Testes de ofertas e criativos",
         "Acompanhamento do atendimento",
-        "Análise da jornada",
-        "Otimizações frequentes",
+        "Análise da jornada completa",
+        "Otimizações contínuas e recorrentes",
       ],
       featured: true,
     },
     {
-      tag: "Plano 03",
-      title: "Gerar, escalar e otimizar",
-      desc: "Para clínicas que precisam de assessoria mais ampla.",
+      tag: "Plano 03 · Consolidar",
+      title: "Assessoria estratégica completa",
+      desc: "Para clínicas que querem tratar marketing como área da empresa, não como serviço avulso.",
       items: [
-        "Planejamento estratégico",
-        "Campanhas e funil",
-        "Landing pages e CRM",
-        "Atendimento e automações",
-        "Indicadores",
-        "Reuniões estratégicas",
+        "Planejamento estratégico contínuo",
+        "Campanhas e estrutura de funil",
+        "Landing pages e CRM integrados",
+        "Padronização do atendimento e automações",
+        "Indicadores de operação",
+        "Reuniões estratégicas periódicas",
       ],
     },
   ];
   return (
     <Section>
       <SectionHead
-        eyebrow="Níveis de serviço"
-        title="Três caminhos, um definido conforme seu cenário."
-        subtitle="Os planos são pontos de partida. O escopo final é ajustado após o diagnóstico."
+        eyebrow="Formatos de trabalho"
+        title="Três caminhos. Um recomendado depois de te ouvir."
+        subtitle="Os planos são pontos de partida — não pacotes fechados. O escopo final é ajustado ao seu cenário no diagnóstico."
       />
       <div className="grid gap-5 lg:grid-cols-3">
         {plans.map((p) => (
