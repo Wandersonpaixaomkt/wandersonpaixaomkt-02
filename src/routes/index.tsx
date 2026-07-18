@@ -1426,13 +1426,13 @@ function DiagnosticForm() {
                   ? "Enviando..."
                   : step === 1
                     ? "Continuar"
-                    : "Enviar para análise"}
+                    : "Quero meu diagnóstico"}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
             {status === "error" && (
               <p className="mt-4 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
-                Não foi possível enviar. Tente novamente ou fale pelo WhatsApp.
+                Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp.
               </p>
             )}
           </form>
