@@ -84,8 +84,11 @@ html {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    line-height: 1.55;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
@@ -96,6 +99,53 @@ html {
     background: rgba(255, 92, 31, 0.4);
     color: #fff;
   }
+  /* Global focus-visible — accessible + on-brand */
+  :focus-visible {
+    outline: 2px solid rgba(255, 92, 31, 0.7);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+  /* Smoother interactive baseline */
+  a, button, [role="button"], input, select, textarea, summary {
+    transition: color .18s ease, background-color .18s ease,
+                border-color .18s ease, box-shadow .22s ease,
+                transform .18s ease, opacity .18s ease, filter .18s ease;
+  }
+  /* Form control polish */
+  input, select, textarea { caret-color: var(--brand); }
+  input:hover, select:hover, textarea:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+  select {
+    color-scheme: dark;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #a3a3a3 50%),
+      linear-gradient(135deg, #a3a3a3 50%, transparent 50%);
+    background-position:
+      calc(100% - 18px) 50%,
+      calc(100% - 13px) 50%;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 2.25rem;
+    appearance: none;
+  }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #08080a; }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #1e1e20, #141416);
+    border-radius: 999px;
+    border: 2px solid #08080a;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #2a2a2c, #1a1a1c);
+  }
+  html { scrollbar-color: #1e1e20 #08080a; scrollbar-width: thin; }
+  a, button { -webkit-tap-highlight-color: transparent; }
+  @media (pointer: coarse) {
+    a, button { min-height: 40px; }
+  }
+  img { max-width: 100%; height: auto; }
 }
 
 @keyframes fade-in {
