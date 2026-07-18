@@ -915,7 +915,7 @@ function Plans() {
           >
             {p.featured && (
               <span className="absolute -top-3 left-6 rounded-full border border-[color:var(--color-border-brand)] bg-brand px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-foreground">
-                Mais aplicado
+                Mais recomendado
               </span>
             )}
             <span className="text-[10px] font-medium uppercase tracking-[0.24em] text-brand">
