@@ -31,7 +31,7 @@ import {
 const CONFIG = {
   whatsapp: "5599999999999", // <- DDI+DDD+número, ex: 5511999999999
   whatsappMessage:
-    "Olá Wanderson, gostaria de solicitar um diagnóstico para minha clínica.",
+    "Olá, Wanderson. Quero entender onde minha clínica está perdendo oportunidades. Podemos conversar?",
   email: "contato@avex.com.br",
   instagram: "https://instagram.com/wandersonpaixao",
   cidade: "Atendimento online em todo o Brasil",
@@ -46,17 +46,17 @@ const waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AVEX · Wanderson Paixão — Diagnóstico de Captação para Clínicas" },
+      { title: "AVEX · Diagnóstico de Captação e Conversão para Clínicas" },
       {
         name: "description",
         content:
-          "Consultoria estratégica para clínicas, consultórios e profissionais da saúde. Análise de posicionamento, anúncios, páginas, WhatsApp, recepção e conversão.",
+          "Descubra onde sua clínica perde pacientes entre o anúncio e a agenda. Diagnóstico estratégico de posicionamento, mídia, WhatsApp, recepção e conversão — por Wanderson Paixão.",
       },
-      { property: "og:title", content: "AVEX · Wanderson Paixão" },
+      { property: "og:title", content: "AVEX · Diagnóstico para Clínicas" },
       {
         property: "og:description",
         content:
-          "Estratégia, tecnologia e melhoria contínua entre o anúncio e o agendamento.",
+          "Mais contatos não resolvem uma jornada quebrada. Analisamos cada etapa entre o anúncio e o agendamento.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
@@ -311,29 +311,25 @@ function Hero() {
       />
 
       <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-        <EyebrowTag>Diagnóstico estratégico para clínicas</EyebrowTag>
+        <EyebrowTag>Consultoria de captação para clínicas</EyebrowTag>
         <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-6xl lg:text-[68px]">
-          Descubra onde sua clínica está{" "}
-          <span className="text-gradient-brand">perdendo oportunidades</span>{" "}
-          entre o anúncio e o agendamento.
+          Você não precisa de mais mensagens. Precisa de uma jornada que{" "}
+          <span className="text-gradient-brand">converta</span>.
         </h1>
         <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg">
-          Análise de posicionamento, presença digital, anúncios, páginas, WhatsApp,
-          recepção, qualificação, acompanhamento e conversão. O objetivo não é gerar
-          apenas mais mensagens — é organizar o caminho da procura até o agendamento.
+          Do primeiro anúncio ao paciente na cadeira: mapeamos onde sua clínica está perdendo oportunidades e estruturamos o caminho que transforma procura em agendamento.
         </p>
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico</PrimaryButton>
+          <PrimaryButton href="#diagnostico">Quero meu diagnóstico gratuito</PrimaryButton>
           <SecondaryButton href={waLink} external>
             <MessageCircle className="h-4 w-4" />
-            Falar com Wanderson
+            Conversar no WhatsApp
           </SecondaryButton>
         </div>
 
         <p className="mt-5 max-w-xl text-sm text-[color:var(--color-text-dim)]">
-          Análise estratégica, sem promessas irreais e com recomendações baseadas no
-          cenário da sua operação.
+          Análise consultiva, sem promessas de faturamento e sem venda de pacote. Recomendação baseada no cenário real da sua operação.
         </p>
       </div>
 
@@ -406,31 +402,31 @@ function Problems() {
   const items = [
     {
       icon: Radar,
-      title: "Contatos que não avançam",
-      desc: "Mensagens chegam, mas os pacientes não agendam. Falta clareza sobre onde a jornada trava.",
+      title: "Contatos que não fecham",
+      desc: "Mensagens chegam, mas o paciente some antes de agendar. Sem visibilidade sobre onde e por que ele desiste.",
     },
     {
       icon: Compass,
-      title: "Dependência de indicação",
-      desc: "O crescimento depende inteiramente de quem já conhece. Sem previsibilidade de novas oportunidades.",
+      title: "Refém da indicação",
+      desc: "Quando a indicação esfria, a agenda esfria junto. Não há canal previsível de novos pacientes.",
     },
     {
       icon: Zap,
-      title: "Atendimento sem padrão",
-      desc: "WhatsApp e recepção respondem de formas diferentes. Sem script, sem qualificação, sem follow-up.",
+      title: "Atendimento improvisado",
+      desc: "Cada mensagem é respondida de um jeito. Sem script, sem qualificação e sem quem retome o contato depois.",
     },
     {
       icon: BarChart3,
-      title: "Anúncios sem leitura",
-      desc: "Campanhas rodam, mas ninguém sabe quantos contatos viraram agendamento. Decisão sem dado.",
+      title: "Anúncio no escuro",
+      desc: "A campanha roda, o investimento sai, mas ninguém sabe quantos contatos viraram agendamento — nem quais dão prejuízo.",
     },
   ];
   return (
     <Section id="problemas">
       <SectionHead
-        eyebrow="Diagnóstico"
-        title="O problema pode não estar apenas nos anúncios."
-        subtitle="Muitas clínicas investem em mídia e ainda assim sentem que os contatos não avançam. Normalmente o gargalo está em outro ponto da jornada."
+        eyebrow="Onde o dinheiro vaza"
+        title="O problema quase nunca está só no anúncio."
+        subtitle="Antes de aumentar o investimento, é preciso enxergar em que ponto da jornada a clínica está deixando pacientes na mesa."
       />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it) => (
@@ -459,9 +455,8 @@ function Problems() {
       </div>
       <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[color:var(--color-border-brand)] bg-card/50 p-5 text-center">
         <p className="text-sm font-medium text-foreground md:text-base">
-          Gerar mais contatos não resolve sozinho quando a jornada entre o anúncio e o
-          atendimento está{" "}
-          <span className="text-brand">quebrada</span>.
+          Mais contatos não resolvem uma jornada{" "}
+          <span className="text-brand">quebrada</span>. Aumentam o desperdício.
         </p>
       </div>
     </Section>
@@ -473,11 +468,11 @@ function Problems() {
 // ============================================================
 function DiagnosticSplit() {
   const points = [
-    "Posicionamento, oferta e diferenciais",
-    "Presença no Google, Instagram e site",
-    "Campanhas, páginas e rastreamento",
-    "WhatsApp, recepção e qualificação",
-    "Follow-up, agenda e indicadores",
+    "Posicionamento, oferta e diferenciais reais",
+    "Presença digital: Google, Instagram e site",
+    "Campanhas, páginas e rastreamento de conversão",
+    "WhatsApp, recepção e qualificação do contato",
+    "Follow-up, agenda cheia e indicadores da operação",
   ];
   const journey = [
     { label: "Posicionamento", value: 82, tone: "ok" },
@@ -490,15 +485,13 @@ function DiagnosticSplit() {
     <Section className="bg-surface/30">
       <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
         <div>
-          <EyebrowTag>Antes de escalar</EyebrowTag>
+          <EyebrowTag>Antes de escalar investimento</EyebrowTag>
           <h2 className="mt-5 text-balance text-3xl font-semibold leading-[1.1] text-foreground md:text-4xl lg:text-5xl">
-            Antes de anunciar mais, é preciso entender onde está o{" "}
-            <span className="text-brand">gargalo</span>.
+            Anunciar mais sem enxergar o{" "}
+            <span className="text-brand">gargalo</span> é acelerar o prejuízo.
           </h2>
           <p className="mt-5 text-[color:var(--color-text-muted-2)]">
-            Investir em mídia sem diagnóstico é como aumentar a fila da recepção sem
-            ampliar a agenda. O diagnóstico mapeia cada etapa da jornada e mostra onde
-            a operação está perdendo eficiência.
+            Investir em mídia sem diagnóstico é como abrir mais horários numa agenda que ninguém consegue preencher. Antes de amplificar, é preciso mapear cada etapa e identificar onde a operação está perdendo eficiência.
           </p>
           <ul className="mt-7 space-y-3">
             {points.map((p) => (
@@ -514,7 +507,7 @@ function DiagnosticSplit() {
             ))}
           </ul>
           <div className="mt-8">
-            <PrimaryButton href="#diagnostico">Solicitar análise</PrimaryButton>
+            <PrimaryButton href="#diagnostico">Mapear meus gargalos</PrimaryButton>
           </div>
         </div>
 
@@ -606,19 +599,19 @@ function DiagnosticSplit() {
 // ============================================================
 function Method() {
   const steps = [
-    { icon: Search, title: "Diagnosticar", desc: "Negócio, mercado, oferta, jornada e operação." },
-    { icon: Megaphone, title: "Atrair", desc: "Google Ads, Meta Ads e conteúdo orientado a demanda." },
-    { icon: MousePointerClick, title: "Captar", desc: "Landing pages, formulários e canais organizados." },
-    { icon: Filter, title: "Qualificar", desc: "Perguntas estratégicas, CRM e classificação." },
-    { icon: Handshake, title: "Converter", desc: "Scripts, follow-up e treinamento da recepção." },
-    { icon: LineChart, title: "Melhorar", desc: "Indicadores, testes e melhoria contínua." },
+    { icon: Search, title: "Diagnosticar", desc: "Entender o negócio, o mercado, a oferta e a jornada antes de qualquer campanha." },
+    { icon: Megaphone, title: "Atrair", desc: "Google Ads, Meta Ads e conteúdo desenhados para gerar procura qualificada." },
+    { icon: MousePointerClick, title: "Captar", desc: "Landing pages, formulários e canais que transformam interesse em contato." },
+    { icon: Filter, title: "Qualificar", desc: "Perguntas certas, CRM e classificação para priorizar quem realmente compra." },
+    { icon: Handshake, title: "Converter", desc: "Scripts, follow-up e recepção alinhados para levar o paciente até a agenda." },
+    { icon: LineChart, title: "Otimizar", desc: "Indicadores, testes e ajustes contínuos para melhorar mês após mês." },
   ];
   return (
     <Section id="metodo">
       <SectionHead
         eyebrow="Método AVEX"
-        title="Método AVEX de Geração e Conversão"
-        subtitle="Seis etapas que conectam anúncio, atendimento e agenda — aplicadas conforme o gargalo identificado."
+        title="Um método construído para clínicas — não para agências."
+        subtitle="Seis etapas que conectam anúncio, atendimento e agenda. A ordem de execução é definida pelo gargalo, não por pacote pronto."
       />
 
       {/* Desktop horizontal timeline */}
@@ -682,8 +675,7 @@ function Method() {
       </ol>
 
       <p className="mx-auto mt-12 max-w-xl text-center text-sm italic text-[color:var(--color-text-dim)]">
-        Não existe uma única solução para todos os negócios. A estrutura é definida de
-        acordo com o principal gargalo identificado.
+        Nenhuma clínica é igual — e nenhum plano deveria ser. A ordem e a intensidade de cada etapa vêm do diagnóstico, nunca de um pacote pronto.
       </p>
     </Section>
   );
@@ -696,47 +688,43 @@ function Solutions() {
   return (
     <Section id="solucoes" className="bg-surface/30">
       <SectionHead
-        eyebrow="Soluções"
-        title="Organizadas por objetivo, não por serviço."
-        subtitle="Cada bloco resolve uma dor específica da operação. A combinação é definida no diagnóstico."
+        eyebrow="Frentes de trabalho"
+        title="Soluções organizadas por resultado — não por serviço."
+        subtitle="Cada bloco resolve uma dor específica. A combinação certa aparece depois do diagnóstico."
       />
       <div className="grid gap-4 lg:grid-cols-6 lg:grid-rows-2">
-        {/* Bloco 1 — largo, topo esquerdo */}
         <BentoCard
           className="lg:col-span-4"
-          eyebrow="Bloco 01"
+          eyebrow="Bloco 01 · Aquisição"
           icon={Megaphone}
           title="Gerar novas oportunidades"
-          desc="Meta Ads, Google Ads, campanhas locais, planejamento de mídia, páginas de captação e rastreamento de conversões."
+          desc="Colocar sua clínica na frente de quem já está procurando — e transformar essa procura em contato real."
           items={["Meta Ads", "Google Ads", "Landing Pages", "Rastreamento"]}
           visual={<AdsVisual />}
         />
-        {/* Bloco 2 — quadrado direita */}
         <BentoCard
           className="lg:col-span-2"
-          eyebrow="Bloco 02"
+          eyebrow="Bloco 02 · Conversão"
           icon={Filter}
-          title="Melhorar a conversão"
-          desc="WhatsApp, scripts, qualificação, CRM, follow-up e treinamento da recepção."
+          title="Transformar contato em agenda"
+          desc="Padronizar o WhatsApp, qualificar contatos e recuperar quem esfriou antes de agendar."
           items={["Scripts", "CRM", "Follow-up"]}
         />
-        {/* Bloco 3 — quadrado esquerda */}
         <BentoCard
           className="lg:col-span-2"
-          eyebrow="Bloco 03"
+          eyebrow="Bloco 03 · Autoridade"
           icon={Sparkles}
-          title="Posicionamento e autoridade"
-          desc="Planejamento de conteúdo, design, produção de vídeo e organização do perfil."
+          title="Posicionar como referência"
+          desc="Comunicação, presença e conteúdo que sustentam preço, filtram público e reduzem objeção."
           items={["Conteúdo", "Design", "Vídeo"]}
           note="Serviços complementares"
         />
-        {/* Bloco 4 — largo direita */}
         <BentoCard
           className="lg:col-span-4"
-          eyebrow="Bloco 04"
+          eyebrow="Bloco 04 · Escala"
           icon={TrendingUp}
-          title="Estruturar o crescimento"
-          desc="Jornada do cliente, planejamento, site, funis, automações, indicadores e assessoria contínua."
+          title="Estruturar o crescimento com previsibilidade"
+          desc="Do funil aos indicadores: transformar a captação em um sistema que cresce sem depender de improviso."
           items={["Jornada", "Funis", "Automações", "Indicadores", "Assessoria"]}
           visual={<GrowthVisual />}
         />
@@ -802,7 +790,7 @@ function BentoCard({
         href="#diagnostico"
         className="mt-6 inline-flex items-center gap-1 text-[13px] font-semibold text-brand transition group-hover:gap-2"
       >
-        Analisar este bloco <ArrowUpRight className="h-3.5 w-3.5" />
+        Aplicar em minha clínica <ArrowUpRight className="h-3.5 w-3.5" />
       </a>
     </article>
   );
@@ -868,52 +856,52 @@ function GrowthVisual() {
 function Plans() {
   const plans = [
     {
-      tag: "Plano 01",
-      title: "Gerar demanda em contato",
-      desc: "Para negócios que precisam aumentar a entrada de novas oportunidades.",
+      tag: "Plano 01 · Iniciar",
+      title: "Começar a captar com previsibilidade",
+      desc: "Para clínicas que dependem de indicação e querem abrir um canal ativo de novos pacientes.",
       items: [
-        "Diagnóstico inicial",
-        "Planejamento",
+        "Diagnóstico inicial da operação",
+        "Planejamento estratégico",
         "Meta Ads ou Google Ads",
-        "Landing page ou WhatsApp",
+        "Direcionamento para landing page ou WhatsApp",
         "Rastreamento e otimização",
-        "Relatório",
+        "Relatório mensal de leitura simples",
       ],
     },
     {
-      tag: "Plano 02",
-      title: "Gerar demanda e escalar",
-      desc: "Para quem já tem alguma estrutura e precisa de volume e previsibilidade.",
+      tag: "Plano 02 · Escalar",
+      title: "Aumentar volume sem perder eficiência",
+      desc: "Para clínicas que já captam, mas precisam de mais volume, previsibilidade e leitura de dados.",
       items: [
-        "Meta Ads e Google Ads",
-        "Remarketing",
-        "Testes de ofertas",
+        "Meta Ads + Google Ads em conjunto",
+        "Remarketing e recuperação de contatos",
+        "Testes de ofertas e criativos",
         "Acompanhamento do atendimento",
-        "Análise da jornada",
-        "Otimizações frequentes",
+        "Análise da jornada completa",
+        "Otimizações contínuas e recorrentes",
       ],
       featured: true,
     },
     {
-      tag: "Plano 03",
-      title: "Gerar, escalar e otimizar",
-      desc: "Para clínicas que precisam de assessoria mais ampla.",
+      tag: "Plano 03 · Consolidar",
+      title: "Assessoria estratégica completa",
+      desc: "Para clínicas que querem tratar marketing como área da empresa, não como serviço avulso.",
       items: [
-        "Planejamento estratégico",
-        "Campanhas e funil",
-        "Landing pages e CRM",
-        "Atendimento e automações",
-        "Indicadores",
-        "Reuniões estratégicas",
+        "Planejamento estratégico contínuo",
+        "Campanhas e estrutura de funil",
+        "Landing pages e CRM integrados",
+        "Padronização do atendimento e automações",
+        "Indicadores de operação",
+        "Reuniões estratégicas periódicas",
       ],
     },
   ];
   return (
     <Section>
       <SectionHead
-        eyebrow="Níveis de serviço"
-        title="Três caminhos, um definido conforme seu cenário."
-        subtitle="Os planos são pontos de partida. O escopo final é ajustado após o diagnóstico."
+        eyebrow="Formatos de trabalho"
+        title="Três caminhos. Um recomendado depois de te ouvir."
+        subtitle="Os planos são pontos de partida — não pacotes fechados. O escopo final é ajustado ao seu cenário no diagnóstico."
       />
       <div className="grid gap-5 lg:grid-cols-3">
         {plans.map((p) => (
@@ -927,7 +915,7 @@ function Plans() {
           >
             {p.featured && (
               <span className="absolute -top-3 left-6 rounded-full border border-[color:var(--color-border-brand)] bg-brand px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-foreground">
-                Mais aplicado
+                Mais recomendado
               </span>
             )}
             <span className="text-[10px] font-medium uppercase tracking-[0.24em] text-brand">
@@ -954,14 +942,14 @@ function Plans() {
                   href="#diagnostico"
                   className="btn-brand inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold hover:[&]:btn-brand-hover"
                 >
-                  Avaliar este plano <ArrowRight className="h-4 w-4" />
+                  Quero este plano <ArrowRight className="h-4 w-4" />
                 </a>
               ) : (
                 <a
                   href="#diagnostico"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background/40 px-4 py-3 text-sm font-semibold text-foreground transition hover:border-[color:var(--color-border-brand)]"
                 >
-                  Avaliar este plano
+                  Falar sobre este plano
                 </a>
               )}
             </div>
@@ -969,8 +957,7 @@ function Plans() {
         ))}
       </div>
       <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-[color:var(--color-text-dim)]">
-        O plano recomendado é definido após a análise do cenário, da estrutura e da
-        capacidade de atendimento da clínica.
+        O plano ideal só é definido depois de entender o cenário atual, a estrutura e a capacidade real de atendimento da clínica.
       </p>
     </Section>
   );
@@ -981,27 +968,28 @@ function Plans() {
 // ============================================================
 function ForWho() {
   const forItems = [
-    "Clínicas particulares",
-    "Consultórios",
-    "Centros de estética",
-    "Profissionais da saúde",
-    "Negócios com atendimento pelo WhatsApp",
-    "Empresas com capacidade para atender mais pessoas",
-    "Quem aceita acompanhar dados e melhorar processos",
+    "Clínicas particulares que querem depender menos de indicação",
+    "Consultórios com boa capacidade de atendimento e agenda ociosa",
+    "Centros de estética que precisam de fluxo constante",
+    "Profissionais da saúde que atendem em rede própria",
+    "Negócios que já usam WhatsApp como canal principal",
+    "Gestores que aceitam olhar dados e ajustar processos",
+    "Quem trata marketing como investimento — não como despesa",
   ];
   const notFor = [
-    "Quem procura resultado imediato sem estrutura",
-    "Quem não pretende investir",
-    "Quem não responde os contatos",
-    "Quem não aceita melhorar o atendimento",
-    "Quem busca apenas publicações baratas",
-    "Quem deseja garantias irreais de faturamento",
+    "Quem espera resultado imediato sem estrutura",
+    "Quem não pretende investir em mídia",
+    "Quem não consegue responder os contatos que chegam",
+    "Quem não aceita revisar o atendimento",
+    "Quem procura só criativos, posts ou publicações baratas",
+    "Quem espera promessa de faturamento fixo garantido",
   ];
   return (
     <Section>
       <SectionHead
-        eyebrow="Alinhamento"
-        title="Para quem faz sentido — e para quem não faz."
+        eyebrow="Alinhamento de expectativa"
+        title="Não é para todo mundo — e isso é proposital."
+        subtitle="Antes de iniciar, preferimos deixar claro o que faz sentido e o que não faz. Assim ninguém perde tempo."
       />
       <div className="grid gap-5 md:grid-cols-2">
         <div className="rounded-2xl border border-[color:var(--color-border-brand)] bg-card p-7">
@@ -1048,21 +1036,21 @@ function ForWho() {
 function Process() {
   const steps = [
     "Preenchimento do diagnóstico",
-    "Análise inicial",
-    "Reunião estratégica",
-    "Identificação do gargalo",
-    "Recomendação da solução",
+    "Análise inicial do cenário",
+    "Reunião estratégica 1:1",
+    "Identificação do gargalo real",
+    "Recomendação da solução ideal",
     "Proposta personalizada",
-    "Implantação",
-    "Acompanhamento",
-    "Melhoria contínua",
+    "Implantação estruturada",
+    "Acompanhamento próximo",
+    "Otimização contínua",
   ];
   return (
     <Section className="bg-surface/30">
       <SectionHead
-        eyebrow="Processo"
-        title="Como é o caminho até o resultado."
-        subtitle="Da inscrição inicial ao acompanhamento estratégico contínuo."
+        eyebrow="Como trabalhamos"
+        title="Um processo claro — do primeiro contato à otimização mês a mês."
+        subtitle="Você sabe exatamente onde está, o que vem depois e por que cada etapa existe."
       />
       <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {steps.map((s, i) => (
@@ -1088,9 +1076,9 @@ function Proof() {
   return (
     <Section>
       <SectionHead
-        eyebrow="Provas e projetos"
-        title="Estudos de caso, campanhas e indicadores."
-        subtitle="Espaço reservado para materiais reais de clientes. Nenhum dado é apresentado sem autorização."
+        eyebrow="Cases e projetos"
+        title="Resultado real é construído — não prometido."
+        subtitle="Espaço reservado para materiais de clientes reais. Nenhum dado é exposto sem autorização formal."
       />
       <div className="grid gap-4 md:grid-cols-3">
         {[1, 2, 3].map((i) => (
@@ -1100,14 +1088,14 @@ function Proof() {
           >
             <div className="absolute inset-0 bg-grid opacity-30" />
             <span className="relative text-[10px] font-medium uppercase tracking-[0.24em] text-[color:var(--color-text-dim)]">
-              Placeholder {String(i).padStart(2, "0")}
+              Case {String(i).padStart(2, "0")}
             </span>
             <div className="relative">
               <p className="font-display text-lg font-semibold text-foreground">
-                Adicionar aqui um estudo de caso real.
+                Em breve: estudo de caso completo.
               </p>
               <p className="mt-2 text-sm text-[color:var(--color-text-muted-2)]">
-                Depoimentos, prints, indicadores, campanhas, landing pages, dashboards.
+                Depoimentos, campanhas, indicadores e prints de operações reais.
               </p>
             </div>
           </div>
@@ -1122,12 +1110,12 @@ function Proof() {
 // ============================================================
 function About() {
   const bullets = [
-    "Especialista em marketing e soluções digitais",
+    "Especialista em captação e conversão para clínicas",
     "Formado em Administração",
-    "Estudante de Psicologia",
-    "Gestor de campanhas Google e Meta",
-    "Foco em estratégia antes de ferramenta",
-    "Pesquisador contínuo de tecnologia, IA e vendas",
+    "Estudante de Psicologia (comportamento de consumo)",
+    "Gestor certificado de campanhas Google e Meta",
+    "Estratégia sempre antes da ferramenta",
+    "Estudo contínuo em IA, dados e vendas consultivas",
   ];
   return (
     <Section id="sobre" className="bg-surface/30">
@@ -1170,15 +1158,13 @@ function About() {
         </div>
 
         <div>
-          <EyebrowTag>Sobre</EyebrowTag>
+          <EyebrowTag>Quem está por trás</EyebrowTag>
           <h2 className="mt-5 text-balance font-display text-3xl font-semibold leading-[1.15] text-foreground md:text-4xl lg:text-[44px]">
-            "Meu trabalho é compreender o problema antes de indicar a{" "}
+            "Meu trabalho começa entendendo o problema — só depois entra a{" "}
             <span className="text-brand">ferramenta</span>."
           </h2>
           <p className="mt-6 text-[color:var(--color-text-muted-2)] md:text-lg">
-            Não vendo tráfego pago como produto pronto. Analiso o negócio, entendo a
-            operação, identifico o gargalo e recomendo o caminho — que pode ser
-            anúncio, atendimento, funil, página, processo ou uma combinação disso.
+            Tráfego pago não é produto de prateleira. Analiso o negócio, entendo a operação, encontro o gargalo real e recomendo o caminho — que pode ser anúncio, atendimento, funil, página, processo ou uma combinação inteligente disso tudo.
           </p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {bullets.map((b) => (
@@ -1260,16 +1246,15 @@ function DiagnosticForm() {
             <CheckCircle2 className="h-7 w-7" />
           </span>
           <h2 className="mt-6 font-display text-3xl font-semibold md:text-4xl">
-            Recebi suas informações.
+            Diagnóstico recebido.
           </h2>
           <p className="mt-4 text-[color:var(--color-text-muted-2)]">
-            Agora vou analisar seu cenário e verificar qual caminho pode fazer mais
-            sentido para sua operação.
+            Vou analisar seu cenário com atenção e retorno em até 3 dias úteis com uma leitura clara do que está travando sua captação — e o caminho recomendado.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <PrimaryButton href={waLink}>Continuar no WhatsApp</PrimaryButton>
+            <PrimaryButton href={waLink}>Adiantar contato pelo WhatsApp</PrimaryButton>
             <SecondaryButton href={waLink} external>
-              Agendar reunião
+              Agendar reunião estratégica
             </SecondaryButton>
           </div>
         </div>
@@ -1278,10 +1263,10 @@ function DiagnosticForm() {
   }
 
   const benefits = [
-    "Identificação dos principais gargalos",
-    "Prioridades claras para os próximos passos",
-    "Recomendações baseadas no cenário real",
-    "Indicação do serviço adequado",
+    "Mapa claro dos principais gargalos de captação",
+    "Prioridades definidas para os próximos 90 dias",
+    "Recomendações ancoradas no cenário real da clínica",
+    "Indicação honesta do próximo passo — com ou sem contratação",
   ];
 
   return (
@@ -1296,14 +1281,13 @@ function DiagnosticForm() {
       />
       <div className="grid gap-8 lg:grid-cols-[0.95fr_1.1fr] lg:items-start">
         <div>
-          <EyebrowTag>Oferta principal</EyebrowTag>
+          <EyebrowTag>Ponto de partida gratuito</EyebrowTag>
           <h2 className="mt-5 text-balance font-display text-3xl font-semibold leading-[1.1] md:text-4xl lg:text-5xl">
             Diagnóstico Estratégico de{" "}
             <span className="text-brand">Captação e Conversão</span>
           </h2>
           <p className="mt-5 text-[color:var(--color-text-muted-2)] md:text-lg">
-            Identifique o que está impedindo sua clínica de gerar, organizar ou
-            converter mais oportunidades.
+            Uma análise honesta do que está impedindo sua clínica de gerar, organizar e converter mais oportunidades — sem compromisso de contratação.
           </p>
           <ul className="mt-8 space-y-3">
             {benefits.map((b) => (
@@ -1372,28 +1356,28 @@ function DiagnosticForm() {
             {step === 2 && (
               <div className="grid gap-4">
                 <Field
-                  label="Qual é sua principal dificuldade?"
+                  label="Qual sua principal dificuldade hoje?"
                   name="dificuldade"
                   as="textarea"
                 />
                 <Field label="Como os pacientes chegam atualmente?" name="origem" />
                 <Select
-                  label="Sua clínica já anuncia?"
+                  label="A clínica já anuncia?"
                   name="anuncia"
-                  options={["Sim", "Não", "Já anunciei antes"]}
+                  options={["Sim, hoje", "Não", "Já anunciei antes"]}
                 />
                 <Select
-                  label="Existe recepção ou secretária?"
+                  label="Existe recepção ou secretária dedicada?"
                   name="recepcao"
                   options={["Sim", "Não", "Terceirizada"]}
                 />
                 <Field
-                  label="Quantos novos atendimentos consegue absorver por mês?"
+                  label="Quantos novos pacientes consegue atender por mês?"
                   name="capacidade"
                 />
                 <Field label="Principal procedimento ou serviço" name="procedimento" />
                 <Select
-                  label="Faixa de investimento pretendida em captação"
+                  label="Investimento mensal previsto em captação"
                   name="investimento"
                   options={[
                     "Até R$ 1.500 / mês",
@@ -1404,7 +1388,7 @@ function DiagnosticForm() {
                   ]}
                 />
                 <Select
-                  label="Prefere contato pelo WhatsApp ou reunião agendada?"
+                  label="Como prefere continuar a conversa?"
                   name="preferencia"
                   options={["WhatsApp", "Reunião agendada", "Tanto faz"]}
                 />
@@ -1416,8 +1400,7 @@ function DiagnosticForm() {
                     className="mt-1 h-4 w-4 accent-[color:var(--color-brand)]"
                   />
                   <span className="text-[color:var(--color-text-muted-2)]">
-                    Autorizo o uso destas informações para contato e análise comercial,
-                    conforme a política de privacidade.
+                    Autorizo o uso destas informações apenas para análise e contato comercial, conforme a política de privacidade.
                   </span>
                 </label>
               </div>
@@ -1443,13 +1426,13 @@ function DiagnosticForm() {
                   ? "Enviando..."
                   : step === 1
                     ? "Continuar"
-                    : "Enviar para análise"}
+                    : "Quero meu diagnóstico"}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
             {status === "error" && (
               <p className="mt-4 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
-                Não foi possível enviar. Tente novamente ou fale pelo WhatsApp.
+                Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp.
               </p>
             )}
           </form>
@@ -1582,7 +1565,8 @@ function FAQ() {
     <Section id="faq">
       <SectionHead
         eyebrow="Perguntas frequentes"
-        title="Dúvidas comuns antes de solicitar o diagnóstico."
+        title="Respostas honestas antes de você decidir."
+        subtitle="Se sua dúvida não estiver aqui, mande uma mensagem — respondo pessoalmente."
       />
       <div className="mx-auto max-w-3xl divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
         {items.map((it, i) => (
@@ -1624,19 +1608,17 @@ function FinalCTA() {
       <div className="mx-auto max-w-3xl text-center">
         <EyebrowTag>Último passo</EyebrowTag>
         <h2 className="mt-6 text-balance font-display text-4xl font-semibold leading-[1.05] md:text-5xl lg:text-[64px]">
-          Antes de investir mais, descubra onde sua operação está{" "}
-          <span className="text-gradient-brand">perdendo oportunidades</span>.
+          Antes de gastar mais em anúncio, descubra onde sua clínica está{" "}
+          <span className="text-gradient-brand">perdendo pacientes</span>.
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-pretty text-base text-[color:var(--color-text-muted-2)] md:text-lg">
-          Uma análise estratégica pode mostrar se o principal problema está na
-          captação, na mensagem, na página, no atendimento ou na falta de
-          acompanhamento.
+          Uma análise honesta mostra em minutos se o problema está na captação, na mensagem, na página, no atendimento — ou na falta de acompanhamento.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
-          <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico</PrimaryButton>
+          <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico gratuito</PrimaryButton>
           <SecondaryButton href={waLink} external>
             <MessageCircle className="h-4 w-4" />
-            Falar com Wanderson
+            Falar direto com Wanderson
           </SecondaryButton>
         </div>
       </div>
@@ -1683,8 +1665,7 @@ function Footer() {
             </div>
           </div>
           <p className="mt-5 max-w-sm text-sm text-[color:var(--color-text-muted-2)]">
-            Estratégia de captação, jornada comercial e melhoria contínua para
-            clínicas, consultórios e profissionais da saúde.
+            Consultoria de captação, jornada comercial e melhoria contínua para clínicas, consultórios e profissionais da saúde.
           </p>
           <p className="mt-4 text-xs text-[color:var(--color-text-dim)]">
             {CONFIG.cidade}
