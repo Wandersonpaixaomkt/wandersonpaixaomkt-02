@@ -675,8 +675,7 @@ function Method() {
       </ol>
 
       <p className="mx-auto mt-12 max-w-xl text-center text-sm italic text-[color:var(--color-text-dim)]">
-        Não existe uma única solução para todos os negócios. A estrutura é definida de
-        acordo com o principal gargalo identificado.
+        Nenhuma clínica é igual — e nenhum plano deveria ser. A ordem e a intensidade de cada etapa vêm do diagnóstico, nunca de um pacote pronto.
       </p>
     </Section>
   );
@@ -689,47 +688,43 @@ function Solutions() {
   return (
     <Section id="solucoes" className="bg-surface/30">
       <SectionHead
-        eyebrow="Soluções"
-        title="Organizadas por objetivo, não por serviço."
-        subtitle="Cada bloco resolve uma dor específica da operação. A combinação é definida no diagnóstico."
+        eyebrow="Frentes de trabalho"
+        title="Soluções organizadas por resultado — não por serviço."
+        subtitle="Cada bloco resolve uma dor específica. A combinação certa aparece depois do diagnóstico."
       />
       <div className="grid gap-4 lg:grid-cols-6 lg:grid-rows-2">
-        {/* Bloco 1 — largo, topo esquerdo */}
         <BentoCard
           className="lg:col-span-4"
-          eyebrow="Bloco 01"
+          eyebrow="Bloco 01 · Aquisição"
           icon={Megaphone}
           title="Gerar novas oportunidades"
-          desc="Meta Ads, Google Ads, campanhas locais, planejamento de mídia, páginas de captação e rastreamento de conversões."
+          desc="Colocar sua clínica na frente de quem já está procurando — e transformar essa procura em contato real."
           items={["Meta Ads", "Google Ads", "Landing Pages", "Rastreamento"]}
           visual={<AdsVisual />}
         />
-        {/* Bloco 2 — quadrado direita */}
         <BentoCard
           className="lg:col-span-2"
-          eyebrow="Bloco 02"
+          eyebrow="Bloco 02 · Conversão"
           icon={Filter}
-          title="Melhorar a conversão"
-          desc="WhatsApp, scripts, qualificação, CRM, follow-up e treinamento da recepção."
+          title="Transformar contato em agenda"
+          desc="Padronizar o WhatsApp, qualificar contatos e recuperar quem esfriou antes de agendar."
           items={["Scripts", "CRM", "Follow-up"]}
         />
-        {/* Bloco 3 — quadrado esquerda */}
         <BentoCard
           className="lg:col-span-2"
-          eyebrow="Bloco 03"
+          eyebrow="Bloco 03 · Autoridade"
           icon={Sparkles}
-          title="Posicionamento e autoridade"
-          desc="Planejamento de conteúdo, design, produção de vídeo e organização do perfil."
+          title="Posicionar como referência"
+          desc="Comunicação, presença e conteúdo que sustentam preço, filtram público e reduzem objeção."
           items={["Conteúdo", "Design", "Vídeo"]}
           note="Serviços complementares"
         />
-        {/* Bloco 4 — largo direita */}
         <BentoCard
           className="lg:col-span-4"
-          eyebrow="Bloco 04"
+          eyebrow="Bloco 04 · Escala"
           icon={TrendingUp}
-          title="Estruturar o crescimento"
-          desc="Jornada do cliente, planejamento, site, funis, automações, indicadores e assessoria contínua."
+          title="Estruturar o crescimento com previsibilidade"
+          desc="Do funil aos indicadores: transformar a captação em um sistema que cresce sem depender de improviso."
           items={["Jornada", "Funis", "Automações", "Indicadores", "Assessoria"]}
           visual={<GrowthVisual />}
         />
