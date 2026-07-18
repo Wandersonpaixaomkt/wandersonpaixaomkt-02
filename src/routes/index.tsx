@@ -942,14 +942,14 @@ function Plans() {
                   href="#diagnostico"
                   className="btn-brand inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold hover:[&]:btn-brand-hover"
                 >
-                  Avaliar este plano <ArrowRight className="h-4 w-4" />
+                  Quero este plano <ArrowRight className="h-4 w-4" />
                 </a>
               ) : (
                 <a
                   href="#diagnostico"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background/40 px-4 py-3 text-sm font-semibold text-foreground transition hover:border-[color:var(--color-border-brand)]"
                 >
-                  Avaliar este plano
+                  Falar sobre este plano
                 </a>
               )}
             </div>
