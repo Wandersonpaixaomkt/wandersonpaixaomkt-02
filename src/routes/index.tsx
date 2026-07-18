@@ -459,8 +459,6 @@ function Problems() {
           <span className="text-brand">quebrada</span>. Aumentam o desperdício.
         </p>
       </div>
-        </p>
-      </div>
     </Section>
   );
 }
