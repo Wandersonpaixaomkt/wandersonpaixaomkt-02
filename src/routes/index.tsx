@@ -314,7 +314,7 @@ function Hero() {
         <EyebrowTag>Consultoria de captação para clínicas</EyebrowTag>
         <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-6xl lg:text-[68px]">
           Você não precisa de mais mensagens. Precisa de uma jornada que{" "}
-          <span text-gradient-brand="" className="text-gradient-brand">converta</span>.
+          <span className="text-gradient-brand">converta</span>.
         </h1>
         <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg">
           Do primeiro anúncio ao paciente na cadeira: mapeamos onde sua clínica está perdendo oportunidades e estruturamos o caminho que transforma procura em agendamento.
