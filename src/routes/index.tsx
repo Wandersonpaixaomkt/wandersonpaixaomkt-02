@@ -468,11 +468,11 @@ function Problems() {
 // ============================================================
 function DiagnosticSplit() {
   const points = [
-    "Posicionamento, oferta e diferenciais",
-    "Presença no Google, Instagram e site",
-    "Campanhas, páginas e rastreamento",
-    "WhatsApp, recepção e qualificação",
-    "Follow-up, agenda e indicadores",
+    "Posicionamento, oferta e diferenciais reais",
+    "Presença digital: Google, Instagram e site",
+    "Campanhas, páginas e rastreamento de conversão",
+    "WhatsApp, recepção e qualificação do contato",
+    "Follow-up, agenda cheia e indicadores da operação",
   ];
   const journey = [
     { label: "Posicionamento", value: 82, tone: "ok" },
@@ -485,15 +485,13 @@ function DiagnosticSplit() {
     <Section className="bg-surface/30">
       <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
         <div>
-          <EyebrowTag>Antes de escalar</EyebrowTag>
+          <EyebrowTag>Antes de escalar investimento</EyebrowTag>
           <h2 className="mt-5 text-balance text-3xl font-semibold leading-[1.1] text-foreground md:text-4xl lg:text-5xl">
-            Antes de anunciar mais, é preciso entender onde está o{" "}
-            <span className="text-brand">gargalo</span>.
+            Anunciar mais sem enxergar o{" "}
+            <span className="text-brand">gargalo</span> é acelerar o prejuízo.
           </h2>
           <p className="mt-5 text-[color:var(--color-text-muted-2)]">
-            Investir em mídia sem diagnóstico é como aumentar a fila da recepção sem
-            ampliar a agenda. O diagnóstico mapeia cada etapa da jornada e mostra onde
-            a operação está perdendo eficiência.
+            Investir em mídia sem diagnóstico é como abrir mais horários numa agenda que ninguém consegue preencher. Antes de amplificar, é preciso mapear cada etapa e identificar onde a operação está perdendo eficiência.
           </p>
           <ul className="mt-7 space-y-3">
             {points.map((p) => (
