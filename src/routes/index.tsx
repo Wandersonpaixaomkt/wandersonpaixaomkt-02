@@ -1076,9 +1076,9 @@ function Proof() {
   return (
     <Section>
       <SectionHead
-        eyebrow="Provas e projetos"
-        title="Estudos de caso, campanhas e indicadores."
-        subtitle="Espaço reservado para materiais reais de clientes. Nenhum dado é apresentado sem autorização."
+        eyebrow="Cases e projetos"
+        title="Resultado real é construído — não prometido."
+        subtitle="Espaço reservado para materiais de clientes reais. Nenhum dado é exposto sem autorização formal."
       />
       <div className="grid gap-4 md:grid-cols-3">
         {[1, 2, 3].map((i) => (
@@ -1088,14 +1088,14 @@ function Proof() {
           >
             <div className="absolute inset-0 bg-grid opacity-30" />
             <span className="relative text-[10px] font-medium uppercase tracking-[0.24em] text-[color:var(--color-text-dim)]">
-              Placeholder {String(i).padStart(2, "0")}
+              Case {String(i).padStart(2, "0")}
             </span>
             <div className="relative">
               <p className="font-display text-lg font-semibold text-foreground">
-                Adicionar aqui um estudo de caso real.
+                Em breve: estudo de caso completo.
               </p>
               <p className="mt-2 text-sm text-[color:var(--color-text-muted-2)]">
-                Depoimentos, prints, indicadores, campanhas, landing pages, dashboards.
+                Depoimentos, campanhas, indicadores e prints de operações reais.
               </p>
             </div>
           </div>
