@@ -957,8 +957,7 @@ function Plans() {
         ))}
       </div>
       <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-[color:var(--color-text-dim)]">
-        O plano recomendado é definido após a análise do cenário, da estrutura e da
-        capacidade de atendimento da clínica.
+        O plano ideal só é definido depois de entender o cenário atual, a estrutura e a capacidade real de atendimento da clínica.
       </p>
     </Section>
   );
@@ -969,27 +968,28 @@ function Plans() {
 // ============================================================
 function ForWho() {
   const forItems = [
-    "Clínicas particulares",
-    "Consultórios",
-    "Centros de estética",
-    "Profissionais da saúde",
-    "Negócios com atendimento pelo WhatsApp",
-    "Empresas com capacidade para atender mais pessoas",
-    "Quem aceita acompanhar dados e melhorar processos",
+    "Clínicas particulares que querem depender menos de indicação",
+    "Consultórios com boa capacidade de atendimento e agenda ociosa",
+    "Centros de estética que precisam de fluxo constante",
+    "Profissionais da saúde que atendem em rede própria",
+    "Negócios que já usam WhatsApp como canal principal",
+    "Gestores que aceitam olhar dados e ajustar processos",
+    "Quem trata marketing como investimento — não como despesa",
   ];
   const notFor = [
-    "Quem procura resultado imediato sem estrutura",
-    "Quem não pretende investir",
-    "Quem não responde os contatos",
-    "Quem não aceita melhorar o atendimento",
-    "Quem busca apenas publicações baratas",
-    "Quem deseja garantias irreais de faturamento",
+    "Quem espera resultado imediato sem estrutura",
+    "Quem não pretende investir em mídia",
+    "Quem não consegue responder os contatos que chegam",
+    "Quem não aceita revisar o atendimento",
+    "Quem procura só criativos, posts ou publicações baratas",
+    "Quem espera promessa de faturamento fixo garantido",
   ];
   return (
     <Section>
       <SectionHead
-        eyebrow="Alinhamento"
-        title="Para quem faz sentido — e para quem não faz."
+        eyebrow="Alinhamento de expectativa"
+        title="Não é para todo mundo — e isso é proposital."
+        subtitle="Antes de iniciar, preferimos deixar claro o que faz sentido e o que não faz. Assim ninguém perde tempo."
       />
       <div className="grid gap-5 md:grid-cols-2">
         <div className="rounded-2xl border border-[color:var(--color-border-brand)] bg-card p-7">
