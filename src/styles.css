@@ -212,3 +212,36 @@ html {
     inset 0 1px 0 rgba(255,255,255,0.3),
     0 10px 32px -6px rgba(255, 92, 31, 0.7);
 }
+
+/* Card elevation on hover */
+@utility card-hover {
+  transition: transform .25s ease, border-color .25s ease, box-shadow .3s ease, background-color .25s ease;
+}
+@utility card-hover-active {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -24px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,92,31,0.15);
+}
+
+/* Subtle brand underline for links */
+@utility link-underline {
+  position: relative;
+}
+
+/* Divider used between sections */
+@utility hairline {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  height: 1px;
+  width: 100%;
+}
+
+/* Reveal animation you can add via class (uses default fade-in already defined) */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@utility animate-fade-up {
+  animation: fade-up .55s ease-out both;
+}
+
+/* Improved button pressed state */
+.btn-brand:active { transform: translateY(0) scale(0.985); filter: brightness(.98); }
