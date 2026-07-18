@@ -1158,15 +1158,13 @@ function About() {
         </div>
 
         <div>
-          <EyebrowTag>Sobre</EyebrowTag>
+          <EyebrowTag>Quem está por trás</EyebrowTag>
           <h2 className="mt-5 text-balance font-display text-3xl font-semibold leading-[1.15] text-foreground md:text-4xl lg:text-[44px]">
-            "Meu trabalho é compreender o problema antes de indicar a{" "}
+            "Meu trabalho começa entendendo o problema — só depois entra a{" "}
             <span className="text-brand">ferramenta</span>."
           </h2>
           <p className="mt-6 text-[color:var(--color-text-muted-2)] md:text-lg">
-            Não vendo tráfego pago como produto pronto. Analiso o negócio, entendo a
-            operação, identifico o gargalo e recomendo o caminho — que pode ser
-            anúncio, atendimento, funil, página, processo ou uma combinação disso.
+            Tráfego pago não é produto de prateleira. Analiso o negócio, entendo a operação, encontro o gargalo real e recomendo o caminho — que pode ser anúncio, atendimento, funil, página, processo ou uma combinação inteligente disso tudo.
           </p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {bullets.map((b) => (
