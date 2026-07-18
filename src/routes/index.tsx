@@ -790,7 +790,7 @@ function BentoCard({
         href="#diagnostico"
         className="mt-6 inline-flex items-center gap-1 text-[13px] font-semibold text-brand transition group-hover:gap-2"
       >
-        Analisar este bloco <ArrowUpRight className="h-3.5 w-3.5" />
+        Aplicar em minha clínica <ArrowUpRight className="h-3.5 w-3.5" />
       </a>
     </article>
   );
