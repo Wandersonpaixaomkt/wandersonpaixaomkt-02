@@ -1036,21 +1036,21 @@ function ForWho() {
 function Process() {
   const steps = [
     "Preenchimento do diagnóstico",
-    "Análise inicial",
-    "Reunião estratégica",
-    "Identificação do gargalo",
-    "Recomendação da solução",
+    "Análise inicial do cenário",
+    "Reunião estratégica 1:1",
+    "Identificação do gargalo real",
+    "Recomendação da solução ideal",
     "Proposta personalizada",
-    "Implantação",
-    "Acompanhamento",
-    "Melhoria contínua",
+    "Implantação estruturada",
+    "Acompanhamento próximo",
+    "Otimização contínua",
   ];
   return (
     <Section className="bg-surface/30">
       <SectionHead
-        eyebrow="Processo"
-        title="Como é o caminho até o resultado."
-        subtitle="Da inscrição inicial ao acompanhamento estratégico contínuo."
+        eyebrow="Como trabalhamos"
+        title="Um processo claro — do primeiro contato à otimização mês a mês."
+        subtitle="Você sabe exatamente onde está, o que vem depois e por que cada etapa existe."
       />
       <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {steps.map((s, i) => (
