@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   ArrowRight,
+  ArrowUpRight,
   MessageCircle,
   Target,
   Megaphone,
@@ -12,49 +13,55 @@ import {
   CheckCircle2,
   XCircle,
   Search,
-  Stethoscope,
-  ClipboardList,
-  Users,
-  TrendingUp,
   Sparkles,
   ChevronDown,
   Menu,
   X,
+  TrendingUp,
+  Zap,
+  BarChart3,
+  Layers,
+  Compass,
+  Radar,
 } from "lucide-react";
 
 // ============================================================
 // CONFIGURAÇÃO — Altere aqui os dados de contato e integrações
 // ============================================================
 const CONFIG = {
-  whatsapp: "5599999999999", // <- Substituir pelo número real com DDI+DDD
-  whatsappMessage: "Olá Wanderson, gostaria de solicitar um diagnóstico para minha clínica.",
-  email: "contato@avex.com.br", // <- Substituir
-  instagram: "https://instagram.com/wandersonpaixao", // <- Substituir
+  whatsapp: "5599999999999", // <- DDI+DDD+número, ex: 5511999999999
+  whatsappMessage:
+    "Olá Wanderson, gostaria de solicitar um diagnóstico para minha clínica.",
+  email: "contato@avex.com.br",
+  instagram: "https://instagram.com/wandersonpaixao",
   cidade: "Atendimento online em todo o Brasil",
   // Endpoint do formulário (CRM/Notion/Sheets). Ex: Zapier, Make, Supabase Function.
-  formEndpoint: "", // <- Preencher com URL do webhook
+  formEndpoint: "",
 };
 
-const waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(CONFIG.whatsappMessage)}`;
+const waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(
+  CONFIG.whatsappMessage,
+)}`;
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Wanderson Paixão · AVEX — Diagnóstico de Captação para Clínicas" },
+      { title: "AVEX · Wanderson Paixão — Diagnóstico de Captação para Clínicas" },
       {
         name: "description",
         content:
-          "Análise estratégica para clínicas, consultórios e profissionais da saúde. Descubra onde sua operação está perdendo oportunidades entre o anúncio e o agendamento.",
+          "Consultoria estratégica para clínicas, consultórios e profissionais da saúde. Análise de posicionamento, anúncios, páginas, WhatsApp, recepção e conversão.",
       },
-      { property: "og:title", content: "AVEX · Wanderson Paixão — Diagnóstico para Clínicas" },
+      { property: "og:title", content: "AVEX · Wanderson Paixão" },
       {
         property: "og:description",
         content:
-          "Posicionamento, anúncios, landing page, WhatsApp, recepção e conversão. Estruture a jornada da procura ao agendamento.",
+          "Estratégia, tecnologia e melhoria contínua entre o anúncio e o agendamento.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#060606" },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),
@@ -62,56 +69,77 @@ export const Route = createFileRoute("/")({
 });
 
 // ============================================================
-// COMPONENTES AUXILIARES
+// PRIMITIVES
 // ============================================================
-function Section({
-  id,
+function EyebrowTag({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-text-muted-2)]">
+      <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_2px_rgba(255,92,31,0.55)]" />
+      {children}
+    </span>
+  );
+}
+
+function SectionHead({
   eyebrow,
   title,
   subtitle,
+  align = "center",
+}: {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  align?: "center" | "left";
+}) {
+  return (
+    <div
+      className={`mx-auto mb-14 max-w-3xl ${align === "center" ? "text-center" : "text-left"}`}
+    >
+      {eyebrow && <EyebrowTag>{eyebrow}</EyebrowTag>}
+      <h2 className="mt-5 text-balance text-3xl font-semibold leading-[1.1] text-foreground md:text-4xl lg:text-5xl">
+        {title}
+      </h2>
+      {subtitle && (
+        <p className="mt-5 text-pretty text-base leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg">
+          {subtitle}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function Section({
+  id,
   children,
   className = "",
 }: {
   id?: string;
-  eyebrow?: string;
-  title?: string;
-  subtitle?: string;
   children: React.ReactNode;
   className?: string;
 }) {
   return (
-    <section id={id} className={`scroll-mt-24 py-20 md:py-28 ${className}`}>
-      <div className="mx-auto max-w-6xl px-5 md:px-8">
-        {(eyebrow || title || subtitle) && (
-          <div className="mx-auto mb-12 max-w-3xl text-center">
-            {eyebrow && (
-              <span className="inline-block rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent-foreground">
-                {eyebrow}
-              </span>
-            )}
-            {title && (
-              <h2 className="mt-4 text-balance text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
-                {title}
-              </h2>
-            )}
-            {subtitle && (
-              <p className="mt-4 text-pretty text-base text-muted-foreground md:text-lg">
-                {subtitle}
-              </p>
-            )}
-          </div>
-        )}
-        {children}
-      </div>
+    <section
+      id={id}
+      className={`scroll-mt-24 px-5 py-20 md:px-8 md:py-28 lg:py-36 ${className}`}
+    >
+      <div className="mx-auto max-w-6xl">{children}</div>
     </section>
   );
 }
 
-function CTAPrimary({ children = "Solicitar meu diagnóstico", href = "#diagnostico" }: { children?: React.ReactNode; href?: string }) {
+function PrimaryButton({
+  children,
+  href,
+  className = "",
+}: {
+  children: React.ReactNode;
+  href: string;
+  className?: string;
+}) {
   return (
     <a
       href={href}
-      className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-sm font-semibold text-brand-foreground shadow-lg shadow-brand/20 transition hover:brightness-95 md:text-base"
+      className={`btn-brand inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold hover:[&]:btn-brand-hover md:text-[15px] ${className}`}
     >
       {children}
       <ArrowRight className="h-4 w-4" />
@@ -119,15 +147,24 @@ function CTAPrimary({ children = "Solicitar meu diagnóstico", href = "#diagnost
   );
 }
 
-function CTASecondary({ children = "Falar com Wanderson", href = waLink }: { children?: React.ReactNode; href?: string }) {
+function SecondaryButton({
+  children,
+  href,
+  external,
+  className = "",
+}: {
+  children: React.ReactNode;
+  href: string;
+  external?: boolean;
+  className?: string;
+}) {
   return (
     <a
       href={href}
-      target={href.startsWith("http") ? "_blank" : undefined}
-      rel="noreferrer"
-      className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-6 py-3.5 text-sm font-semibold text-foreground transition hover:bg-secondary md:text-base"
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+      className={`inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card/40 px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[color:var(--color-border-brand)] hover:bg-card md:text-[15px] ${className}`}
     >
-      <MessageCircle className="h-4 w-4" />
       {children}
     </a>
   );
@@ -147,23 +184,31 @@ function Header() {
     { href: "#faq", label: "FAQ" },
   ];
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 md:px-8">
-        <a href="#top" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <span className="font-display text-lg font-bold">A</span>
+    <header className="sticky top-0 z-40 border-b border-border/80 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-4 px-5 md:px-8">
+        <a href="#top" className="flex items-center gap-2.5">
+          <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-lg border border-border bg-card">
+            <span className="absolute inset-0 bg-gradient-to-br from-brand/30 via-transparent to-transparent" />
+            <span className="relative font-display text-base font-bold text-foreground">A</span>
           </span>
           <span className="flex min-w-0 flex-col leading-tight">
-            <span className="font-display text-sm font-bold text-foreground">AVEX</span>
-            <span className="truncate text-[11px] text-muted-foreground">Wanderson Paixão</span>
+            <span className="font-display text-[13px] font-semibold tracking-widest text-foreground">
+              AVEX
+            </span>
+            <span className="truncate text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-text-dim)]">
+              Wanderson Paixão
+            </span>
           </span>
         </a>
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Navegação principal">
+        <nav
+          className="hidden items-center gap-1 lg:flex"
+          aria-label="Navegação principal"
+        >
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-muted-foreground transition hover:text-foreground"
+              className="rounded-md px-3 py-2 text-[13px] font-medium text-[color:var(--color-text-muted-2)] transition hover:bg-card hover:text-foreground"
             >
               {l.label}
             </a>
@@ -174,132 +219,147 @@ function Header() {
             href={waLink}
             target="_blank"
             rel="noreferrer"
-            className="rounded-lg border border-border px-3.5 py-2 text-sm font-medium text-foreground transition hover:bg-secondary"
+            className="rounded-lg border border-border px-3.5 py-2 text-[13px] font-medium text-foreground transition hover:border-[color:var(--color-border-brand)]"
           >
-            Falar no WhatsApp
+            WhatsApp
           </a>
           <a
             href="#diagnostico"
-            className="rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-brand-foreground transition hover:brightness-95"
+            className="btn-brand inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[13px] font-semibold hover:[&]:btn-brand-hover"
           >
             Solicitar diagnóstico
+            <ArrowRight className="h-3.5 w-3.5" />
           </a>
         </div>
         <button
           onClick={() => setOpen((o) => !o)}
-          className="rounded-lg border border-border p-2 md:hidden"
+          className="rounded-lg border border-border bg-card p-2 md:hidden"
           aria-label="Abrir menu"
           aria-expanded={open}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
-      {open && (
-        <div className="border-t border-border bg-background lg:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-3" aria-label="Menu móvel">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-secondary"
-              >
-                {l.label}
-              </a>
-            ))}
-            <div className="mt-2 flex flex-col gap-2 border-t border-border pt-3">
-              <a
-                href={waLink}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-lg border border-border px-3.5 py-2.5 text-center text-sm font-medium"
-              >
-                Falar no WhatsApp
-              </a>
-              <a
-                href="#diagnostico"
-                onClick={() => setOpen(false)}
-                className="rounded-lg bg-brand px-3.5 py-2.5 text-center text-sm font-semibold text-brand-foreground"
-              >
-                Solicitar diagnóstico
-              </a>
-            </div>
-          </nav>
-        </div>
-      )}
+      {/* Mobile drawer */}
+      <div
+        className={`lg:hidden ${open ? "block" : "hidden"} border-t border-border bg-background/95 backdrop-blur-xl`}
+      >
+        <nav
+          className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4"
+          aria-label="Menu móvel"
+        >
+          {links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground hover:bg-card"
+            >
+              {l.label}
+            </a>
+          ))}
+          <div className="mt-3 grid gap-2 border-t border-border pt-4">
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-lg border border-border px-4 py-3 text-center text-sm font-medium"
+            >
+              Falar no WhatsApp
+            </a>
+            <a
+              href="#diagnostico"
+              onClick={() => setOpen(false)}
+              className="btn-brand rounded-lg px-4 py-3 text-center text-sm font-semibold"
+            >
+              Solicitar diagnóstico
+            </a>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }
 
 // ============================================================
-// HERO
+// HERO — dark, wide, arco luminoso
 // ============================================================
 function Hero() {
-  const journey = [
-    "Posicionamento",
-    "Conteúdo",
-    "Anúncios",
-    "Landing page",
-    "WhatsApp / Agenda",
-    "Qualificação",
-    "Atendimento",
-    "Agendamento",
-    "Venda",
-    "Melhoria contínua",
-  ];
   return (
-    <div id="top" className="relative overflow-hidden border-b border-border bg-surface">
+    <section
+      id="top"
+      className="relative isolate overflow-hidden px-5 pb-24 pt-20 md:px-8 md:pb-28 md:pt-28 lg:min-h-[92vh] lg:pb-40"
+    >
+      {/* subtle grid */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-60"
+        className="bg-grid pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_top,black_35%,transparent_75%)]"
+      />
+      {/* dots */}
+      <div
+        aria-hidden
+        className="bg-dots pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_65%)]"
+      />
+      {/* orange radial glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-[38%] -z-10 h-[520px] w-[820px] -translate-x-1/2 rounded-full opacity-70 blur-[80px] animate-glow-pulse"
         style={{
-          backgroundImage:
-            "radial-gradient(600px circle at 15% 10%, oklch(0.72 0.15 175 / 0.15), transparent 60%), radial-gradient(500px circle at 85% 80%, oklch(0.28 0.06 240 / 0.08), transparent 60%)",
+          background:
+            "radial-gradient(ellipse at center, rgba(255,92,31,0.55), rgba(201,56,10,0.15) 45%, transparent 70%)",
         }}
       />
-      <div className="relative mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24 lg:py-28">
-        <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
-              <Sparkles className="h-3.5 w-3.5 text-brand" />
-              Diagnóstico estratégico para clínicas
-            </span>
-            <h1 className="mt-5 text-balance text-4xl font-bold leading-[1.05] text-foreground md:text-5xl lg:text-6xl">
-              Descubra onde sua clínica está perdendo oportunidades — antes, durante e depois do contato do paciente.
-            </h1>
-            <p className="mt-6 max-w-xl text-pretty text-base text-muted-foreground md:text-lg">
-              Analiso posicionamento, presença digital, anúncios, páginas, WhatsApp, recepção, qualificação, acompanhamento e conversão. O objetivo não é gerar apenas mais mensagens — é organizar o caminho da procura até o agendamento.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <CTAPrimary />
-              <CTASecondary />
-            </div>
-            <p className="mt-5 max-w-lg text-sm text-muted-foreground">
-              Análise estratégica, sem promessas irreais e com recomendações baseadas no cenário da sua operação.
-            </p>
-          </div>
 
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
-            <p className="text-xs font-semibold uppercase tracking-wider text-brand">
-              Jornada da captação à venda
-            </p>
-            <h3 className="mt-2 text-lg font-semibold text-foreground">
-              Um gargalo em qualquer etapa custa agendamentos.
-            </h3>
-            <ol className="mt-5 space-y-2">
-              {journey.map((step, i) => (
-                <li key={step} className="flex items-center gap-3">
-                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-secondary text-xs font-semibold text-foreground">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm text-foreground">{step}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
+      <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+        <EyebrowTag>Diagnóstico estratégico para clínicas</EyebrowTag>
+        <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-6xl lg:text-[68px]">
+          Descubra onde sua clínica está{" "}
+          <span className="text-gradient-brand">perdendo oportunidades</span>{" "}
+          entre o anúncio e o agendamento.
+        </h1>
+        <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg">
+          Análise de posicionamento, presença digital, anúncios, páginas, WhatsApp,
+          recepção, qualificação, acompanhamento e conversão. O objetivo não é gerar
+          apenas mais mensagens — é organizar o caminho da procura até o agendamento.
+        </p>
+
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+          <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico</PrimaryButton>
+          <SecondaryButton href={waLink} external>
+            <MessageCircle className="h-4 w-4" />
+            Falar com Wanderson
+          </SecondaryButton>
+        </div>
+
+        <p className="mt-5 max-w-xl text-sm text-[color:var(--color-text-dim)]">
+          Análise estratégica, sem promessas irreais e com recomendações baseadas no
+          cenário da sua operação.
+        </p>
+      </div>
+
+      {/* Arco luminoso */}
+      <div
+        aria-hidden
+        className="pointer-events-none relative mx-auto mt-16 h-[220px] w-full max-w-5xl md:mt-24"
+      >
+        <div className="absolute inset-x-0 top-0 mx-auto h-[220px] w-full overflow-hidden">
+          <div
+            className="absolute left-1/2 top-0 h-[440px] w-[1200px] -translate-x-1/2 rounded-full border border-[color:var(--color-border-brand)]"
+            style={{
+              boxShadow:
+                "0 0 80px 10px rgba(255, 92, 31, 0.35), inset 0 0 60px rgba(255, 92, 31, 0.15)",
+            }}
+          />
+          <div
+            className="absolute left-1/2 top-[-10px] h-[440px] w-[1400px] -translate-x-1/2 rounded-full opacity-70"
+            style={{
+              background:
+                "radial-gradient(ellipse at center top, rgba(255,120,73,0.35), transparent 55%)",
+            }}
+          />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -310,23 +370,26 @@ function Authority() {
   const areas = [
     "Google Ads",
     "Meta Ads",
-    "Landing pages",
-    "Jornada comercial",
+    "Landing Pages",
+    "Jornada Comercial",
     "CRM",
     "WhatsApp",
     "Scripts",
     "Automação",
-    "Melhoria contínua",
+    "Melhoria Contínua",
   ];
   return (
-    <div className="border-b border-border bg-background py-8">
-      <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <p className="text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+    <div className="border-y border-border bg-surface/40">
+      <div className="mx-auto max-w-6xl overflow-hidden px-5 py-10 md:px-8">
+        <p className="mb-6 text-center text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--color-text-dim)]">
           Áreas de atuação
         </p>
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
           {areas.map((a) => (
-            <span key={a} className="text-sm font-medium text-foreground/80">
+            <span
+              key={a}
+              className="text-[13px] font-medium uppercase tracking-[0.14em] text-[color:var(--color-text-muted-2)]/80"
+            >
               {a}
             </span>
           ))}
@@ -337,123 +400,201 @@ function Authority() {
 }
 
 // ============================================================
-// PROBLEMA
+// PROBLEMAS
 // ============================================================
 function Problems() {
   const items = [
-    "Poucas mensagens chegando",
-    "Dependência excessiva de indicações",
-    "Contatos pouco qualificados",
-    "Demora no atendimento",
-    "Recepção sem padrão",
-    "Ausência de follow-up",
-    "Falta de organização dos contatos",
-    "Site que não direciona para uma ação",
-    "Instagram que informa, mas não gera procura",
-    "Anúncios sem acompanhamento",
-    "Falta de dados sobre quantos contatos viraram agendamentos",
-    "Equipe sobrecarregada respondendo o mesmo",
+    {
+      icon: Radar,
+      title: "Contatos que não avançam",
+      desc: "Mensagens chegam, mas os pacientes não agendam. Falta clareza sobre onde a jornada trava.",
+    },
+    {
+      icon: Compass,
+      title: "Dependência de indicação",
+      desc: "O crescimento depende inteiramente de quem já conhece. Sem previsibilidade de novas oportunidades.",
+    },
+    {
+      icon: Zap,
+      title: "Atendimento sem padrão",
+      desc: "WhatsApp e recepção respondem de formas diferentes. Sem script, sem qualificação, sem follow-up.",
+    },
+    {
+      icon: BarChart3,
+      title: "Anúncios sem leitura",
+      desc: "Campanhas rodam, mas ninguém sabe quantos contatos viraram agendamento. Decisão sem dado.",
+    },
   ];
   return (
-    <Section
-      id="problemas"
-      eyebrow="Diagnóstico"
-      title="O problema pode não estar apenas nos anúncios."
-      subtitle="Muitas clínicas investem em mídia e ainda assim sentem que os contatos não avançam. Normalmente o gargalo está em outro ponto da jornada."
-    >
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((item) => (
-          <div
-            key={item}
-            className="flex items-start gap-3 rounded-xl border border-border bg-card p-4"
+    <Section id="problemas">
+      <SectionHead
+        eyebrow="Diagnóstico"
+        title="O problema pode não estar apenas nos anúncios."
+        subtitle="Muitas clínicas investem em mídia e ainda assim sentem que os contatos não avançam. Normalmente o gargalo está em outro ponto da jornada."
+      />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {items.map((it) => (
+          <article
+            key={it.title}
+            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition duration-300 hover:-translate-y-1 hover:border-[color:var(--color-border-brand)]"
           >
-            <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-destructive/10 text-destructive">
-              <X className="h-3.5 w-3.5" />
+            <div
+              className="pointer-events-none absolute -top-16 right-0 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
+              style={{
+                background:
+                  "radial-gradient(circle at center, rgba(255,92,31,0.35), transparent 70%)",
+              }}
+            />
+            <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-brand">
+              <it.icon className="h-5 w-5" strokeWidth={1.6} />
             </span>
-            <p className="text-sm text-foreground">{item}</p>
-          </div>
+            <h3 className="relative mt-6 text-lg font-semibold text-foreground">
+              {it.title}
+            </h3>
+            <p className="relative mt-2 text-sm leading-relaxed text-[color:var(--color-text-muted-2)]">
+              {it.desc}
+            </p>
+          </article>
         ))}
       </div>
-      <p className="mx-auto mt-10 max-w-2xl rounded-xl border border-brand/30 bg-brand/5 p-5 text-center text-base font-medium text-foreground">
-        Gerar mais contatos não resolve sozinho quando a jornada entre o anúncio e o atendimento está quebrada.
-      </p>
+      <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[color:var(--color-border-brand)] bg-card/50 p-5 text-center">
+        <p className="text-sm font-medium text-foreground md:text-base">
+          Gerar mais contatos não resolve sozinho quando a jornada entre o anúncio e o
+          atendimento está{" "}
+          <span className="text-brand">quebrada</span>.
+        </p>
+      </div>
     </Section>
   );
 }
 
 // ============================================================
-// DIAGNÓSTICO — EXPLICATIVO
+// DIAGNÓSTICO — split com painel visual
 // ============================================================
-function DiagnosticExplain() {
-  const analisa = [
-    "Posicionamento",
-    "Oferta",
-    "Diferenciais",
-    "Público",
-    "Concorrência",
-    "Presença no Google",
-    "Instagram",
-    "Site",
-    "Landing pages",
-    "Campanhas",
-    "Rastreamento",
-    "WhatsApp",
-    "Recepção",
-    "Qualificação",
-    "Agenda",
-    "Follow-up",
-    "Indicadores",
+function DiagnosticSplit() {
+  const points = [
+    "Posicionamento, oferta e diferenciais",
+    "Presença no Google, Instagram e site",
+    "Campanhas, páginas e rastreamento",
+    "WhatsApp, recepção e qualificação",
+    "Follow-up, agenda e indicadores",
   ];
-  const gargalos = [
-    "Pouca demanda",
-    "Mensagem errada",
-    "Canal inadequado",
-    "Página fraca",
-    "Público mal selecionado",
-    "Atendimento lento",
-    "Falta de processo",
-    "Ausência de acompanhamento",
-    "Baixa conversão",
-  ];
+  const journey = [
+    { label: "Posicionamento", value: 82, tone: "ok" },
+    { label: "Anúncios", value: 64, tone: "warn" },
+    { label: "Landing Page", value: 48, tone: "warn" },
+    { label: "WhatsApp", value: 32, tone: "bad" },
+    { label: "Follow-up", value: 21, tone: "bad" },
+  ] as const;
   return (
-    <Section
-      eyebrow="Antes de escalar"
-      title="Antes de anunciar mais, é preciso entender onde está o gargalo."
-      subtitle="Investir em mídia sem diagnóstico é como aumentar a fila da recepção sem ampliar a agenda."
-      className="bg-surface"
-    >
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-2xl border border-border bg-card p-6 md:p-8">
-          <div className="flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-lg bg-brand/15 text-brand">
-              <Search className="h-5 w-5" />
-            </span>
-            <h3 className="text-lg font-semibold text-foreground">O que pode ser analisado</h3>
-          </div>
-          <ul className="mt-5 grid grid-cols-2 gap-2">
-            {analisa.map((a) => (
-              <li key={a} className="flex items-center gap-2 text-sm text-foreground">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-brand" />
-                {a}
+    <Section className="bg-surface/30">
+      <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
+        <div>
+          <EyebrowTag>Antes de escalar</EyebrowTag>
+          <h2 className="mt-5 text-balance text-3xl font-semibold leading-[1.1] text-foreground md:text-4xl lg:text-5xl">
+            Antes de anunciar mais, é preciso entender onde está o{" "}
+            <span className="text-brand">gargalo</span>.
+          </h2>
+          <p className="mt-5 text-[color:var(--color-text-muted-2)]">
+            Investir em mídia sem diagnóstico é como aumentar a fila da recepção sem
+            ampliar a agenda. O diagnóstico mapeia cada etapa da jornada e mostra onde
+            a operação está perdendo eficiência.
+          </p>
+          <ul className="mt-7 space-y-3">
+            {points.map((p) => (
+              <li
+                key={p}
+                className="flex items-start gap-3 text-sm text-foreground md:text-[15px]"
+              >
+                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[color:var(--color-border-brand)] bg-brand/10 text-brand">
+                  <CheckCircle2 className="h-3 w-3" />
+                </span>
+                {p}
               </li>
             ))}
           </ul>
+          <div className="mt-8">
+            <PrimaryButton href="#diagnostico">Solicitar análise</PrimaryButton>
+          </div>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-6 md:p-8">
-          <div className="flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-lg bg-destructive/10 text-destructive">
-              <Target className="h-5 w-5" />
-            </span>
-            <h3 className="text-lg font-semibold text-foreground">Possíveis gargalos</h3>
+
+        {/* Painel visual */}
+        <div className="relative">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -inset-6 -z-10 rounded-3xl opacity-60 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(ellipse at 30% 20%, rgba(255,92,31,0.28), transparent 60%)",
+            }}
+          />
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-2xl shadow-black/40">
+            <div className="mb-5 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
+                  Painel de diagnóstico
+                </p>
+                <p className="mt-1 font-display text-lg font-semibold text-foreground">
+                  Jornada da captação à venda
+                </p>
+              </div>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-[color:var(--color-text-muted-2)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-success)]" />
+                Exemplo ilustrativo
+              </span>
+            </div>
+
+            <div className="space-y-3.5">
+              {journey.map((row) => {
+                const barColor =
+                  row.tone === "ok"
+                    ? "var(--color-success)"
+                    : row.tone === "warn"
+                      ? "var(--color-warning)"
+                      : "var(--color-brand)";
+                return (
+                  <div key={row.label}>
+                    <div className="mb-1 flex items-center justify-between text-[13px]">
+                      <span className="text-foreground">{row.label}</span>
+                      <span className="font-mono text-[color:var(--color-text-muted-2)]">
+                        {row.value}%
+                      </span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-background/80">
+                      <div
+                        className="h-full rounded-full transition-all"
+                        style={{
+                          width: `${row.value}%`,
+                          background: `linear-gradient(90deg, ${barColor}, ${barColor}cc)`,
+                          boxShadow: `0 0 12px ${barColor}55`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              {[
+                { k: "Etapas", v: "9" },
+                { k: "Gargalos", v: "3" },
+                { k: "Prioridades", v: "2" },
+              ].map((s) => (
+                <div
+                  key={s.k}
+                  className="rounded-xl border border-border bg-background/40 p-3 text-center"
+                >
+                  <p className="font-display text-xl font-semibold text-foreground">
+                    {s.v}
+                  </p>
+                  <p className="text-[10px] uppercase tracking-widest text-[color:var(--color-text-dim)]">
+                    {s.k}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-          <ul className="mt-5 space-y-2.5">
-            {gargalos.map((g) => (
-              <li key={g} className="flex items-start gap-2 text-sm text-foreground">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-destructive" />
-                {g}
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </Section>
@@ -461,167 +602,263 @@ function DiagnosticExplain() {
 }
 
 // ============================================================
-// MÉTODO AVEX
+// MÉTODO AVEX — timeline horizontal (desktop) / vertical (mobile)
 // ============================================================
 function Method() {
   const steps = [
-    {
-      icon: Search,
-      title: "Diagnosticar",
-      desc: "Análise do negócio, mercado, oferta, público, concorrentes, operação e jornada comercial.",
-    },
-    {
-      icon: Megaphone,
-      title: "Atrair",
-      desc: "Google Ads, Meta Ads, presença digital e conteúdo orientado a gerar procura.",
-    },
-    {
-      icon: MousePointerClick,
-      title: "Captar",
-      desc: "Landing pages, formulários, sites, WhatsApp e agenda estruturados para receber o interesse.",
-    },
-    {
-      icon: Filter,
-      title: "Qualificar",
-      desc: "Perguntas estratégicas, CRM, classificação dos contatos e automações.",
-    },
-    {
-      icon: Handshake,
-      title: "Converter",
-      desc: "Scripts, acompanhamento, follow-up, treinamento da recepção e organização do atendimento.",
-    },
-    {
-      icon: LineChart,
-      title: "Melhorar",
-      desc: "Indicadores, testes, relatórios, ajustes e melhoria contínua.",
-    },
+    { icon: Search, title: "Diagnosticar", desc: "Negócio, mercado, oferta, jornada e operação." },
+    { icon: Megaphone, title: "Atrair", desc: "Google Ads, Meta Ads e conteúdo orientado a demanda." },
+    { icon: MousePointerClick, title: "Captar", desc: "Landing pages, formulários e canais organizados." },
+    { icon: Filter, title: "Qualificar", desc: "Perguntas estratégicas, CRM e classificação." },
+    { icon: Handshake, title: "Converter", desc: "Scripts, follow-up e treinamento da recepção." },
+    { icon: LineChart, title: "Melhorar", desc: "Indicadores, testes e melhoria contínua." },
   ];
   return (
-    <Section
-      id="metodo"
-      eyebrow="Método AVEX"
-      title="Método AVEX de Geração e Conversão"
-      subtitle="Seis etapas que conectam anúncio, atendimento e agenda — aplicadas de acordo com o gargalo identificado."
-    >
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {steps.map((s, i) => (
-          <div
-            key={s.title}
-            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition hover:border-brand/40 hover:shadow-md"
-          >
-            <div className="flex items-center justify-between">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand/15 text-brand">
-                <s.icon className="h-5 w-5" />
-              </span>
-              <span className="font-display text-3xl font-bold text-muted-foreground/30">
-                0{i + 1}
-              </span>
+    <Section id="metodo">
+      <SectionHead
+        eyebrow="Método AVEX"
+        title="Método AVEX de Geração e Conversão"
+        subtitle="Seis etapas que conectam anúncio, atendimento e agenda — aplicadas conforme o gargalo identificado."
+      />
+
+      {/* Desktop horizontal timeline */}
+      <div className="relative hidden lg:block">
+        <div
+          aria-hidden
+          className="absolute left-0 right-0 top-[42px] h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,92,31,0.5) 15%, rgba(255,92,31,0.5) 85%, transparent)",
+          }}
+        />
+        <div className="grid grid-cols-6 gap-4">
+          {steps.map((s, i) => (
+            <div key={s.title} className="group flex flex-col items-center text-center">
+              <div className="relative">
+                <span className="absolute -inset-2 rounded-full bg-brand/20 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
+                <span className="relative grid h-[84px] w-[84px] place-items-center rounded-full border border-border bg-card transition group-hover:border-[color:var(--color-border-brand)]">
+                  <s.icon className="h-6 w-6 text-brand" strokeWidth={1.6} />
+                  <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-brand font-mono text-[11px] font-semibold text-brand-foreground">
+                    {i + 1}
+                  </span>
+                </span>
+              </div>
+              <h3 className="mt-6 font-display text-base font-semibold text-foreground">
+                {s.title}
+              </h3>
+              <p className="mt-2 max-w-[180px] text-xs leading-relaxed text-[color:var(--color-text-muted-2)]">
+                {s.desc}
+              </p>
             </div>
-            <h3 className="mt-4 text-lg font-semibold text-foreground">{s.title}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-      <p className="mx-auto mt-10 max-w-2xl text-center text-sm italic text-muted-foreground">
-        Não existe uma única solução para todos os negócios. A estrutura é definida de acordo com o principal gargalo identificado.
+
+      {/* Mobile / tablet vertical */}
+      <ol className="relative grid gap-4 lg:hidden">
+        <div
+          aria-hidden
+          className="absolute bottom-3 left-[27px] top-3 w-px bg-gradient-to-b from-transparent via-brand/40 to-transparent sm:left-[27px]"
+        />
+        {steps.map((s, i) => (
+          <li
+            key={s.title}
+            className="relative flex items-start gap-4 rounded-2xl border border-border bg-card p-5"
+          >
+            <span className="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full border border-border bg-background text-brand">
+              <s.icon className="h-5 w-5" strokeWidth={1.6} />
+              <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-brand font-mono text-[10px] font-semibold text-brand-foreground">
+                {i + 1}
+              </span>
+            </span>
+            <div>
+              <h3 className="font-display text-base font-semibold text-foreground">
+                {s.title}
+              </h3>
+              <p className="mt-1 text-sm text-[color:var(--color-text-muted-2)]">{s.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <p className="mx-auto mt-12 max-w-xl text-center text-sm italic text-[color:var(--color-text-dim)]">
+        Não existe uma única solução para todos os negócios. A estrutura é definida de
+        acordo com o principal gargalo identificado.
       </p>
     </Section>
   );
 }
 
 // ============================================================
-// SOLUÇÕES
+// SOLUÇÕES — Bento Grid assimétrico
 // ============================================================
 function Solutions() {
-  const blocks = [
-    {
-      icon: Megaphone,
-      title: "Gerar novas oportunidades",
-      items: [
-        "Meta Ads",
-        "Google Ads",
-        "Campanhas locais",
-        "Planejamento de mídia",
-        "Páginas de captação",
-        "Rastreamento de conversões",
-      ],
-    },
-    {
-      icon: Filter,
-      title: "Melhorar a conversão",
-      items: [
-        "Análise do WhatsApp",
-        "Scripts de atendimento",
-        "Perguntas de qualificação",
-        "CRM",
-        "Follow-up",
-        "Treinamento da recepção",
-        "Acompanhamento dos contatos",
-      ],
-    },
-    {
-      icon: Sparkles,
-      title: "Posicionamento e autoridade",
-      items: [
-        "Planejamento de conteúdo",
-        "Design",
-        "Produção de vídeo",
-        "Organização do perfil",
-        "Direcionamento de comunicação",
-        "Campanhas para ampliar conteúdos estratégicos",
-      ],
-      note: "Produção de conteúdo, design, gravação e edição podem ser contratados como serviços complementares.",
-    },
-    {
-      icon: TrendingUp,
-      title: "Estruturar o crescimento",
-      items: [
-        "Análise da jornada do cliente",
-        "Planejamento estratégico",
-        "Site",
-        "Landing pages",
-        "Funis",
-        "Automações",
-        "Indicadores",
-        "Assessoria",
-        "Melhoria contínua",
-      ],
-    },
-  ];
   return (
-    <Section
-      id="solucoes"
-      eyebrow="Soluções"
-      title="Soluções organizadas por objetivo"
-      subtitle="Não é uma lista de serviços aleatórios. Cada bloco resolve uma dor específica da operação."
-      className="bg-surface"
-    >
-      <div className="grid gap-5 md:grid-cols-2">
-        {blocks.map((b) => (
-          <div key={b.title} className="rounded-2xl border border-border bg-card p-6 md:p-7">
-            <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary text-primary-foreground">
-                <b.icon className="h-5 w-5" />
-              </span>
-              <h3 className="text-lg font-semibold text-foreground">{b.title}</h3>
-            </div>
-            <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {b.items.map((it) => (
-                <li key={it} className="flex items-start gap-2 text-sm text-foreground">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                  {it}
-                </li>
-              ))}
-            </ul>
-            {b.note && (
-              <p className="mt-4 rounded-lg bg-secondary/60 p-3 text-xs text-muted-foreground">
-                {b.note}
-              </p>
-            )}
-          </div>
-        ))}
+    <Section id="solucoes" className="bg-surface/30">
+      <SectionHead
+        eyebrow="Soluções"
+        title="Organizadas por objetivo, não por serviço."
+        subtitle="Cada bloco resolve uma dor específica da operação. A combinação é definida no diagnóstico."
+      />
+      <div className="grid gap-4 lg:grid-cols-6 lg:grid-rows-2">
+        {/* Bloco 1 — largo, topo esquerdo */}
+        <BentoCard
+          className="lg:col-span-4"
+          eyebrow="Bloco 01"
+          icon={Megaphone}
+          title="Gerar novas oportunidades"
+          desc="Meta Ads, Google Ads, campanhas locais, planejamento de mídia, páginas de captação e rastreamento de conversões."
+          items={["Meta Ads", "Google Ads", "Landing Pages", "Rastreamento"]}
+          visual={<AdsVisual />}
+        />
+        {/* Bloco 2 — quadrado direita */}
+        <BentoCard
+          className="lg:col-span-2"
+          eyebrow="Bloco 02"
+          icon={Filter}
+          title="Melhorar a conversão"
+          desc="WhatsApp, scripts, qualificação, CRM, follow-up e treinamento da recepção."
+          items={["Scripts", "CRM", "Follow-up"]}
+        />
+        {/* Bloco 3 — quadrado esquerda */}
+        <BentoCard
+          className="lg:col-span-2"
+          eyebrow="Bloco 03"
+          icon={Sparkles}
+          title="Posicionamento e autoridade"
+          desc="Planejamento de conteúdo, design, produção de vídeo e organização do perfil."
+          items={["Conteúdo", "Design", "Vídeo"]}
+          note="Serviços complementares"
+        />
+        {/* Bloco 4 — largo direita */}
+        <BentoCard
+          className="lg:col-span-4"
+          eyebrow="Bloco 04"
+          icon={TrendingUp}
+          title="Estruturar o crescimento"
+          desc="Jornada do cliente, planejamento, site, funis, automações, indicadores e assessoria contínua."
+          items={["Jornada", "Funis", "Automações", "Indicadores", "Assessoria"]}
+          visual={<GrowthVisual />}
+        />
       </div>
     </Section>
+  );
+}
+
+function BentoCard({
+  eyebrow,
+  icon: Icon,
+  title,
+  desc,
+  items,
+  className = "",
+  visual,
+  note,
+}: {
+  eyebrow: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  title: string;
+  desc: string;
+  items: string[];
+  className?: string;
+  visual?: React.ReactNode;
+  note?: string;
+}) {
+  return (
+    <article
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition hover:border-[color:var(--color-border-brand)] ${className}`}
+    >
+      <div className="flex items-center justify-between">
+        <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
+          {eyebrow}
+        </span>
+        <span className="grid h-10 w-10 place-items-center rounded-lg border border-border bg-background/60 text-brand">
+          <Icon className="h-4 w-4" strokeWidth={1.6} />
+        </span>
+      </div>
+      <h3 className="mt-6 text-xl font-semibold text-foreground md:text-2xl">
+        {title}
+      </h3>
+      <p className="mt-3 max-w-md text-sm leading-relaxed text-[color:var(--color-text-muted-2)]">
+        {desc}
+      </p>
+      <ul className="mt-5 flex flex-wrap gap-1.5">
+        {items.map((i) => (
+          <li
+            key={i}
+            className="rounded-full border border-border bg-background/60 px-2.5 py-1 text-[11px] font-medium text-[color:var(--color-text-muted-2)]"
+          >
+            {i}
+          </li>
+        ))}
+      </ul>
+      {visual && <div className="mt-6 flex-1">{visual}</div>}
+      {note && (
+        <p className="mt-6 border-t border-border pt-4 text-[11px] uppercase tracking-widest text-[color:var(--color-text-dim)]">
+          {note}
+        </p>
+      )}
+      <a
+        href="#diagnostico"
+        className="mt-6 inline-flex items-center gap-1 text-[13px] font-semibold text-brand transition group-hover:gap-2"
+      >
+        Analisar este bloco <ArrowUpRight className="h-3.5 w-3.5" />
+      </a>
+    </article>
+  );
+}
+
+function AdsVisual() {
+  const bars = [22, 38, 30, 55, 48, 70, 62, 84];
+  return (
+    <div className="mt-2 flex h-32 items-end gap-2">
+      {bars.map((h, i) => (
+        <div key={i} className="flex-1">
+          <div
+            className="w-full rounded-md"
+            style={{
+              height: `${h}%`,
+              background:
+                i === bars.length - 1
+                  ? "linear-gradient(180deg, #ff7849, #ff5a1f)"
+                  : "linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))",
+              boxShadow:
+                i === bars.length - 1 ? "0 0 24px rgba(255,92,31,0.55)" : "none",
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function GrowthVisual() {
+  return (
+    <svg viewBox="0 0 400 110" className="mt-2 h-24 w-full" fill="none">
+      <defs>
+        <linearGradient id="lg" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="#ff5a1f" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#ff5a1f" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M0 90 L50 78 L100 82 L150 60 L200 65 L250 40 L300 45 L350 22 L400 15 L400 110 L0 110 Z"
+        fill="url(#lg)"
+      />
+      <path
+        d="M0 90 L50 78 L100 82 L150 60 L200 65 L250 40 L300 45 L350 22 L400 15"
+        stroke="#ff5a1f"
+        strokeWidth="2"
+      />
+      {[
+        [50, 78],
+        [150, 60],
+        [250, 40],
+        [350, 22],
+      ].map(([cx, cy]) => (
+        <circle key={cx} cx={cx} cy={cy} r="3" fill="#ff5a1f" />
+      ))}
+    </svg>
   );
 }
 
@@ -638,9 +875,8 @@ function Plans() {
         "Diagnóstico inicial",
         "Planejamento",
         "Meta Ads ou Google Ads",
-        "Direcionamento para landing page ou WhatsApp",
-        "Rastreamento",
-        "Otimização",
+        "Landing page ou WhatsApp",
+        "Rastreamento e otimização",
         "Relatório",
       ],
     },
@@ -650,7 +886,6 @@ function Plans() {
       desc: "Para quem já tem alguma estrutura e precisa de volume e previsibilidade.",
       items: [
         "Meta Ads e Google Ads",
-        "Campanhas adicionais",
         "Remarketing",
         "Testes de ofertas",
         "Acompanhamento do atendimento",
@@ -662,141 +897,87 @@ function Plans() {
     {
       tag: "Plano 03",
       title: "Gerar, escalar e otimizar",
-      desc: "Para clínicas que precisam de uma assessoria mais ampla.",
+      desc: "Para clínicas que precisam de assessoria mais ampla.",
       items: [
         "Planejamento estratégico",
-        "Análise do negócio",
-        "Campanhas",
-        "Funil e landing pages",
-        "CRM e atendimento",
-        "Automações",
+        "Campanhas e funil",
+        "Landing pages e CRM",
+        "Atendimento e automações",
         "Indicadores",
         "Reuniões estratégicas",
-        "Melhoria contínua",
       ],
     },
   ];
   return (
-    <Section
-      eyebrow="Níveis de serviço"
-      title="Três caminhos, um definido conforme seu cenário."
-      subtitle="Os planos são pontos de partida. O escopo final é ajustado após o diagnóstico."
-    >
+    <Section>
+      <SectionHead
+        eyebrow="Níveis de serviço"
+        title="Três caminhos, um definido conforme seu cenário."
+        subtitle="Os planos são pontos de partida. O escopo final é ajustado após o diagnóstico."
+      />
       <div className="grid gap-5 lg:grid-cols-3">
         {plans.map((p) => (
-          <div
+          <article
             key={p.tag}
-            className={`relative flex flex-col rounded-2xl border p-6 md:p-7 ${
+            className={`relative flex flex-col rounded-2xl border p-7 transition ${
               p.featured
-                ? "border-brand/50 bg-card shadow-lg shadow-brand/10 ring-1 ring-brand/30"
-                : "border-border bg-card"
+                ? "border-[color:var(--color-border-brand)] bg-card-highlight glow-ring"
+                : "border-border bg-card hover:border-white/15"
             }`}
           >
             {p.featured && (
-              <span className="absolute -top-3 left-6 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-brand-foreground">
+              <span className="absolute -top-3 left-6 rounded-full border border-[color:var(--color-border-brand)] bg-brand px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-foreground">
                 Mais aplicado
               </span>
             )}
-            <p className="text-xs font-semibold uppercase tracking-wider text-brand">{p.tag}</p>
-            <h3 className="mt-2 text-xl font-bold text-foreground">{p.title}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{p.desc}</p>
-            <ul className="mt-5 space-y-2">
+            <span className="text-[10px] font-medium uppercase tracking-[0.24em] text-brand">
+              {p.tag}
+            </span>
+            <h3 className="mt-3 font-display text-xl font-semibold text-foreground md:text-2xl">
+              {p.title}
+            </h3>
+            <p className="mt-3 text-sm text-[color:var(--color-text-muted-2)]">{p.desc}</p>
+            <ul className="mt-6 space-y-2.5 border-t border-border pt-6">
               {p.items.map((i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+                <li
+                  key={i}
+                  className="flex items-start gap-2.5 text-[13px] text-foreground md:text-sm"
+                >
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" strokeWidth={1.6} />
                   {i}
                 </li>
               ))}
             </ul>
-            <a
-              href="#diagnostico"
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold text-foreground transition hover:bg-secondary"
-            >
-              Avaliar este plano <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
+            <div className="mt-8 pt-2">
+              {p.featured ? (
+                <a
+                  href="#diagnostico"
+                  className="btn-brand inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold hover:[&]:btn-brand-hover"
+                >
+                  Avaliar este plano <ArrowRight className="h-4 w-4" />
+                </a>
+              ) : (
+                <a
+                  href="#diagnostico"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background/40 px-4 py-3 text-sm font-semibold text-foreground transition hover:border-[color:var(--color-border-brand)]"
+                >
+                  Avaliar este plano
+                </a>
+              )}
+            </div>
+          </article>
         ))}
       </div>
-      <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground">
-        O plano recomendado é definido após a análise do cenário, da estrutura e da capacidade de atendimento da clínica.
+      <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-[color:var(--color-text-dim)]">
+        O plano recomendado é definido após a análise do cenário, da estrutura e da
+        capacidade de atendimento da clínica.
       </p>
     </Section>
   );
 }
 
 // ============================================================
-// OFERTA PRINCIPAL — DIAGNÓSTICO
-// ============================================================
-function DiagnosticOffer() {
-  const analyzed = [
-    "Canais de captação",
-    "Oferta",
-    "Posicionamento",
-    "Anúncios",
-    "Páginas",
-    "WhatsApp",
-    "Recepção",
-    "Qualificação",
-    "Follow-up",
-    "Indicadores",
-    "Capacidade de atendimento",
-  ];
-  const receives = [
-    "Identificação dos principais gargalos",
-    "Prioridades",
-    "Recomendações",
-    "Possibilidades de melhoria",
-    "Indicação do próximo passo",
-    "Recomendação do serviço adequado",
-  ];
-  return (
-    <Section eyebrow="Oferta principal" className="bg-primary text-primary-foreground">
-      <div className="mx-auto max-w-3xl text-center">
-        <h2 className="text-balance text-3xl font-bold md:text-4xl lg:text-5xl">
-          Diagnóstico Estratégico de Captação e Conversão
-        </h2>
-        <p className="mt-4 text-pretty text-base text-primary-foreground/80 md:text-lg">
-          Identifique o que está impedindo sua clínica de gerar, organizar ou converter mais oportunidades.
-        </p>
-      </div>
-      <div className="mt-12 grid gap-5 md:grid-cols-2">
-        <div className="rounded-2xl border border-primary-foreground/15 bg-primary-foreground/5 p-6 md:p-7">
-          <h3 className="text-lg font-semibold">O que será analisado</h3>
-          <ul className="mt-5 grid grid-cols-2 gap-2">
-            {analyzed.map((a) => (
-              <li key={a} className="flex items-center gap-2 text-sm">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-brand" />
-                {a}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="rounded-2xl border border-primary-foreground/15 bg-primary-foreground/5 p-6 md:p-7">
-          <h3 className="text-lg font-semibold">O que você recebe</h3>
-          <ul className="mt-5 space-y-2.5">
-            {receives.map((r) => (
-              <li key={r} className="flex items-start gap-2 text-sm">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                {r}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div className="mt-10 flex justify-center">
-        <a
-          href="#formulario"
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-sm font-semibold text-brand-foreground shadow-lg transition hover:brightness-95 md:text-base"
-        >
-          Quero identificar meus gargalos <ArrowRight className="h-4 w-4" />
-        </a>
-      </div>
-    </Section>
-  );
-}
-
-// ============================================================
-// PARA QUEM É / NÃO É
+// PARA QUEM É
 // ============================================================
 function ForWho() {
   const forItems = [
@@ -805,9 +986,8 @@ function ForWho() {
     "Centros de estética",
     "Profissionais da saúde",
     "Negócios com atendimento pelo WhatsApp",
-    "Negócios com recepção ou secretária",
     "Empresas com capacidade para atender mais pessoas",
-    "Empresas dispostas a acompanhar dados e melhorar processos",
+    "Quem aceita acompanhar dados e melhorar processos",
   ];
   const notFor = [
     "Quem procura resultado imediato sem estrutura",
@@ -818,29 +998,40 @@ function ForWho() {
     "Quem deseja garantias irreais de faturamento",
   ];
   return (
-    <Section eyebrow="Alinhamento" title="Para quem faz sentido — e para quem não faz.">
+    <Section>
+      <SectionHead
+        eyebrow="Alinhamento"
+        title="Para quem faz sentido — e para quem não faz."
+      />
       <div className="grid gap-5 md:grid-cols-2">
-        <div className="rounded-2xl border border-brand/30 bg-brand/5 p-6 md:p-7">
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-foreground">
-            <CheckCircle2 className="h-5 w-5 text-brand" /> Para quem é
+        <div className="rounded-2xl border border-[color:var(--color-border-brand)] bg-card p-7">
+          <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-foreground">
+            <CheckCircle2 className="h-5 w-5 text-brand" strokeWidth={1.8} /> Para quem é
           </h3>
-          <ul className="mt-5 space-y-2.5">
+          <ul className="mt-5 space-y-3">
             {forItems.map((i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+              <li key={i} className="flex items-start gap-3 text-sm text-foreground">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" strokeWidth={1.6} />
                 {i}
               </li>
             ))}
           </ul>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-6 md:p-7">
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-foreground">
-            <XCircle className="h-5 w-5 text-destructive" /> Para quem não é
+        <div className="rounded-2xl border border-border bg-card p-7">
+          <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-foreground">
+            <XCircle className="h-5 w-5 text-[color:var(--color-text-dim)]" strokeWidth={1.8} />
+            Para quem não é
           </h3>
-          <ul className="mt-5 space-y-2.5">
+          <ul className="mt-5 space-y-3">
             {notFor.map((i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive/70" />
+              <li
+                key={i}
+                className="flex items-start gap-3 text-sm text-[color:var(--color-text-muted-2)]"
+              >
+                <XCircle
+                  className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--color-text-dim)]"
+                  strokeWidth={1.6}
+                />
                 {i}
               </li>
             ))}
@@ -852,7 +1043,7 @@ function ForWho() {
 }
 
 // ============================================================
-// PROCESSO DE TRABALHO
+// PROCESSO
 // ============================================================
 function Process() {
   const steps = [
@@ -867,22 +1058,22 @@ function Process() {
     "Melhoria contínua",
   ];
   return (
-    <Section
-      eyebrow="Processo"
-      title="Como é o caminho até o resultado."
-      subtitle="Da inscrição inicial ao acompanhamento estratégico contínuo."
-      className="bg-surface"
-    >
-      <ol className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <Section className="bg-surface/30">
+      <SectionHead
+        eyebrow="Processo"
+        title="Como é o caminho até o resultado."
+        subtitle="Da inscrição inicial ao acompanhamento estratégico contínuo."
+      />
+      <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {steps.map((s, i) => (
           <li
             key={s}
-            className="flex items-start gap-4 rounded-xl border border-border bg-card p-5"
+            className="flex items-center gap-4 rounded-xl border border-border bg-card p-5 transition hover:border-[color:var(--color-border-brand)]"
           >
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand/15 font-display text-lg font-bold text-brand">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-border bg-background/60 font-mono text-sm font-semibold text-brand">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <p className="pt-1.5 text-sm font-medium text-foreground">{s}</p>
+            <p className="text-sm font-medium text-foreground">{s}</p>
           </li>
         ))}
       </ol>
@@ -895,26 +1086,28 @@ function Process() {
 // ============================================================
 function Proof() {
   return (
-    <Section
-      eyebrow="Provas e projetos"
-      title="Estudos de caso, campanhas e indicadores."
-      subtitle="Esta seção é reservada para materiais reais de clientes. Nenhum dado é apresentado sem autorização."
-    >
-      <div className="grid gap-5 md:grid-cols-3">
+    <Section>
+      <SectionHead
+        eyebrow="Provas e projetos"
+        title="Estudos de caso, campanhas e indicadores."
+        subtitle="Espaço reservado para materiais reais de clientes. Nenhum dado é apresentado sem autorização."
+      />
+      <div className="grid gap-4 md:grid-cols-3">
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="flex aspect-[4/5] flex-col justify-between rounded-2xl border border-dashed border-border bg-card p-6"
+            className="group relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-2xl border border-dashed border-border bg-card p-6 transition hover:border-[color:var(--color-border-brand)]"
           >
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Placeholder {i}
+            <div className="absolute inset-0 bg-grid opacity-30" />
+            <span className="relative text-[10px] font-medium uppercase tracking-[0.24em] text-[color:var(--color-text-dim)]">
+              Placeholder {String(i).padStart(2, "0")}
             </span>
-            <div>
+            <div className="relative">
               <p className="font-display text-lg font-semibold text-foreground">
                 Adicionar aqui um estudo de caso real.
               </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Depoimentos, prints, indicadores, campanhas, landing pages, dashboards e processos.
+              <p className="mt-2 text-sm text-[color:var(--color-text-muted-2)]">
+                Depoimentos, prints, indicadores, campanhas, landing pages, dashboards.
               </p>
             </div>
           </div>
@@ -932,38 +1125,68 @@ function About() {
     "Especialista em marketing e soluções digitais",
     "Formado em Administração",
     "Estudante de Psicologia",
-    "Gestor de campanhas no Google e Meta",
+    "Gestor de campanhas Google e Meta",
     "Foco em estratégia antes de ferramenta",
-    "Pesquisador contínuo de tecnologia, marketing, IA, vendas e negócios",
+    "Pesquisador contínuo de tecnologia, IA e vendas",
   ];
   return (
-    <Section id="sobre" className="bg-surface">
-      <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+    <Section id="sobre" className="bg-surface/30">
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_1.1fr] lg:items-center">
+        {/* Photo placeholder — substituir por <img src="..." /> */}
         <div className="relative">
-          <div className="aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-primary to-primary/70">
-            {/* Substituir por foto do Wanderson: <img src="..." alt="Wanderson Paixão" /> */}
-            <div className="flex h-full items-end p-6 text-primary-foreground">
+          <div
+            aria-hidden
+            className="absolute -inset-6 -z-10 rounded-3xl opacity-60 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(ellipse at 20% 30%, rgba(255,92,31,0.4), transparent 65%)",
+            }}
+          />
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--color-border-brand)] bg-gradient-to-br from-card-highlight via-card to-background">
+            {/* Substituir este bloco por: <img src="..." alt="Wanderson Paixão" className="h-full w-full object-cover" /> */}
+            <div className="absolute inset-0 bg-grid opacity-30" />
+            <div
+              aria-hidden
+              className="absolute -right-20 top-1/3 h-64 w-64 rounded-full opacity-70 blur-3xl"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(255,92,31,0.55), transparent 65%)",
+              }}
+            />
+            <div className="absolute inset-x-0 bottom-0 flex items-end p-7 text-foreground">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider opacity-80">AVEX</p>
-                <p className="font-display text-2xl font-bold">Wanderson Paixão</p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-brand">
+                  AVEX
+                </p>
+                <p className="mt-1 font-display text-2xl font-semibold">
+                  Wanderson Paixão
+                </p>
+                <p className="mt-1 text-xs text-[color:var(--color-text-muted-2)]">
+                  Estratégia · Marketing · Crescimento
+                </p>
               </div>
             </div>
           </div>
         </div>
+
         <div>
-          <span className="inline-block rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent-foreground">
-            Sobre
-          </span>
-          <h2 className="mt-4 text-balance text-3xl font-bold text-foreground md:text-4xl">
-            "Meu trabalho é compreender o problema antes de indicar a ferramenta."
+          <EyebrowTag>Sobre</EyebrowTag>
+          <h2 className="mt-5 text-balance font-display text-3xl font-semibold leading-[1.15] text-foreground md:text-4xl lg:text-[44px]">
+            "Meu trabalho é compreender o problema antes de indicar a{" "}
+            <span className="text-brand">ferramenta</span>."
           </h2>
-          <p className="mt-5 text-pretty text-muted-foreground">
-            Não vendo tráfego pago como produto pronto. Analiso o negócio, entendo a operação, identifico o gargalo e recomendo o caminho — que pode ser anúncio, atendimento, funil, página, processo ou uma combinação disso.
+          <p className="mt-6 text-[color:var(--color-text-muted-2)] md:text-lg">
+            Não vendo tráfego pago como produto pronto. Analiso o negócio, entendo a
+            operação, identifico o gargalo e recomendo o caminho — que pode ser
+            anúncio, atendimento, funil, página, processo ou uma combinação disso.
           </p>
-          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {bullets.map((b) => (
-              <li key={b} className="flex items-start gap-2 text-sm text-foreground">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+              <li
+                key={b}
+                className="flex items-start gap-2.5 rounded-lg border border-border bg-card/60 p-3 text-sm text-foreground"
+              >
+                <Layers className="mt-0.5 h-4 w-4 shrink-0 text-brand" strokeWidth={1.6} />
                 {b}
               </li>
             ))}
@@ -975,7 +1198,7 @@ function About() {
 }
 
 // ============================================================
-// FORMULÁRIO
+// FORMULÁRIO — Oferta de diagnóstico com painel
 // ============================================================
 function DiagnosticForm() {
   const [step, setStep] = useState<1 | 2>(1);
@@ -1006,7 +1229,6 @@ function DiagnosticForm() {
     const data = Object.fromEntries(new FormData(form).entries());
     try {
       if (CONFIG.formEndpoint) {
-        // Integração — CRM / Notion / Google Sheets / Webhook
         const res = await fetch(CONFIG.formEndpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -1014,7 +1236,6 @@ function DiagnosticForm() {
         });
         if (!res.ok) throw new Error("Falha no envio");
       } else {
-        // Sem endpoint: simula sucesso — configurar CONFIG.formEndpoint
         await new Promise((r) => setTimeout(r, 700));
       }
       setStatus("ok");
@@ -1025,139 +1246,214 @@ function DiagnosticForm() {
 
   if (status === "ok") {
     return (
-      <Section id="diagnostico" className="bg-primary text-primary-foreground">
-        <div className="mx-auto max-w-2xl rounded-2xl border border-primary-foreground/15 bg-primary-foreground/5 p-8 text-center md:p-12">
-          <span className="grid h-14 w-14 mx-auto place-items-center rounded-full bg-brand text-brand-foreground">
+      <Section id="diagnostico">
+        <div className="relative mx-auto max-w-2xl overflow-hidden rounded-3xl border border-[color:var(--color-border-brand)] bg-card p-10 text-center md:p-14">
+          <div
+            aria-hidden
+            className="absolute -inset-24 -z-10 opacity-60 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, rgba(255,92,31,0.4), transparent 60%)",
+            }}
+          />
+          <span className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-[color:var(--color-border-brand)] bg-brand/15 text-brand">
             <CheckCircle2 className="h-7 w-7" />
           </span>
-          <h2 className="mt-6 text-3xl font-bold md:text-4xl">Recebi suas informações.</h2>
-          <p className="mt-4 text-primary-foreground/80">
-            Agora vou analisar seu cenário e verificar qual caminho pode fazer mais sentido para sua operação.
+          <h2 className="mt-6 font-display text-3xl font-semibold md:text-4xl">
+            Recebi suas informações.
+          </h2>
+          <p className="mt-4 text-[color:var(--color-text-muted-2)]">
+            Agora vou analisar seu cenário e verificar qual caminho pode fazer mais
+            sentido para sua operação.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground"
-            >
-              <MessageCircle className="h-4 w-4" /> Continuar no WhatsApp
-            </a>
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-primary-foreground/30 px-5 py-3 text-sm font-semibold"
-            >
+            <PrimaryButton href={waLink}>Continuar no WhatsApp</PrimaryButton>
+            <SecondaryButton href={waLink} external>
               Agendar reunião
-            </a>
+            </SecondaryButton>
           </div>
         </div>
       </Section>
     );
   }
 
+  const benefits = [
+    "Identificação dos principais gargalos",
+    "Prioridades claras para os próximos passos",
+    "Recomendações baseadas no cenário real",
+    "Indicação do serviço adequado",
+  ];
+
   return (
-    <Section
-      id="diagnostico"
-      eyebrow="Solicitar diagnóstico"
-      title="Preencha para receber uma análise do seu cenário."
-      subtitle="Duas etapas curtas. Suas respostas orientam a conversa e evitam propostas genéricas."
-    >
-      <div id="formulario" className="mx-auto max-w-3xl rounded-2xl border border-border bg-card p-6 shadow-sm md:p-10">
-        <div className="mb-8 flex items-center gap-3">
-          {[1, 2].map((n) => (
-            <div key={n} className="flex flex-1 items-center gap-3">
-              <span
-                className={`grid h-8 w-8 place-items-center rounded-full text-sm font-semibold ${
-                  step >= (n as 1 | 2)
-                    ? "bg-brand text-brand-foreground"
-                    : "bg-secondary text-muted-foreground"
-                }`}
-              >
-                {n}
-              </span>
-              <span className="text-sm font-medium text-foreground">
-                {n === 1 ? "Informações básicas" : "Cenário"}
-              </span>
-              {n === 1 && <div className="ml-2 h-px flex-1 bg-border" />}
-            </div>
-          ))}
-        </div>
-        <form onSubmit={handleSubmit} noValidate>
-          {step === 1 && (
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Nome" name="nome" error={errors.nome} required />
-              <Field label="Nome da clínica ou negócio" name="clinica" error={errors.clinica} required />
-              <Field label="Especialidade" name="especialidade" />
-              <Field label="Cidade" name="cidade" error={errors.cidade} required />
-              <Field label="WhatsApp" name="whatsapp" type="tel" placeholder="(00) 00000-0000" error={errors.whatsapp} required />
-              <Field label="E-mail" name="email" type="email" error={errors.email} required />
-            </div>
-          )}
-          {step === 2 && (
-            <div className="grid gap-4">
-              <Field label="Qual é sua principal dificuldade?" name="dificuldade" as="textarea" />
-              <Field label="Como os pacientes chegam atualmente?" name="origem" />
-              <Select label="Sua clínica já anuncia?" name="anuncia" options={["Sim", "Não", "Já anunciei antes"]} />
-              <Select label="Existe recepção ou secretária?" name="recepcao" options={["Sim", "Não", "Terceirizada"]} />
-              <Field label="Quantos novos atendimentos consegue absorver por mês?" name="capacidade" />
-              <Field label="Qual é o principal procedimento ou serviço?" name="procedimento" />
-              <Select
-                label="Faixa de investimento pretendida em captação"
-                name="investimento"
-                options={[
-                  "Até R$ 1.500 / mês",
-                  "R$ 1.500 – R$ 3.000 / mês",
-                  "R$ 3.000 – R$ 6.000 / mês",
-                  "Acima de R$ 6.000 / mês",
-                  "Ainda não defini",
-                ]}
-              />
-              <Select
-                label="Prefere contato pelo WhatsApp ou reunião agendada?"
-                name="preferencia"
-                options={["WhatsApp", "Reunião agendada", "Tanto faz"]}
-              />
-              <label className="flex items-start gap-3 pt-2 text-sm text-foreground">
-                <input type="checkbox" name="consentimento" required className="mt-1 h-4 w-4 accent-[color:var(--color-brand)]" />
-                <span>
-                  Autorizo o uso destas informações para contato e análise comercial, conforme a política de privacidade.
+    <Section id="diagnostico">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 -z-10 mx-auto -mt-20 h-[400px] max-w-4xl opacity-70 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(255,92,31,0.35), transparent 65%)",
+        }}
+      />
+      <div className="grid gap-8 lg:grid-cols-[0.95fr_1.1fr] lg:items-start">
+        <div>
+          <EyebrowTag>Oferta principal</EyebrowTag>
+          <h2 className="mt-5 text-balance font-display text-3xl font-semibold leading-[1.1] md:text-4xl lg:text-5xl">
+            Diagnóstico Estratégico de{" "}
+            <span className="text-brand">Captação e Conversão</span>
+          </h2>
+          <p className="mt-5 text-[color:var(--color-text-muted-2)] md:text-lg">
+            Identifique o que está impedindo sua clínica de gerar, organizar ou
+            converter mais oportunidades.
+          </p>
+          <ul className="mt-8 space-y-3">
+            {benefits.map((b) => (
+              <li key={b} className="flex items-start gap-3 text-sm text-foreground md:text-[15px]">
+                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[color:var(--color-border-brand)] bg-brand/15 text-brand">
+                  <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
                 </span>
-              </label>
-            </div>
-          )}
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
-            {step === 2 ? (
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground"
-              >
-                ← Voltar
-              </button>
-            ) : (
-              <span />
-            )}
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className="inline-flex items-center gap-2 rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground shadow transition hover:brightness-95 disabled:opacity-60"
-            >
-              {status === "sending"
-                ? "Enviando..."
-                : step === 1
-                ? "Continuar"
-                : "Enviar para análise"}
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-          {status === "error" && (
-            <p className="mt-4 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-              Não foi possível enviar. Tente novamente ou fale pelo WhatsApp.
+                {b}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 hidden lg:block">
+            <p className="text-xs text-[color:var(--color-text-dim)]">
+              Sem custo. Sem compromisso. Análise entregue em até 3 dias úteis após o envio.
             </p>
-          )}
-        </form>
+          </div>
+        </div>
+
+        <div
+          id="formulario"
+          className="relative rounded-3xl border border-[color:var(--color-border-brand)] bg-card-highlight p-6 shadow-2xl shadow-black/50 md:p-8"
+        >
+          {/* Step indicator */}
+          <div className="mb-6 flex items-center gap-3">
+            {[1, 2].map((n) => (
+              <div key={n} className="flex flex-1 items-center gap-3">
+                <span
+                  className={`grid h-8 w-8 place-items-center rounded-full text-xs font-semibold transition ${
+                    step >= (n as 1 | 2)
+                      ? "bg-brand text-brand-foreground shadow-[0_0_16px_rgba(255,92,31,0.55)]"
+                      : "border border-border bg-background text-[color:var(--color-text-dim)]"
+                  }`}
+                >
+                  {n}
+                </span>
+                <span
+                  className={`text-xs font-medium uppercase tracking-widest ${
+                    step >= (n as 1 | 2) ? "text-foreground" : "text-[color:var(--color-text-dim)]"
+                  }`}
+                >
+                  {n === 1 ? "Contato" : "Cenário"}
+                </span>
+                {n === 1 && <div className="mx-1 h-px flex-1 bg-border" />}
+              </div>
+            ))}
+          </div>
+
+          <form onSubmit={handleSubmit} noValidate>
+            {step === 1 && (
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Nome" name="nome" error={errors.nome} required />
+                <Field label="Clínica ou negócio" name="clinica" error={errors.clinica} required />
+                <Field label="Especialidade" name="especialidade" />
+                <Field label="Cidade" name="cidade" error={errors.cidade} required />
+                <Field
+                  label="WhatsApp"
+                  name="whatsapp"
+                  type="tel"
+                  placeholder="(00) 00000-0000"
+                  error={errors.whatsapp}
+                  required
+                />
+                <Field label="E-mail" name="email" type="email" error={errors.email} required />
+              </div>
+            )}
+            {step === 2 && (
+              <div className="grid gap-4">
+                <Field
+                  label="Qual é sua principal dificuldade?"
+                  name="dificuldade"
+                  as="textarea"
+                />
+                <Field label="Como os pacientes chegam atualmente?" name="origem" />
+                <Select
+                  label="Sua clínica já anuncia?"
+                  name="anuncia"
+                  options={["Sim", "Não", "Já anunciei antes"]}
+                />
+                <Select
+                  label="Existe recepção ou secretária?"
+                  name="recepcao"
+                  options={["Sim", "Não", "Terceirizada"]}
+                />
+                <Field
+                  label="Quantos novos atendimentos consegue absorver por mês?"
+                  name="capacidade"
+                />
+                <Field label="Principal procedimento ou serviço" name="procedimento" />
+                <Select
+                  label="Faixa de investimento pretendida em captação"
+                  name="investimento"
+                  options={[
+                    "Até R$ 1.500 / mês",
+                    "R$ 1.500 – R$ 3.000 / mês",
+                    "R$ 3.000 – R$ 6.000 / mês",
+                    "Acima de R$ 6.000 / mês",
+                    "Ainda não defini",
+                  ]}
+                />
+                <Select
+                  label="Prefere contato pelo WhatsApp ou reunião agendada?"
+                  name="preferencia"
+                  options={["WhatsApp", "Reunião agendada", "Tanto faz"]}
+                />
+                <label className="mt-1 flex items-start gap-3 text-sm text-foreground">
+                  <input
+                    type="checkbox"
+                    name="consentimento"
+                    required
+                    className="mt-1 h-4 w-4 accent-[color:var(--color-brand)]"
+                  />
+                  <span className="text-[color:var(--color-text-muted-2)]">
+                    Autorizo o uso destas informações para contato e análise comercial,
+                    conforme a política de privacidade.
+                  </span>
+                </label>
+              </div>
+            )}
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+              {step === 2 ? (
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="text-sm font-medium text-[color:var(--color-text-muted-2)] hover:text-foreground"
+                >
+                  ← Voltar
+                </button>
+              ) : (
+                <span />
+              )}
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="btn-brand inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold hover:[&]:btn-brand-hover disabled:opacity-60"
+              >
+                {status === "sending"
+                  ? "Enviando..."
+                  : step === 1
+                    ? "Continuar"
+                    : "Enviar para análise"}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+            {status === "error" && (
+              <p className="mt-4 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+                Não foi possível enviar. Tente novamente ou fale pelo WhatsApp.
+              </p>
+            )}
+          </form>
+        </div>
       </div>
     </Section>
   );
@@ -1181,27 +1477,41 @@ function Field({
   as?: "textarea";
 }) {
   const cls =
-    "mt-1.5 w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm text-foreground shadow-sm outline-none transition placeholder:text-muted-foreground focus:border-brand focus:ring-2 focus:ring-brand/30";
+    "mt-2 w-full rounded-lg border border-border bg-background/60 px-3.5 py-2.5 text-sm text-foreground placeholder:text-[color:var(--color-text-dim)] outline-none transition focus:border-[color:var(--color-border-brand)] focus:ring-2 focus:ring-brand/30";
   return (
-    <label className="block text-sm font-medium text-foreground">
-      {label} {required && <span className="text-destructive">*</span>}
+    <label className="block text-xs font-medium uppercase tracking-widest text-[color:var(--color-text-muted-2)]">
+      {label} {required && <span className="text-brand">*</span>}
       {as === "textarea" ? (
         <textarea name={name} placeholder={placeholder} rows={3} className={cls} />
       ) : (
-        <input type={type} name={name} placeholder={placeholder} className={cls} required={required} />
+        <input
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          className={cls}
+          required={required}
+        />
       )}
-      {error && <span className="mt-1 block text-xs text-destructive">{error}</span>}
+      {error && <span className="mt-1 block text-xs normal-case text-brand">{error}</span>}
     </label>
   );
 }
 
-function Select({ label, name, options }: { label: string; name: string; options: string[] }) {
+function Select({
+  label,
+  name,
+  options,
+}: {
+  label: string;
+  name: string;
+  options: string[];
+}) {
   return (
-    <label className="block text-sm font-medium text-foreground">
+    <label className="block text-xs font-medium uppercase tracking-widest text-[color:var(--color-text-muted-2)]">
       {label}
       <select
         name={name}
-        className="mt-1.5 w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm text-foreground shadow-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/30"
+        className="mt-2 w-full rounded-lg border border-border bg-background/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-[color:var(--color-border-brand)] focus:ring-2 focus:ring-brand/30"
       >
         <option value="">Selecione...</option>
         {options.map((o) => (
@@ -1229,7 +1539,7 @@ function FAQ() {
     },
     {
       q: "Em quanto tempo as campanhas são implantadas?",
-      a: "O prazo depende da estrutura atual, das aprovações da conta e do material disponível. Normalmente entre alguns dias e algumas semanas.",
+      a: "Depende da estrutura atual, das aprovações da conta e do material disponível. Normalmente entre alguns dias e algumas semanas.",
     },
     {
       q: "Você garante quantidade de pacientes?",
@@ -1269,15 +1579,23 @@ function FAQ() {
     },
   ];
   return (
-    <Section id="faq" eyebrow="Perguntas frequentes" title="Dúvidas comuns antes de solicitar o diagnóstico.">
-      <div className="mx-auto max-w-3xl divide-y divide-border rounded-2xl border border-border bg-card">
+    <Section id="faq">
+      <SectionHead
+        eyebrow="Perguntas frequentes"
+        title="Dúvidas comuns antes de solicitar o diagnóstico."
+      />
+      <div className="mx-auto max-w-3xl divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
         {items.map((it, i) => (
-          <details key={i} className="group px-5 py-4 md:px-6">
-            <summary className="flex cursor-pointer list-none items-start justify-between gap-4">
-              <span className="text-base font-semibold text-foreground">{it.q}</span>
-              <ChevronDown className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground transition group-open:rotate-180" />
+          <details key={i} className="group">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-4 px-6 py-5 transition hover:bg-card-highlight">
+              <span className="text-[15px] font-medium text-foreground">{it.q}</span>
+              <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border bg-background text-[color:var(--color-text-muted-2)] transition group-open:border-[color:var(--color-border-brand)] group-open:bg-brand/10 group-open:text-brand">
+                <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
+              </span>
             </summary>
-            <p className="mt-3 text-sm text-muted-foreground">{it.a}</p>
+            <p className="px-6 pb-5 text-sm leading-relaxed text-[color:var(--color-text-muted-2)]">
+              {it.a}
+            </p>
           </details>
         ))}
       </div>
@@ -1290,35 +1608,55 @@ function FAQ() {
 // ============================================================
 function FinalCTA() {
   return (
-    <Section className="bg-surface">
-      <div className="mx-auto max-w-4xl rounded-3xl border border-border bg-primary p-10 text-center text-primary-foreground md:p-16">
-        <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-foreground">
-          <Stethoscope className="h-3.5 w-3.5 text-brand" /> Último passo
-        </span>
-        <h2 className="mt-4 text-balance text-3xl font-bold md:text-4xl lg:text-5xl">
-          Antes de investir mais, descubra onde sua operação está perdendo oportunidades.
+    <section className="relative overflow-hidden px-5 py-24 md:px-8 md:py-36">
+      <div
+        aria-hidden
+        className="bg-grid pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_center,black_25%,transparent_70%)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-80 blur-[100px] animate-glow-pulse"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(255,92,31,0.45), transparent 65%)",
+        }}
+      />
+      <div className="mx-auto max-w-3xl text-center">
+        <EyebrowTag>Último passo</EyebrowTag>
+        <h2 className="mt-6 text-balance font-display text-4xl font-semibold leading-[1.05] md:text-5xl lg:text-[64px]">
+          Antes de investir mais, descubra onde sua operação está{" "}
+          <span className="text-gradient-brand">perdendo oportunidades</span>.
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-pretty text-primary-foreground/80 md:text-lg">
-          Uma análise estratégica pode mostrar se o principal problema está na captação, na mensagem, na página, no atendimento ou na falta de acompanhamento.
+        <p className="mx-auto mt-6 max-w-xl text-pretty text-base text-[color:var(--color-text-muted-2)] md:text-lg">
+          Uma análise estratégica pode mostrar se o principal problema está na
+          captação, na mensagem, na página, no atendimento ou na falta de
+          acompanhamento.
         </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <a
-            href="#diagnostico"
-            className="inline-flex items-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-sm font-semibold text-brand-foreground shadow-lg transition hover:brightness-95 md:text-base"
-          >
-            Solicitar meu diagnóstico <ArrowRight className="h-4 w-4" />
-          </a>
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-primary-foreground/30 bg-primary-foreground/5 px-6 py-3.5 text-sm font-semibold md:text-base"
-          >
-            <MessageCircle className="h-4 w-4" /> Falar com Wanderson
-          </a>
+        <div className="mt-9 flex flex-wrap justify-center gap-3">
+          <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico</PrimaryButton>
+          <SecondaryButton href={waLink} external>
+            <MessageCircle className="h-4 w-4" />
+            Falar com Wanderson
+          </SecondaryButton>
         </div>
       </div>
-    </Section>
+
+      {/* Arco luminoso decorativo */}
+      <div
+        aria-hidden
+        className="pointer-events-none relative mx-auto mt-16 h-[160px] w-full max-w-5xl"
+      >
+        <div className="absolute inset-x-0 top-0 h-[160px] overflow-hidden">
+          <div
+            className="absolute left-1/2 top-4 h-[320px] w-[1100px] -translate-x-1/2 rounded-full border border-[color:var(--color-border-brand)]"
+            style={{
+              boxShadow:
+                "0 0 60px 8px rgba(255, 92, 31, 0.3), inset 0 0 50px rgba(255, 92, 31, 0.1)",
+            }}
+          />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1328,57 +1666,82 @@ function FinalCTA() {
 function Footer() {
   return (
     <footer className="border-t border-border bg-background">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-4 md:px-8">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-4 md:px-8">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-              <span className="font-display text-lg font-bold">A</span>
+          <div className="flex items-center gap-2.5">
+            <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-lg border border-border bg-card">
+              <span className="absolute inset-0 bg-gradient-to-br from-brand/40 via-transparent to-transparent" />
+              <span className="relative font-display text-base font-bold">A</span>
             </span>
             <div className="leading-tight">
-              <p className="font-display font-bold text-foreground">AVEX</p>
-              <p className="text-xs text-muted-foreground">Wanderson Paixão</p>
+              <p className="font-display text-sm font-semibold tracking-widest text-foreground">
+                AVEX
+              </p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-text-dim)]">
+                Wanderson Paixão
+              </p>
             </div>
           </div>
-          <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-            Estratégia de captação, jornada comercial e melhoria contínua para clínicas, consultórios e profissionais da saúde.
+          <p className="mt-5 max-w-sm text-sm text-[color:var(--color-text-muted-2)]">
+            Estratégia de captação, jornada comercial e melhoria contínua para
+            clínicas, consultórios e profissionais da saúde.
           </p>
-          <p className="mt-4 text-xs text-muted-foreground">{CONFIG.cidade}</p>
+          <p className="mt-4 text-xs text-[color:var(--color-text-dim)]">
+            {CONFIG.cidade}
+          </p>
         </div>
         <div>
-          <p className="text-sm font-semibold text-foreground">Contato</p>
-          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
+            Contato
+          </p>
+          <ul className="mt-4 space-y-2.5 text-sm text-[color:var(--color-text-muted-2)]">
             <li>
-              <a href={waLink} target="_blank" rel="noreferrer" className="hover:text-foreground">
+              <a
+                href={waLink}
+                target="_blank"
+                rel="noreferrer"
+                className="transition hover:text-brand"
+              >
                 WhatsApp
               </a>
             </li>
             <li>
-              <a href={`mailto:${CONFIG.email}`} className="hover:text-foreground">
+              <a
+                href={`mailto:${CONFIG.email}`}
+                className="transition hover:text-brand"
+              >
                 {CONFIG.email}
               </a>
             </li>
             <li>
-              <a href={CONFIG.instagram} target="_blank" rel="noreferrer" className="hover:text-foreground">
+              <a
+                href={CONFIG.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="transition hover:text-brand"
+              >
                 Instagram
               </a>
             </li>
           </ul>
         </div>
         <div>
-          <p className="text-sm font-semibold text-foreground">Institucional</p>
-          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
+            Institucional
+          </p>
+          <ul className="mt-4 space-y-2.5 text-sm text-[color:var(--color-text-muted-2)]">
             <li>
-              <a href="#" className="hover:text-foreground">
+              <a href="#" className="transition hover:text-brand">
                 Política de privacidade
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground">
+              <a href="#" className="transition hover:text-brand">
                 Termos de uso
               </a>
             </li>
             <li>
-              <a href="#diagnostico" className="hover:text-foreground">
+              <a href="#diagnostico" className="transition hover:text-brand">
                 Solicitar diagnóstico
               </a>
             </li>
@@ -1386,12 +1749,14 @@ function Footer() {
         </div>
       </div>
       <div className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-5 py-6 md:px-8">
-          <p className="text-xs text-muted-foreground">
-            Resultados dependem de fatores como mercado, investimento, oferta, atendimento e capacidade operacional. Nenhum resultado é garantido.
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-6 md:flex-row md:items-center md:justify-between md:px-8">
+          <p className="text-xs text-[color:var(--color-text-dim)]">
+            © {new Date().getFullYear()} AVEX · Wanderson Paixão. Todos os direitos
+            reservados.
           </p>
-          <p className="mt-3 text-xs text-muted-foreground">
-            © {new Date().getFullYear()} AVEX · Wanderson Paixão. Todos os direitos reservados.
+          <p className="max-w-xl text-xs text-[color:var(--color-text-dim)]">
+            Resultados dependem de mercado, investimento, oferta, atendimento e
+            capacidade operacional. Nenhum resultado é garantido.
           </p>
         </div>
       </div>
@@ -1416,7 +1781,7 @@ function WhatsAppFloat() {
       target="_blank"
       rel="noreferrer"
       aria-label="Falar no WhatsApp"
-      className={`fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3.5 text-sm font-semibold text-brand-foreground shadow-lg shadow-brand/30 transition md:hidden ${
+      className={`btn-brand fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold shadow-2xl transition md:hidden ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >
@@ -1437,11 +1802,10 @@ function LandingPage() {
         <Hero />
         <Authority />
         <Problems />
-        <DiagnosticExplain />
+        <DiagnosticSplit />
         <Method />
         <Solutions />
         <Plans />
-        <DiagnosticOffer />
         <ForWho />
         <Process />
         <Proof />
@@ -1456,5 +1820,5 @@ function LandingPage() {
   );
 }
 
-// Unused-icon suppression for tree-shaking clarity
-void Users; void ClipboardList;
+/* Unused import guard */
+void Target;
