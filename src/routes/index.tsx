@@ -1356,28 +1356,28 @@ function DiagnosticForm() {
             {step === 2 && (
               <div className="grid gap-4">
                 <Field
-                  label="Qual é sua principal dificuldade?"
+                  label="Qual sua principal dificuldade hoje?"
                   name="dificuldade"
                   as="textarea"
                 />
                 <Field label="Como os pacientes chegam atualmente?" name="origem" />
                 <Select
-                  label="Sua clínica já anuncia?"
+                  label="A clínica já anuncia?"
                   name="anuncia"
-                  options={["Sim", "Não", "Já anunciei antes"]}
+                  options={["Sim, hoje", "Não", "Já anunciei antes"]}
                 />
                 <Select
-                  label="Existe recepção ou secretária?"
+                  label="Existe recepção ou secretária dedicada?"
                   name="recepcao"
                   options={["Sim", "Não", "Terceirizada"]}
                 />
                 <Field
-                  label="Quantos novos atendimentos consegue absorver por mês?"
+                  label="Quantos novos pacientes consegue atender por mês?"
                   name="capacidade"
                 />
                 <Field label="Principal procedimento ou serviço" name="procedimento" />
                 <Select
-                  label="Faixa de investimento pretendida em captação"
+                  label="Investimento mensal previsto em captação"
                   name="investimento"
                   options={[
                     "Até R$ 1.500 / mês",
@@ -1388,7 +1388,7 @@ function DiagnosticForm() {
                   ]}
                 />
                 <Select
-                  label="Prefere contato pelo WhatsApp ou reunião agendada?"
+                  label="Como prefere continuar a conversa?"
                   name="preferencia"
                   options={["WhatsApp", "Reunião agendada", "Tanto faz"]}
                 />
@@ -1400,8 +1400,7 @@ function DiagnosticForm() {
                     className="mt-1 h-4 w-4 accent-[color:var(--color-brand)]"
                   />
                   <span className="text-[color:var(--color-text-muted-2)]">
-                    Autorizo o uso destas informações para contato e análise comercial,
-                    conforme a política de privacidade.
+                    Autorizo o uso destas informações apenas para análise e contato comercial, conforme a política de privacidade.
                   </span>
                 </label>
               </div>
