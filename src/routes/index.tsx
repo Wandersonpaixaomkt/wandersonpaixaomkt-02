@@ -1665,8 +1665,7 @@ function Footer() {
             </div>
           </div>
           <p className="mt-5 max-w-sm text-sm text-[color:var(--color-text-muted-2)]">
-            Estratégia de captação, jornada comercial e melhoria contínua para
-            clínicas, consultórios e profissionais da saúde.
+            Consultoria de captação, jornada comercial e melhoria contínua para clínicas, consultórios e profissionais da saúde.
           </p>
           <p className="mt-4 text-xs text-[color:var(--color-text-dim)]">
             {CONFIG.cidade}
