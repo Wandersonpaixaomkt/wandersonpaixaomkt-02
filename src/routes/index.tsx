@@ -402,31 +402,31 @@ function Problems() {
   const items = [
     {
       icon: Radar,
-      title: "Contatos que não avançam",
-      desc: "Mensagens chegam, mas os pacientes não agendam. Falta clareza sobre onde a jornada trava.",
+      title: "Contatos que não fecham",
+      desc: "Mensagens chegam, mas o paciente some antes de agendar. Sem visibilidade sobre onde e por que ele desiste.",
     },
     {
       icon: Compass,
-      title: "Dependência de indicação",
-      desc: "O crescimento depende inteiramente de quem já conhece. Sem previsibilidade de novas oportunidades.",
+      title: "Refém da indicação",
+      desc: "Quando a indicação esfria, a agenda esfria junto. Não há canal previsível de novos pacientes.",
     },
     {
       icon: Zap,
-      title: "Atendimento sem padrão",
-      desc: "WhatsApp e recepção respondem de formas diferentes. Sem script, sem qualificação, sem follow-up.",
+      title: "Atendimento improvisado",
+      desc: "Cada mensagem é respondida de um jeito. Sem script, sem qualificação e sem quem retome o contato depois.",
     },
     {
       icon: BarChart3,
-      title: "Anúncios sem leitura",
-      desc: "Campanhas rodam, mas ninguém sabe quantos contatos viraram agendamento. Decisão sem dado.",
+      title: "Anúncio no escuro",
+      desc: "A campanha roda, o investimento sai, mas ninguém sabe quantos contatos viraram agendamento — nem quais dão prejuízo.",
     },
   ];
   return (
     <Section id="problemas">
       <SectionHead
-        eyebrow="Diagnóstico"
-        title="O problema pode não estar apenas nos anúncios."
-        subtitle="Muitas clínicas investem em mídia e ainda assim sentem que os contatos não avançam. Normalmente o gargalo está em outro ponto da jornada."
+        eyebrow="Onde o dinheiro vaza"
+        title="O problema quase nunca está só no anúncio."
+        subtitle="Antes de aumentar o investimento, é preciso enxergar em que ponto da jornada a clínica está deixando pacientes na mesa."
       />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it) => (
