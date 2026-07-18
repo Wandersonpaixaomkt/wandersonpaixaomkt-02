@@ -599,19 +599,19 @@ function DiagnosticSplit() {
 // ============================================================
 function Method() {
   const steps = [
-    { icon: Search, title: "Diagnosticar", desc: "Negócio, mercado, oferta, jornada e operação." },
-    { icon: Megaphone, title: "Atrair", desc: "Google Ads, Meta Ads e conteúdo orientado a demanda." },
-    { icon: MousePointerClick, title: "Captar", desc: "Landing pages, formulários e canais organizados." },
-    { icon: Filter, title: "Qualificar", desc: "Perguntas estratégicas, CRM e classificação." },
-    { icon: Handshake, title: "Converter", desc: "Scripts, follow-up e treinamento da recepção." },
-    { icon: LineChart, title: "Melhorar", desc: "Indicadores, testes e melhoria contínua." },
+    { icon: Search, title: "Diagnosticar", desc: "Entender o negócio, o mercado, a oferta e a jornada antes de qualquer campanha." },
+    { icon: Megaphone, title: "Atrair", desc: "Google Ads, Meta Ads e conteúdo desenhados para gerar procura qualificada." },
+    { icon: MousePointerClick, title: "Captar", desc: "Landing pages, formulários e canais que transformam interesse em contato." },
+    { icon: Filter, title: "Qualificar", desc: "Perguntas certas, CRM e classificação para priorizar quem realmente compra." },
+    { icon: Handshake, title: "Converter", desc: "Scripts, follow-up e recepção alinhados para levar o paciente até a agenda." },
+    { icon: LineChart, title: "Otimizar", desc: "Indicadores, testes e ajustes contínuos para melhorar mês após mês." },
   ];
   return (
     <Section id="metodo">
       <SectionHead
         eyebrow="Método AVEX"
-        title="Método AVEX de Geração e Conversão"
-        subtitle="Seis etapas que conectam anúncio, atendimento e agenda — aplicadas conforme o gargalo identificado."
+        title="Um método construído para clínicas — não para agências."
+        subtitle="Seis etapas que conectam anúncio, atendimento e agenda. A ordem de execução é definida pelo gargalo, não por pacote pronto."
       />
 
       {/* Desktop horizontal timeline */}
