@@ -90,7 +90,10 @@ html {
     text-rendering: optimizeLegibility;
     line-height: 1.55;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     letter-spacing: -0.025em;
     font-weight: 600;
@@ -106,14 +109,31 @@ html {
     border-radius: 8px;
   }
   /* Smoother interactive baseline */
-  a, button, [role="button"], input, select, textarea, summary {
-    transition: color .18s ease, background-color .18s ease,
-                border-color .18s ease, box-shadow .22s ease,
-                transform .18s ease, opacity .18s ease, filter .18s ease;
+  a,
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea,
+  summary {
+    transition:
+      color 0.18s ease,
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      box-shadow 0.22s ease,
+      transform 0.18s ease,
+      opacity 0.18s ease,
+      filter 0.18s ease;
   }
   /* Form control polish */
-  input, select, textarea { caret-color: var(--brand); }
-  input:hover, select:hover, textarea:hover {
+  input,
+  select,
+  textarea {
+    caret-color: var(--brand);
+  }
+  input:hover,
+  select:hover,
+  textarea:hover {
     border-color: rgba(255, 255, 255, 0.16);
   }
   select {
@@ -124,14 +144,21 @@ html {
     background-position:
       calc(100% - 18px) 50%,
       calc(100% - 13px) 50%;
-    background-size: 6px 6px, 6px 6px;
+    background-size:
+      6px 6px,
+      6px 6px;
     background-repeat: no-repeat;
     padding-right: 2.25rem;
     appearance: none;
   }
   /* Custom scrollbar */
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: #08080a; }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #08080a;
+  }
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #1e1e20, #141416);
     border-radius: 999px;
@@ -140,33 +167,68 @@ html {
   ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, #2a2a2c, #1a1a1c);
   }
-  html { scrollbar-color: #1e1e20 #08080a; scrollbar-width: thin; }
-  a, button { -webkit-tap-highlight-color: transparent; }
-  @media (pointer: coarse) {
-    a, button { min-height: 40px; }
+  html {
+    scrollbar-color: #1e1e20 #08080a;
+    scrollbar-width: thin;
   }
-  img { max-width: 100%; height: auto; }
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (pointer: coarse) {
+    a,
+    button {
+      min-height: 40px;
+    }
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.55; }
-  50%      { opacity: 0.9; }
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
 }
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
@@ -177,12 +239,12 @@ html {
 /* Grid / dot patterns used as subtle backgrounds */
 @utility bg-grid {
   background-image:
-    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 @utility bg-dots {
-  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 @utility text-gradient-brand {
@@ -201,25 +263,34 @@ html {
   background: linear-gradient(180deg, #ff7849, #ff5a1f 55%, #e94a15);
   color: #fff;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
     0 6px 24px -6px rgba(255, 92, 31, 0.55);
-  transition: transform 0.2s ease, box-shadow 0.25s ease, filter 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    filter 0.2s ease;
 }
 @utility btn-brand-hover {
   filter: brightness(1.05);
   transform: translateY(-1px);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
     0 10px 32px -6px rgba(255, 92, 31, 0.7);
 }
 
 /* Card elevation on hover */
 @utility card-hover {
-  transition: transform .25s ease, border-color .25s ease, box-shadow .3s ease, background-color .25s ease;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.3s ease,
+    background-color 0.25s ease;
 }
 @utility card-hover-active {
   transform: translateY(-2px);
-  box-shadow: 0 20px 40px -24px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,92,31,0.15);
+  box-shadow:
+    0 20px 40px -24px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 92, 31, 0.15);
 }
 
 /* Subtle brand underline for links */
@@ -229,22 +300,31 @@ html {
 
 /* Divider used between sections */
 @utility hairline {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
   height: 1px;
   width: 100%;
 }
 
 /* Reveal animation you can add via class (uses default fade-in already defined) */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @utility animate-fade-up {
-  animation: fade-up .55s ease-out both;
+  animation: fade-up 0.55s ease-out both;
 }
 
 /* Improved button pressed state */
-.btn-brand:active { transform: translateY(0) scale(0.985); filter: brightness(.98); }
+.btn-brand:active {
+  transform: translateY(0) scale(0.985);
+  filter: brightness(0.98);
+}
 
 /* NEXUS-PRO:WATERMARK-HIDE:START */
 /* Overlay do badge oficial ocultado por conflito com UI custom.
