@@ -83,8 +83,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:title", content: "AVEX · Diagnóstico para Clínicas" },
       {
         name: "twitter:description",
-        content:
-          "Descubra onde sua clínica perde pacientes entre o anúncio e a agenda.",
+        content: "Descubra onde sua clínica perde pacientes entre o anúncio e a agenda.",
       },
       { name: "twitter:image", content: CONFIG.ogImage },
       { name: "theme-color", content: "#060606" },
@@ -124,9 +123,7 @@ function SectionHead({
   align?: "center" | "left";
 }) {
   return (
-    <div
-      className={`mx-auto mb-14 max-w-3xl ${align === "center" ? "text-center" : "text-left"}`}
-    >
+    <div className={`mx-auto mb-14 max-w-3xl ${align === "center" ? "text-center" : "text-left"}`}>
       {eyebrow && <EyebrowTag>{eyebrow}</EyebrowTag>}
       <h2 className="mt-5 text-balance text-3xl font-semibold leading-[1.1] text-foreground md:text-4xl lg:text-5xl">
         {title}
@@ -150,10 +147,7 @@ function Section({
   className?: string;
 }) {
   return (
-    <section
-      id={id}
-      className={`scroll-mt-24 px-5 py-20 md:px-8 md:py-28 lg:py-36 ${className}`}
-    >
+    <section id={id} className={`scroll-mt-24 px-5 py-20 md:px-8 md:py-28 lg:py-36 ${className}`}>
       <div className="mx-auto max-w-6xl">{children}</div>
     </section>
   );
@@ -232,10 +226,7 @@ function Header() {
             </span>
           </span>
         </a>
-        <nav
-          className="hidden items-center gap-1 lg:flex"
-          aria-label="Navegação principal"
-        >
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Navegação principal">
           {links.map((l) => (
             <a
               key={l.href}
@@ -276,10 +267,7 @@ function Header() {
       <div
         className={`lg:hidden ${open ? "block" : "hidden"} border-t border-border bg-background/95 backdrop-blur-xl`}
       >
-        <nav
-          className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4"
-          aria-label="Menu móvel"
-        >
+        <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4" aria-label="Menu móvel">
           {links.map((l) => (
             <a
               key={l.href}
@@ -349,7 +337,8 @@ function Hero() {
           <span className="text-gradient-brand">converta</span>.
         </h1>
         <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg">
-          Do primeiro anúncio ao paciente na cadeira: mapeamos onde sua clínica está perdendo oportunidades e estruturamos o caminho que transforma procura em agendamento.
+          Do primeiro anúncio ao paciente na cadeira: mapeamos onde sua clínica está perdendo
+          oportunidades e estruturamos o caminho que transforma procura em agendamento.
         </p>
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
@@ -361,7 +350,8 @@ function Hero() {
         </div>
 
         <p className="mt-5 max-w-xl text-sm text-[color:var(--color-text-dim)]">
-          Análise consultiva, sem promessas de faturamento e sem venda de pacote. Recomendação baseada no cenário real da sua operação.
+          Análise consultiva, sem promessas de faturamento e sem venda de pacote. Recomendação
+          baseada no cenário real da sua operação.
         </p>
       </div>
 
@@ -476,9 +466,7 @@ function Problems() {
             <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-brand">
               <it.icon className="h-5 w-5" strokeWidth={1.6} />
             </span>
-            <h3 className="relative mt-6 text-lg font-semibold text-foreground">
-              {it.title}
-            </h3>
+            <h3 className="relative mt-6 text-lg font-semibold text-foreground">{it.title}</h3>
             <p className="relative mt-2 text-sm leading-relaxed text-[color:var(--color-text-muted-2)]">
               {it.desc}
             </p>
@@ -487,8 +475,8 @@ function Problems() {
       </div>
       <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[color:var(--color-border-brand)] bg-card/50 p-5 text-center">
         <p className="text-sm font-medium text-foreground md:text-base">
-          Mais contatos não resolvem uma jornada{" "}
-          <span className="text-brand">quebrada</span>. Aumentam o desperdício.
+          Mais contatos não resolvem uma jornada <span className="text-brand">quebrada</span>.
+          Aumentam o desperdício.
         </p>
       </div>
     </Section>
@@ -519,18 +507,17 @@ function DiagnosticSplit() {
         <div>
           <EyebrowTag>Antes de escalar investimento</EyebrowTag>
           <h2 className="mt-5 text-balance text-3xl font-semibold leading-[1.1] text-foreground md:text-4xl lg:text-5xl">
-            Anunciar mais sem enxergar o{" "}
-            <span className="text-brand">gargalo</span> é acelerar o prejuízo.
+            Anunciar mais sem enxergar o <span className="text-brand">gargalo</span> é acelerar o
+            prejuízo.
           </h2>
           <p className="mt-5 text-[color:var(--color-text-muted-2)]">
-            Investir em mídia sem diagnóstico é como abrir mais horários numa agenda que ninguém consegue preencher. Antes de amplificar, é preciso mapear cada etapa e identificar onde a operação está perdendo eficiência.
+            Investir em mídia sem diagnóstico é como abrir mais horários numa agenda que ninguém
+            consegue preencher. Antes de amplificar, é preciso mapear cada etapa e identificar onde
+            a operação está perdendo eficiência.
           </p>
           <ul className="mt-7 space-y-3">
             {points.map((p) => (
-              <li
-                key={p}
-                className="flex items-start gap-3 text-sm text-foreground md:text-[15px]"
-              >
+              <li key={p} className="flex items-start gap-3 text-sm text-foreground md:text-[15px]">
                 <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border border-[color:var(--color-border-brand)] bg-brand/10 text-brand">
                   <CheckCircle2 className="h-3 w-3" />
                 </span>
@@ -610,9 +597,7 @@ function DiagnosticSplit() {
                   key={s.k}
                   className="rounded-xl border border-border bg-background/40 p-3 text-center"
                 >
-                  <p className="font-display text-xl font-semibold text-foreground">
-                    {s.v}
-                  </p>
+                  <p className="font-display text-xl font-semibold text-foreground">{s.v}</p>
                   <p className="text-[10px] uppercase tracking-widest text-[color:var(--color-text-dim)]">
                     {s.k}
                   </p>
@@ -631,12 +616,36 @@ function DiagnosticSplit() {
 // ============================================================
 function Method() {
   const steps = [
-    { icon: Search, title: "Diagnosticar", desc: "Entender o negócio, o mercado, a oferta e a jornada antes de qualquer campanha." },
-    { icon: Megaphone, title: "Atrair", desc: "Google Ads, Meta Ads e conteúdo desenhados para gerar procura qualificada." },
-    { icon: MousePointerClick, title: "Captar", desc: "Landing pages, formulários e canais que transformam interesse em contato." },
-    { icon: Filter, title: "Qualificar", desc: "Perguntas certas, CRM e classificação para priorizar quem realmente compra." },
-    { icon: Handshake, title: "Converter", desc: "Scripts, follow-up e recepção alinhados para levar o paciente até a agenda." },
-    { icon: LineChart, title: "Otimizar", desc: "Indicadores, testes e ajustes contínuos para melhorar mês após mês." },
+    {
+      icon: Search,
+      title: "Diagnosticar",
+      desc: "Entender o negócio, o mercado, a oferta e a jornada antes de qualquer campanha.",
+    },
+    {
+      icon: Megaphone,
+      title: "Atrair",
+      desc: "Google Ads, Meta Ads e conteúdo desenhados para gerar procura qualificada.",
+    },
+    {
+      icon: MousePointerClick,
+      title: "Captar",
+      desc: "Landing pages, formulários e canais que transformam interesse em contato.",
+    },
+    {
+      icon: Filter,
+      title: "Qualificar",
+      desc: "Perguntas certas, CRM e classificação para priorizar quem realmente compra.",
+    },
+    {
+      icon: Handshake,
+      title: "Converter",
+      desc: "Scripts, follow-up e recepção alinhados para levar o paciente até a agenda.",
+    },
+    {
+      icon: LineChart,
+      title: "Otimizar",
+      desc: "Indicadores, testes e ajustes contínuos para melhorar mês após mês.",
+    },
   ];
   return (
     <Section id="metodo">
@@ -697,9 +706,7 @@ function Method() {
               </span>
             </span>
             <div>
-              <h3 className="font-display text-base font-semibold text-foreground">
-                {s.title}
-              </h3>
+              <h3 className="font-display text-base font-semibold text-foreground">{s.title}</h3>
               <p className="mt-1 text-sm text-[color:var(--color-text-muted-2)]">{s.desc}</p>
             </div>
           </li>
@@ -707,7 +714,8 @@ function Method() {
       </ol>
 
       <p className="mx-auto mt-12 max-w-xl text-center text-sm italic text-[color:var(--color-text-dim)]">
-        Nenhuma clínica é igual — e nenhum plano deveria ser. A ordem e a intensidade de cada etapa vêm do diagnóstico, nunca de um pacote pronto.
+        Nenhuma clínica é igual — e nenhum plano deveria ser. A ordem e a intensidade de cada etapa
+        vêm do diagnóstico, nunca de um pacote pronto.
       </p>
     </Section>
   );
@@ -796,9 +804,7 @@ function BentoCard({
           <Icon className="h-4 w-4" strokeWidth={1.6} />
         </span>
       </div>
-      <h3 className="mt-6 text-xl font-semibold text-foreground md:text-2xl">
-        {title}
-      </h3>
+      <h3 className="mt-6 text-xl font-semibold text-foreground md:text-2xl">{title}</h3>
       <p className="mt-3 max-w-md text-sm leading-relaxed text-[color:var(--color-text-muted-2)]">
         {desc}
       </p>
@@ -831,7 +837,11 @@ function BentoCard({
 function AdsVisual() {
   const bars = [22, 38, 30, 55, 48, 70, 62, 84];
   return (
-    <div className="mt-2 flex h-32 items-end gap-2" role="img" aria-label="Gráfico de crescimento de campanhas de aquisição">
+    <div
+      className="mt-2 flex h-32 items-end gap-2"
+      role="img"
+      aria-label="Gráfico de crescimento de campanhas de aquisição"
+    >
       {bars.map((h, i) => (
         <div key={i} className="flex-1">
           <div
@@ -842,8 +852,7 @@ function AdsVisual() {
                 i === bars.length - 1
                   ? "linear-gradient(180deg, #ff7849, #ff5a1f)"
                   : "linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))",
-              boxShadow:
-                i === bars.length - 1 ? "0 0 24px rgba(255,92,31,0.55)" : "none",
+              boxShadow: i === bars.length - 1 ? "0 0 24px rgba(255,92,31,0.55)" : "none",
             }}
           />
         </div>
@@ -854,7 +863,13 @@ function AdsVisual() {
 
 function GrowthVisual() {
   return (
-    <svg viewBox="0 0 400 110" className="mt-2 h-24 w-full" fill="none" role="img" aria-label="Curva de crescimento estruturado com previsibilidade">
+    <svg
+      viewBox="0 0 400 110"
+      className="mt-2 h-24 w-full"
+      fill="none"
+      role="img"
+      aria-label="Curva de crescimento estruturado com previsibilidade"
+    >
       <title>Crescimento estruturado ao longo do tempo</title>
       <defs>
         <linearGradient id="lg" x1="0" x2="0" y1="0" y2="1">
@@ -990,7 +1005,8 @@ function Plans() {
         ))}
       </div>
       <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-[color:var(--color-text-dim)]">
-        O plano ideal só é definido depois de entender o cenário atual, a estrutura e a capacidade real de atendimento da clínica.
+        O plano ideal só é definido depois de entender o cenário atual, a estrutura e a capacidade
+        real de atendimento da clínica.
       </p>
     </Section>
   );
@@ -1170,8 +1186,7 @@ function About() {
               aria-hidden
               className="absolute -right-20 top-1/3 h-64 w-64 rounded-full opacity-70 blur-3xl"
               style={{
-                background:
-                  "radial-gradient(circle, rgba(255,92,31,0.55), transparent 65%)",
+                background: "radial-gradient(circle, rgba(255,92,31,0.55), transparent 65%)",
               }}
             />
             <div className="absolute inset-x-0 bottom-0 flex items-end p-7 text-foreground">
@@ -1179,9 +1194,7 @@ function About() {
                 <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-brand">
                   AVEX
                 </p>
-                <p className="mt-1 font-display text-2xl font-semibold">
-                  Wanderson Paixão
-                </p>
+                <p className="mt-1 font-display text-2xl font-semibold">Wanderson Paixão</p>
                 <p className="mt-1 text-xs text-[color:var(--color-text-muted-2)]">
                   Estratégia · Marketing · Crescimento
                 </p>
@@ -1197,7 +1210,9 @@ function About() {
             <span className="text-brand">ferramenta</span>."
           </h2>
           <p className="mt-6 text-[color:var(--color-text-muted-2)] md:text-lg">
-            Tráfego pago não é produto de prateleira. Analiso o negócio, entendo a operação, encontro o gargalo real e recomendo o caminho — que pode ser anúncio, atendimento, funil, página, processo ou uma combinação inteligente disso tudo.
+            Tráfego pago não é produto de prateleira. Analiso o negócio, entendo a operação,
+            encontro o gargalo real e recomendo o caminho — que pode ser anúncio, atendimento,
+            funil, página, processo ou uma combinação inteligente disso tudo.
           </p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {bullets.map((b) => (
@@ -1231,7 +1246,9 @@ function DiagnosticForm() {
     try {
       const raw = localStorage.getItem(FORM_STORAGE_KEY);
       if (raw) setSavedStep1(JSON.parse(raw));
-    } catch {}
+    } catch {
+      // Ignore unavailable or malformed local storage data.
+    }
   }, []);
 
   function validateStep1(form: HTMLFormElement) {
@@ -1253,7 +1270,11 @@ function DiagnosticForm() {
     if (step === 1) {
       if (validateStep1(form)) {
         const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
-        try { localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(data)); } catch {}
+        try {
+          localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(data));
+        } catch {
+          // Continue when local storage is unavailable.
+        }
         setStep(2);
       }
       return;
@@ -1272,7 +1293,11 @@ function DiagnosticForm() {
         await new Promise((r) => setTimeout(r, 700));
       }
       setStatus("ok");
-      try { localStorage.removeItem(FORM_STORAGE_KEY); } catch {}
+      try {
+        localStorage.removeItem(FORM_STORAGE_KEY);
+      } catch {
+        // Submission succeeded even if local storage cleanup is unavailable.
+      }
     } catch {
       setStatus("error");
     }
@@ -1297,7 +1322,8 @@ function DiagnosticForm() {
             Diagnóstico recebido.
           </h2>
           <p className="mt-4 text-[color:var(--color-text-muted-2)]">
-            Vou analisar seu cenário com atenção e retorno em até 3 dias úteis com uma leitura clara do que está travando sua captação — e o caminho recomendado.
+            Vou analisar seu cenário com atenção e retorno em até 3 dias úteis com uma leitura clara
+            do que está travando sua captação — e o caminho recomendado.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <PrimaryButton href={waLink}>Adiantar contato pelo WhatsApp</PrimaryButton>
@@ -1323,19 +1349,18 @@ function DiagnosticForm() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 -z-10 mx-auto -mt-20 h-[400px] max-w-4xl opacity-70 blur-3xl"
         style={{
-          background:
-            "radial-gradient(ellipse at center, rgba(255,92,31,0.35), transparent 65%)",
+          background: "radial-gradient(ellipse at center, rgba(255,92,31,0.35), transparent 65%)",
         }}
       />
       <div className="grid gap-8 lg:grid-cols-[0.95fr_1.1fr] lg:items-start">
         <div>
           <EyebrowTag>Ponto de partida gratuito</EyebrowTag>
           <h2 className="mt-5 text-balance font-display text-3xl font-semibold leading-[1.1] md:text-4xl lg:text-5xl">
-            Diagnóstico Estratégico de{" "}
-            <span className="text-brand">Captação e Conversão</span>
+            Diagnóstico Estratégico de <span className="text-brand">Captação e Conversão</span>
           </h2>
           <p className="mt-5 text-[color:var(--color-text-muted-2)] md:text-lg">
-            Uma análise honesta do que está impedindo sua clínica de gerar, organizar e converter mais oportunidades — sem compromisso de contratação.
+            Uma análise honesta do que está impedindo sua clínica de gerar, organizar e converter
+            mais oportunidades — sem compromisso de contratação.
           </p>
           <ul className="mt-8 space-y-3">
             {benefits.map((b) => (
@@ -1386,10 +1411,32 @@ function DiagnosticForm() {
           <form onSubmit={handleSubmit} noValidate>
             {step === 1 && (
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Nome" name="nome" error={errors.nome} required defaultValue={savedStep1.nome} />
-                <Field label="Clínica ou negócio" name="clinica" error={errors.clinica} required defaultValue={savedStep1.clinica} />
-                <Field label="Especialidade" name="especialidade" defaultValue={savedStep1.especialidade} />
-                <Field label="Cidade" name="cidade" error={errors.cidade} required defaultValue={savedStep1.cidade} />
+                <Field
+                  label="Nome"
+                  name="nome"
+                  error={errors.nome}
+                  required
+                  defaultValue={savedStep1.nome}
+                />
+                <Field
+                  label="Clínica ou negócio"
+                  name="clinica"
+                  error={errors.clinica}
+                  required
+                  defaultValue={savedStep1.clinica}
+                />
+                <Field
+                  label="Especialidade"
+                  name="especialidade"
+                  defaultValue={savedStep1.especialidade}
+                />
+                <Field
+                  label="Cidade"
+                  name="cidade"
+                  error={errors.cidade}
+                  required
+                  defaultValue={savedStep1.cidade}
+                />
                 <Field
                   label="WhatsApp"
                   name="whatsapp"
@@ -1399,7 +1446,14 @@ function DiagnosticForm() {
                   required
                   defaultValue={savedStep1.whatsapp}
                 />
-                <Field label="E-mail" name="email" type="email" error={errors.email} required defaultValue={savedStep1.email} />
+                <Field
+                  label="E-mail"
+                  name="email"
+                  type="email"
+                  error={errors.email}
+                  required
+                  defaultValue={savedStep1.email}
+                />
               </div>
             )}
             {step === 2 && (
@@ -1449,7 +1503,8 @@ function DiagnosticForm() {
                     className="mt-1 h-4 w-4 accent-[color:var(--color-brand)]"
                   />
                   <span className="text-[color:var(--color-text-muted-2)]">
-                    Autorizo o uso destas informações apenas para análise e contato comercial, conforme a política de privacidade.
+                    Autorizo o uso destas informações apenas para análise e contato comercial,
+                    conforme a política de privacidade.
                   </span>
                 </label>
               </div>
@@ -1516,7 +1571,13 @@ function Field({
     <label className="block text-xs font-medium uppercase tracking-widest text-[color:var(--color-text-muted-2)]">
       {label} {required && <span className="text-brand">*</span>}
       {as === "textarea" ? (
-        <textarea name={name} placeholder={placeholder} rows={3} className={cls} defaultValue={defaultValue} />
+        <textarea
+          name={name}
+          placeholder={placeholder}
+          rows={3}
+          className={cls}
+          defaultValue={defaultValue}
+        />
       ) : (
         <input
           type={type}
@@ -1532,15 +1593,7 @@ function Field({
   );
 }
 
-function Select({
-  label,
-  name,
-  options,
-}: {
-  label: string;
-  name: string;
-  options: string[];
-}) {
+function Select({ label, name, options }: { label: string; name: string; options: string[] }) {
   return (
     <label className="block text-xs font-medium uppercase tracking-widest text-[color:var(--color-text-muted-2)]">
       {label}
@@ -1653,8 +1706,7 @@ function FinalCTA() {
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-80 blur-[100px] animate-glow-pulse"
         style={{
-          background:
-            "radial-gradient(ellipse at center, rgba(255,92,31,0.45), transparent 65%)",
+          background: "radial-gradient(ellipse at center, rgba(255,92,31,0.45), transparent 65%)",
         }}
       />
       <div className="mx-auto max-w-3xl text-center">
@@ -1664,7 +1716,8 @@ function FinalCTA() {
           <span className="text-gradient-brand">perdendo pacientes</span>.
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-pretty text-base text-[color:var(--color-text-muted-2)] md:text-lg">
-          Uma análise honesta mostra em minutos se o problema está na captação, na mensagem, na página, no atendimento — ou na falta de acompanhamento.
+          Uma análise honesta mostra em minutos se o problema está na captação, na mensagem, na
+          página, no atendimento — ou na falta de acompanhamento.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico gratuito</PrimaryButton>
@@ -1717,11 +1770,10 @@ function Footer() {
             </div>
           </div>
           <p className="mt-5 max-w-sm text-sm text-[color:var(--color-text-muted-2)]">
-            Consultoria de captação, jornada comercial e melhoria contínua para clínicas, consultórios e profissionais da saúde.
+            Consultoria de captação, jornada comercial e melhoria contínua para clínicas,
+            consultórios e profissionais da saúde.
           </p>
-          <p className="mt-4 text-xs text-[color:var(--color-text-dim)]">
-            {CONFIG.cidade}
-          </p>
+          <p className="mt-4 text-xs text-[color:var(--color-text-dim)]">{CONFIG.cidade}</p>
         </div>
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
@@ -1739,10 +1791,7 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a
-                href={`mailto:${CONFIG.email}`}
-                className="transition hover:text-brand"
-              >
+              <a href={`mailto:${CONFIG.email}`} className="transition hover:text-brand">
                 {CONFIG.email}
               </a>
             </li>
@@ -1784,12 +1833,11 @@ function Footer() {
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-6 md:flex-row md:items-center md:justify-between md:px-8">
           <p className="text-xs text-[color:var(--color-text-dim)]">
-            © {new Date().getFullYear()} AVEX · Wanderson Paixão. Todos os direitos
-            reservados.
+            © {new Date().getFullYear()} AVEX · Wanderson Paixão. Todos os direitos reservados.
           </p>
           <p className="max-w-xl text-xs text-[color:var(--color-text-dim)]">
-            Resultados dependem de mercado, investimento, oferta, atendimento e
-            capacidade operacional. Nenhum resultado é garantido.
+            Resultados dependem de mercado, investimento, oferta, atendimento e capacidade
+            operacional. Nenhum resultado é garantido.
           </p>
         </div>
       </div>
@@ -1801,13 +1849,23 @@ function Footer() {
 // WHATSAPP FLOAT (mobile)
 // ============================================================
 function WhatsAppFloat() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <a
       href={waLink}
       target="_blank"
       rel="noreferrer"
       aria-label="Falar no WhatsApp"
-      className="btn-brand fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold shadow-2xl transition md:hidden"
+      className={`btn-brand fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold shadow-2xl transition md:hidden ${
+        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
+      }`}
     >
       <MessageCircle className="h-5 w-5" />
       WhatsApp
@@ -1843,4 +1901,3 @@ function LandingPage() {
     </div>
   );
 }
-
