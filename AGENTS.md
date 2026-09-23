@@ -4,13 +4,19 @@ Project notes for AI coding agents working in this repository.
 
 ## Stack
 
-- TanStack Start + TanStack Router + TanStack Query
+- TanStack Start in SPA mode (no server bundle, prerenders HTML at build time)
+- TanStack Router (file-based routing)
+- TanStack Query
 - React 19, TypeScript
 - Vite
 - Tailwind CSS 4 (`@tailwindcss/vite`)
 - shadcn/ui (new-york style, lucide icons)
 - ESLint + Prettier
-- Nitro server (target: netlify)
+
+## Deployment target
+
+- Hostinger (or any static host). Run `bun run build` then upload `dist/`
+  to `public_html` (or equivalent) on the Hostinger panel.
 
 ## Conventions
 
