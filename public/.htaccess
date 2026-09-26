@@ -1,7 +1,7 @@
 # Hostinger runs Apache, so a SPA needs this to send every unknown path
 # back to index.html — except for real files and folders that exist on disk.
-# The TanStack Start landing page only has the `/` route, but we keep this
-# defensive so future client-side routes resolve on refresh.
+# The TanStack Start app includes client-side routes such as `/diagnostico`;
+# send unknown paths to the SPA shell so routes resolve on refresh.
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /

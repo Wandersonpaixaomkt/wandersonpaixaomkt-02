@@ -199,32 +199,22 @@ function SecondaryButton({
 // ============================================================
 // HEADER
 // ============================================================
-function Header() {
+export function Header() {
   const [open, setOpen] = useState(false);
   const links = [
-    { href: "#problemas", label: "Problemas" },
-    { href: "#metodo", label: "Método" },
-    { href: "#solucoes", label: "Soluções" },
-    { href: "#diagnostico", label: "Diagnóstico" },
-    { href: "#sobre", label: "Sobre" },
-    { href: "#faq", label: "FAQ" },
+    { href: "/#problemas", label: "Problemas" },
+    { href: "/#metodo", label: "Método" },
+    { href: "/#solucoes", label: "Soluções" },
+    { href: "/diagnostico", label: "Diagnóstico" },
+    { href: "/diagnostico#processo", label: "Processo" },
+    { href: "/#sobre", label: "Sobre" },
+    { href: "/#faq", label: "FAQ" },
   ];
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-4 px-5 md:px-8">
-        <a href="#top" className="flex items-center gap-2.5">
-          <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-lg border border-border bg-card">
-            <span className="absolute inset-0 bg-gradient-to-br from-brand/30 via-transparent to-transparent" />
-            <span className="relative font-display text-base font-bold text-foreground">A</span>
-          </span>
-          <span className="flex min-w-0 flex-col leading-tight">
-            <span className="font-display text-[13px] font-semibold tracking-widest text-foreground">
-              AVEX
-            </span>
-            <span className="truncate text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-text-dim)]">
-              Wanderson Paixão
-            </span>
-          </span>
+        <a href="/" className="flex items-center">
+          <img src="/logo-avex-site.png" alt="AVEX · Wanderson Paixão" className="h-10 w-auto" />
         </a>
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Navegação principal">
           {links.map((l) => (
@@ -247,7 +237,7 @@ function Header() {
             WhatsApp
           </a>
           <a
-            href="#diagnostico"
+            href="/#diagnostico"
             className="btn-brand inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[13px] font-semibold hover:[&]:btn-brand-hover"
           >
             Solicitar diagnóstico
@@ -288,7 +278,7 @@ function Header() {
               Falar no WhatsApp
             </a>
             <a
-              href="#diagnostico"
+              href="/#diagnostico"
               onClick={() => setOpen(false)}
               className="btn-brand rounded-lg px-4 py-3 text-center text-sm font-semibold"
             >
@@ -342,7 +332,7 @@ function Hero() {
         </p>
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <PrimaryButton href="#diagnostico">Quero meu diagnóstico gratuito</PrimaryButton>
+          <PrimaryButton href="/#diagnostico">Quero meu diagnóstico gratuito</PrimaryButton>
           <SecondaryButton href={waLink} external>
             <MessageCircle className="h-4 w-4" />
             Conversar no WhatsApp
@@ -355,28 +345,6 @@ function Hero() {
         </p>
       </div>
 
-      {/* Arco luminoso */}
-      <div
-        aria-hidden
-        className="pointer-events-none relative mx-auto mt-16 h-[220px] w-full max-w-5xl md:mt-24"
-      >
-        <div className="absolute inset-x-0 top-0 mx-auto h-[220px] w-full overflow-hidden">
-          <div
-            className="absolute left-1/2 top-0 h-[440px] w-[1200px] -translate-x-1/2 rounded-full border border-[color:var(--color-border-brand)]"
-            style={{
-              boxShadow:
-                "0 0 80px 10px rgba(255, 92, 31, 0.35), inset 0 0 60px rgba(255, 92, 31, 0.15)",
-            }}
-          />
-          <div
-            className="absolute left-1/2 top-[-10px] h-[440px] w-[1400px] -translate-x-1/2 rounded-full opacity-70"
-            style={{
-              background:
-                "radial-gradient(ellipse at center top, rgba(255,120,73,0.35), transparent 55%)",
-            }}
-          />
-        </div>
-      </div>
     </section>
   );
 }
@@ -486,7 +454,7 @@ function Problems() {
 // ============================================================
 // DIAGNÓSTICO — split com painel visual
 // ============================================================
-function DiagnosticSplit() {
+export function DiagnosticSplit() {
   const points = [
     "Posicionamento, oferta e diferenciais reais",
     "Presença digital: Google, Instagram e site",
@@ -1082,7 +1050,7 @@ function ForWho() {
 // ============================================================
 // PROCESSO
 // ============================================================
-function Process() {
+export function Process() {
   const steps = [
     "Preenchimento do diagnóstico",
     "Análise inicial do cenário",
@@ -1095,7 +1063,7 @@ function Process() {
     "Otimização contínua",
   ];
   return (
-    <Section className="bg-surface/30">
+    <Section id="processo" className="bg-surface/30">
       <SectionHead
         eyebrow="Como trabalhamos"
         title="Um processo claro — do primeiro contato à otimização mês a mês."
@@ -1695,7 +1663,7 @@ function FAQ() {
 // ============================================================
 // CTA FINAL
 // ============================================================
-function FinalCTA() {
+export function FinalCTA() {
   return (
     <section className="relative overflow-hidden px-5 py-24 md:px-8 md:py-36">
       <div
@@ -1720,7 +1688,7 @@ function FinalCTA() {
           página, no atendimento — ou na falta de acompanhamento.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
-          <PrimaryButton href="#diagnostico">Solicitar meu diagnóstico gratuito</PrimaryButton>
+          <PrimaryButton href="/#diagnostico">Solicitar meu diagnóstico gratuito</PrimaryButton>
           <SecondaryButton href={waLink} external>
             <MessageCircle className="h-4 w-4" />
             Falar direto com Wanderson
@@ -1750,25 +1718,12 @@ function FinalCTA() {
 // ============================================================
 // FOOTER
 // ============================================================
-function Footer() {
+export function Footer() {
   return (
     <footer className="border-t border-border bg-background">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-4 md:px-8">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2.5">
-            <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-lg border border-border bg-card">
-              <span className="absolute inset-0 bg-gradient-to-br from-brand/40 via-transparent to-transparent" />
-              <span className="relative font-display text-base font-bold">A</span>
-            </span>
-            <div className="leading-tight">
-              <p className="font-display text-sm font-semibold tracking-widest text-foreground">
-                AVEX
-              </p>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-text-dim)]">
-                Wanderson Paixão
-              </p>
-            </div>
-          </div>
+          <img src="/logo-avex-site.png" alt="AVEX · Wanderson Paixão" className="h-12 w-auto" />
           <p className="mt-5 max-w-sm text-sm text-[color:var(--color-text-muted-2)]">
             Consultoria de captação, jornada comercial e melhoria contínua para clínicas,
             consultórios e profissionais da saúde.
@@ -1823,7 +1778,7 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a href="#diagnostico" className="transition hover:text-brand">
+              <a href="/#diagnostico" className="transition hover:text-brand">
                 Solicitar diagnóstico
               </a>
             </li>
@@ -1848,7 +1803,7 @@ function Footer() {
 // ============================================================
 // WHATSAPP FLOAT (mobile)
 // ============================================================
-function WhatsAppFloat() {
+export function WhatsAppFloat() {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 400);
@@ -1884,17 +1839,12 @@ function LandingPage() {
         <Hero />
         <Authority />
         <Problems />
-        <DiagnosticSplit />
         <Method />
         <Solutions />
         <Plans />
-        <ForWho />
-        <Process />
-        <Proof />
         <About />
         <DiagnosticForm />
         <FAQ />
-        <FinalCTA />
       </main>
       <Footer />
       <WhatsAppFloat />
