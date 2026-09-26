@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  ArrowUpRight,
   MessageCircle,
   Megaphone,
   MousePointerClick,
@@ -22,6 +21,7 @@ import {
   Layers,
   Compass,
   Radar,
+  Target,
 } from "lucide-react";
 
 // ============================================================
@@ -31,7 +31,7 @@ const CONFIG = {
   // TODO: substitua pelo número real — formato DDI+DDD+número, ex: 5594999999999
   whatsapp: "5599999999999",
   whatsappMessage:
-    "Olá, Wanderson. Quero entender onde minha clínica está perdendo oportunidades. Podemos conversar?",
+    "Olá, Wanderson. Quero conversar sobre os anúncios e o atendimento da minha clínica.",
   email: "contato@avex.com.br",
   instagram: "https://instagram.com/wandersonpaixaomkt",
   cidade: "Atendimento online em todo o Brasil",
@@ -53,26 +53,23 @@ const jsonLd = {
   name: "Wanderson Paixão",
   url: CONFIG.siteUrl,
   sameAs: [CONFIG.instagram, `https://wa.me/${CONFIG.whatsapp}`],
-  jobTitle: "Especialista em Captação e Conversão para Clínicas",
-  description:
-    "Consultoria de captação, jornada comercial e melhoria contínua para clínicas, consultórios e profissionais da saúde.",
+  jobTitle: "Consultor de anúncios e atendimento para clínicas",
+  description: "Anúncios e atendimento para clínicas e consultórios.",
   worksFor: { "@type": "Organization", name: "AVEX" },
 };
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AVEX · Diagnóstico de Captação e Conversão para Clínicas" },
+      { title: "AVEX · Anúncios e atendimento para clínicas" },
       {
         name: "description",
-        content:
-          "Descubra onde sua clínica perde pacientes entre o anúncio e a agenda. Diagnóstico estratégico de posicionamento, mídia, WhatsApp, recepção e conversão — por Wanderson Paixão.",
+        content: "Análise de anúncios, páginas e atendimento para clínicas, por Wanderson Paixão.",
       },
       { property: "og:title", content: "AVEX · Diagnóstico para Clínicas" },
       {
         property: "og:description",
-        content:
-          "Mais contatos não resolvem uma jornada quebrada. Analisamos cada etapa entre o anúncio e o agendamento.",
+        content: "Veja onde os contatos param antes de chegar ao agendamento.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: CONFIG.siteUrl },
@@ -83,7 +80,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:title", content: "AVEX · Diagnóstico para Clínicas" },
       {
         name: "twitter:description",
-        content: "Descubra onde sua clínica perde pacientes entre o anúncio e a agenda.",
+        content: "Anúncios e atendimento para clínicas, por Wanderson Paixão.",
       },
       { name: "twitter:image", content: CONFIG.ogImage },
       { name: "theme-color", content: "#060606" },
@@ -123,7 +120,7 @@ function SectionHead({
   align?: "center" | "left";
 }) {
   return (
-    <div className={`mx-auto mb-14 max-w-3xl ${align === "center" ? "text-center" : "text-left"}`}>
+    <div className={`mx-auto mb-12 max-w-3xl ${align === "center" ? "text-center" : "text-left"}`}>
       {eyebrow && <EyebrowTag>{eyebrow}</EyebrowTag>}
       <h2 className="mt-5 text-balance text-3xl font-semibold leading-[1.1] text-foreground md:text-4xl lg:text-5xl">
         {title}
@@ -147,7 +144,7 @@ function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={`scroll-mt-24 px-5 py-20 md:px-8 md:py-28 lg:py-36 ${className}`}>
+    <section id={id} className={`scroll-mt-24 px-5 py-16 md:px-8 md:py-24 lg:py-28 ${className}`}>
       <div className="mx-auto max-w-6xl">{children}</div>
     </section>
   );
@@ -156,19 +153,23 @@ function Section({
 function PrimaryButton({
   children,
   href,
+  external,
   className = "",
 }: {
   children: React.ReactNode;
   href: string;
+  external?: boolean;
   className?: string;
 }) {
   return (
     <a
       href={href}
-      className={`btn-brand inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold hover:[&]:btn-brand-hover md:text-[15px] ${className}`}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+      className={`btn-brand group/cta inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold hover:btn-brand-hover md:text-[15px] ${className}`}
     >
       {children}
-      <ArrowRight className="h-4 w-4" />
+      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
     </a>
   );
 }
@@ -189,7 +190,7 @@ function SecondaryButton({
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
-      className={`inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card/40 px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[color:var(--color-border-brand)] hover:bg-card md:text-[15px] ${className}`}
+      className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card/40 px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[color:var(--color-border-brand)] hover:bg-card md:text-[15px] ${className}`}
     >
       {children}
     </a>
@@ -201,6 +202,28 @@ function SecondaryButton({
 // ============================================================
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Fecha o menu com Esc e trava o scroll da página enquanto ele está aberto
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   const links = [
     { href: "/#problemas", label: "Problemas" },
     { href: "/#metodo", label: "Método" },
@@ -211,12 +234,24 @@ export function Header() {
     { href: "/#faq", label: "FAQ" },
   ];
   return (
-    <header className="sticky top-0 z-40 border-b border-border/80 bg-background/70 backdrop-blur-xl">
+    <header
+      className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 ${
+        scrolled || open
+          ? "border-border/80 bg-background/85 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.8)]"
+          : "border-transparent bg-background/40"
+      }`}
+    >
       <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-4 px-5 md:px-8">
-        <a href="/" className="flex items-center">
-          <img src="/logo-avex-site.png" alt="AVEX · Wanderson Paixão" className="h-10 w-auto" />
+        <a href="/" className="flex shrink-0 items-center" aria-label="AVEX · página inicial">
+          <img
+            src="/logo-avex-site.png"
+            alt="AVEX · Wanderson Paixão"
+            className="h-9 w-auto md:h-10"
+            width={120}
+            height={40}
+          />
         </a>
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Navegação principal">
+        <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Navegação principal">
           {links.map((l) => (
             <a
               key={l.href}
@@ -227,48 +262,55 @@ export function Header() {
             </a>
           ))}
         </nav>
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="flex items-center gap-2">
           <a
             href={waLink}
             target="_blank"
             rel="noreferrer"
-            className="rounded-lg border border-border px-3.5 py-2 text-[13px] font-medium text-foreground transition hover:border-[color:var(--color-border-brand)]"
+              className="hidden items-center gap-1.5 whitespace-nowrap rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3.5 py-2 text-[13px] font-medium text-emerald-300 transition hover:border-emerald-400 hover:bg-emerald-500/20 md:inline-flex"
           >
+            <MessageCircle className="h-3.5 w-3.5" />
             WhatsApp
           </a>
           <a
             href="/#diagnostico"
-            className="btn-brand inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[13px] font-semibold hover:[&]:btn-brand-hover"
+            className="btn-brand hidden items-center gap-1.5 whitespace-nowrap rounded-lg px-4 py-2 text-[13px] font-semibold hover:btn-brand-hover sm:inline-flex"
           >
             Solicitar diagnóstico
             <ArrowRight className="h-3.5 w-3.5" />
           </a>
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            className="grid h-10 w-10 place-items-center rounded-lg border border-border bg-card text-foreground hover:border-[color:var(--color-border-brand)] xl:hidden"
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={open}
+            aria-controls="menu-movel"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
-        <button
-          onClick={() => setOpen((o) => !o)}
-          className="rounded-lg border border-border bg-card p-2 md:hidden"
-          aria-label="Abrir menu"
-          aria-expanded={open}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
       </div>
-      {/* Mobile drawer */}
+      {/* Mobile / tablet drawer */}
       <div
-        className={`lg:hidden ${open ? "block" : "hidden"} border-t border-border bg-background/95 backdrop-blur-xl`}
+        id="menu-movel"
+        className={`xl:hidden ${open ? "block animate-fade-in" : "hidden"} max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-border bg-background/95 backdrop-blur-xl`}
       >
-        <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4" aria-label="Menu móvel">
+        <nav
+          className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4 md:px-8"
+          aria-label="Menu móvel"
+        >
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground hover:bg-card"
+              className="rounded-md px-3 py-3 text-[15px] font-medium text-foreground hover:bg-card"
             >
               {l.label}
             </a>
           ))}
-          <div className="mt-3 grid gap-2 border-t border-border pt-4">
+          <div className="mt-3 grid gap-2 border-t border-border pt-4 sm:grid-cols-2">
             <a
               href={waLink}
               target="_blank"
@@ -298,7 +340,7 @@ function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate overflow-hidden px-5 pb-24 pt-20 md:px-8 md:pb-28 md:pt-28 lg:min-h-[92vh] lg:pb-40"
+      className="relative isolate overflow-hidden px-5 pb-24 pt-20 md:px-8 md:pb-28 md:pt-28 lg:pb-0 lg:pt-28"
     >
       {/* subtle grid */}
       <div
@@ -320,31 +362,50 @@ function Hero() {
         }}
       />
 
-      <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-        <EyebrowTag>Consultoria de captação para clínicas</EyebrowTag>
-        <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-6xl lg:text-[68px]">
-          Você não precisa de mais mensagens. Precisa de uma jornada que{" "}
-          <span className="text-gradient-brand">converta</span>.
-        </h1>
-        <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg">
-          Do primeiro anúncio ao paciente na cadeira: mapeamos onde sua clínica está perdendo
-          oportunidades e estruturamos o caminho que transforma procura em agendamento.
-        </p>
+      <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+          <EyebrowTag>Anúncios e atendimento para clínicas</EyebrowTag>
+          <h1 className="mt-6 max-w-3xl text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-6xl lg:text-[60px]">
+            Onde os contatos param antes de chegar à agenda.
+          </h1>
+          <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg">
+            Reviso anúncios, páginas e atendimento para localizar o que precisa mudar.
+          </p>
 
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <PrimaryButton href="/#diagnostico">Quero meu diagnóstico gratuito</PrimaryButton>
-          <SecondaryButton href={waLink} external>
-            <MessageCircle className="h-4 w-4" />
-            Conversar no WhatsApp
-          </SecondaryButton>
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+            <PrimaryButton href="/#diagnostico">Quero meu diagnóstico gratuito</PrimaryButton>
+            <SecondaryButton
+              href={waLink}
+              external
+              className="border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:border-emerald-400 hover:bg-emerald-500/20"
+            >
+              <MessageCircle className="h-4 w-4" />
+              Conversar no WhatsApp
+            </SecondaryButton>
+          </div>
+
+          <p className="mt-5 max-w-xl text-sm text-[color:var(--color-text-dim)]">
+            Vou olhar os anúncios e o atendimento da clínica. O diagnóstico não obriga você a
+            contratar.
+          </p>
         </div>
 
-        <p className="mt-5 max-w-xl text-sm text-[color:var(--color-text-dim)]">
-          Análise consultiva, sem promessas de faturamento e sem venda de pacote. Recomendação
-          baseada no cenário real da sua operação.
-        </p>
+        <div className="pointer-events-none relative isolate mx-auto h-[360px] w-full max-w-[420px] lg:h-[520px] lg:max-w-none">
+          <div
+            aria-hidden
+            className="absolute bottom-[4%] right-[-2%] z-0 h-[90%] w-[110%] rounded-full opacity-100 blur-[85px] animate-glow-pulse"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, rgba(255,92,31,0.68), rgba(201,56,10,0.28) 45%, transparent 72%)",
+            }}
+          />
+          <img
+            src="/wanderson-hero-cutout.png"
+            alt="Wanderson Paixão"
+            className="absolute bottom-0 left-1/2 z-10 h-full w-auto max-w-none -translate-x-1/2 object-contain object-bottom lg:left-auto lg:right-[-4%] lg:translate-x-0"
+          />
+        </div>
       </div>
-
     </section>
   );
 }
@@ -356,26 +417,21 @@ function Authority() {
   const areas = [
     "Google Ads",
     "Meta Ads",
-    "Landing Pages",
-    "Jornada Comercial",
+    "Páginas de campanha",
+    "Atendimento",
     "CRM",
     "WhatsApp",
-    "Scripts",
-    "Automação",
-    "Melhoria Contínua",
   ];
   return (
     <div className="border-y border-border bg-surface/40">
-      <div className="mx-auto max-w-6xl overflow-hidden px-5 py-10 md:px-8">
-        <p className="mb-6 text-center text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--color-text-dim)]">
-          Áreas de atuação
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+      <div className="mx-auto flex min-h-[76px] max-w-6xl items-center justify-center overflow-hidden px-5 py-5 md:min-h-[84px] md:px-8">
+        <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
           {areas.map((a) => (
             <span
               key={a}
-              className="text-[13px] font-medium uppercase tracking-[0.14em] text-[color:var(--color-text-muted-2)]/80"
+              className="inline-flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.14em] text-[color:var(--color-text-muted-2)]/80"
             >
+              <Target aria-hidden className="h-3.5 w-3.5 shrink-0 text-brand" />
               {a}
             </span>
           ))}
@@ -392,31 +448,31 @@ function Problems() {
   const items = [
     {
       icon: Radar,
-      title: "Contatos que não fecham",
-      desc: "Mensagens chegam, mas o paciente some antes de agendar. Sem visibilidade sobre onde e por que ele desiste.",
+      title: "Contatos que não agendam",
+      desc: "A pessoa chama, mas não marca. Sem acompanhar as conversas, fica difícil saber onde ela parou.",
     },
     {
       icon: Compass,
-      title: "Refém da indicação",
-      desc: "Quando a indicação esfria, a agenda esfria junto. Não há canal previsível de novos pacientes.",
+      title: "Agenda depende de indicações",
+      desc: "Quando as indicações diminuem, faltam outros canais para trazer novos pacientes.",
     },
     {
       icon: Zap,
       title: "Atendimento improvisado",
-      desc: "Cada mensagem é respondida de um jeito. Sem script, sem qualificação e sem quem retome o contato depois.",
+      desc: "Cada pessoa responde de um jeito. Alguns contatos ficam sem retorno e outros não recebem as informações certas.",
     },
     {
       icon: BarChart3,
-      title: "Anúncio no escuro",
-      desc: "A campanha roda, o investimento sai, mas ninguém sabe quantos contatos viraram agendamento — nem quais dão prejuízo.",
+      title: "Campanhas sem acompanhamento",
+      desc: "A campanha está no ar, mas falta registrar quantas pessoas chamaram, agendaram ou compareceram.",
     },
   ];
   return (
     <Section id="problemas">
       <SectionHead
-        eyebrow="Onde o dinheiro vaza"
-        title="O problema quase nunca está só no anúncio."
-        subtitle="Antes de aumentar o investimento, é preciso enxergar em que ponto da jornada a clínica está deixando pacientes na mesa."
+        eyebrow="Onde os contatos param"
+        title="O anúncio pode não ser o problema."
+        subtitle="Antes de investir mais, descubra em que etapa os contatos deixam de avançar até o agendamento."
       />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it) => (
@@ -443,8 +499,7 @@ function Problems() {
       </div>
       <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[color:var(--color-border-brand)] bg-card/50 p-5 text-center">
         <p className="text-sm font-medium text-foreground md:text-base">
-          Mais contatos não resolvem uma jornada <span className="text-brand">quebrada</span>.
-          Aumentam o desperdício.
+          Mais contatos não resolvem falhas no atendimento ou no agendamento.
         </p>
       </div>
     </Section>
@@ -456,32 +511,30 @@ function Problems() {
 // ============================================================
 export function DiagnosticSplit() {
   const points = [
-    "Posicionamento, oferta e diferenciais reais",
-    "Presença digital: Google, Instagram e site",
-    "Campanhas, páginas e rastreamento de conversão",
-    "WhatsApp, recepção e qualificação do contato",
-    "Follow-up, agenda cheia e indicadores da operação",
+    "Serviços, preços e motivos para escolher sua clínica",
+    "Site e perfis que o paciente consulta",
+    "Anúncios e caminho até o primeiro contato",
+    "Quem responde no WhatsApp e o que diz",
+    "Retorno aos contatos e organização da agenda",
   ];
   const journey = [
-    { label: "Posicionamento", value: 82, tone: "ok" },
+    { label: "Serviços", value: 82, tone: "ok" },
     { label: "Anúncios", value: 64, tone: "warn" },
-    { label: "Landing Page", value: 48, tone: "warn" },
+    { label: "Página", value: 48, tone: "warn" },
     { label: "WhatsApp", value: 32, tone: "bad" },
-    { label: "Follow-up", value: 21, tone: "bad" },
+    { label: "Retorno", value: 21, tone: "bad" },
   ] as const;
   return (
     <Section className="bg-surface/30">
       <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
         <div>
-          <EyebrowTag>Antes de escalar investimento</EyebrowTag>
+          <EyebrowTag>Antes de anunciar mais</EyebrowTag>
           <h2 className="mt-5 text-balance text-3xl font-semibold leading-[1.1] text-foreground md:text-4xl lg:text-5xl">
-            Anunciar mais sem enxergar o <span className="text-brand">gargalo</span> é acelerar o
-            prejuízo.
+            Antes de aumentar os anúncios, descubra onde os contatos deixam de avançar.
           </h2>
           <p className="mt-5 text-[color:var(--color-text-muted-2)]">
-            Investir em mídia sem diagnóstico é como abrir mais horários numa agenda que ninguém
-            consegue preencher. Antes de amplificar, é preciso mapear cada etapa e identificar onde
-            a operação está perdendo eficiência.
+            Mais investimento não corrige uma etapa que não funciona. Vamos olhar oferta, anúncios,
+            página, WhatsApp e retorno aos contatos para localizar o problema.
           </p>
           <ul className="mt-7 space-y-3">
             {points.map((p) => (
@@ -494,7 +547,7 @@ export function DiagnosticSplit() {
             ))}
           </ul>
           <div className="mt-8">
-            <PrimaryButton href="/#diagnostico">Mapear meus gargalos</PrimaryButton>
+            <PrimaryButton href="/#diagnostico">Pedir análise da clínica</PrimaryButton>
           </div>
         </div>
 
@@ -511,14 +564,14 @@ export function DiagnosticSplit() {
           <div className="rounded-2xl border border-border bg-card p-6 shadow-2xl shadow-black/40">
             <div className="mb-5 flex items-center justify-between">
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
-                  Painel de diagnóstico
+                <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
+                  Exemplo de análise
                 </p>
                 <p className="mt-1 font-display text-lg font-semibold text-foreground">
-                  Jornada da captação à venda
+                  Do primeiro contato ao agendamento
                 </p>
               </div>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-[color:var(--color-text-muted-2)]">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider text-[color:var(--color-text-muted-2)]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-success)]" />
                 Exemplo ilustrativo
               </span>
@@ -558,15 +611,15 @@ export function DiagnosticSplit() {
             <div className="mt-6 grid grid-cols-3 gap-3">
               {[
                 { k: "Etapas", v: "9" },
-                { k: "Gargalos", v: "3" },
-                { k: "Prioridades", v: "2" },
+                { k: "Pontos de parada", v: "3" },
+                { k: "Ações", v: "2" },
               ].map((s) => (
                 <div
                   key={s.k}
                   className="rounded-xl border border-border bg-background/40 p-3 text-center"
                 >
                   <p className="font-display text-xl font-semibold text-foreground">{s.v}</p>
-                  <p className="text-[10px] uppercase tracking-widest text-[color:var(--color-text-dim)]">
+                  <p className="text-[11px] uppercase tracking-widest text-[color:var(--color-text-dim)]">
                     {s.k}
                   </p>
                 </div>
@@ -586,41 +639,41 @@ function Method() {
   const steps = [
     {
       icon: Search,
-      title: "Diagnosticar",
-      desc: "Entender o negócio, o mercado, a oferta e a jornada antes de qualquer campanha.",
+      title: "Entender",
+      desc: "Entender a clínica, os serviços, o público e como os pacientes chegam hoje.",
     },
     {
       icon: Megaphone,
-      title: "Atrair",
-      desc: "Google Ads, Meta Ads e conteúdo desenhados para gerar procura qualificada.",
+      title: "Anunciar",
+      desc: "Escolher os canais de anúncio de acordo com o público e a região atendida.",
     },
     {
       icon: MousePointerClick,
-      title: "Captar",
-      desc: "Landing pages, formulários e canais que transformam interesse em contato.",
+      title: "Receber contatos",
+      desc: "Organizar páginas e formulários para facilitar o pedido de informação ou agendamento.",
     },
     {
       icon: Filter,
-      title: "Qualificar",
-      desc: "Perguntas certas, CRM e classificação para priorizar quem realmente compra.",
+      title: "Organizar",
+      desc: "Registrar os contatos e entender quais precisam de resposta primeiro.",
     },
     {
       icon: Handshake,
-      title: "Converter",
-      desc: "Scripts, follow-up e recepção alinhados para levar o paciente até a agenda.",
+      title: "Responder",
+      desc: "Combinar respostas e retornos para acompanhar o contato até o agendamento.",
     },
     {
       icon: LineChart,
-      title: "Otimizar",
-      desc: "Indicadores, testes e ajustes contínuos para melhorar mês após mês.",
+      title: "Rever",
+      desc: "Acompanhar os números e ajustar campanhas e atendimento com base no que aconteceu.",
     },
   ];
   return (
     <Section id="metodo">
       <SectionHead
-        eyebrow="Método AVEX"
-        title="Um método construído para clínicas — não para agências."
-        subtitle="Seis etapas que conectam anúncio, atendimento e agenda. A ordem de execução é definida pelo gargalo, não por pacote pronto."
+        eyebrow="Como o trabalho começa"
+        title="Primeiro entendemos a clínica. Depois definimos as ações."
+        subtitle="O plano depende do que encontrarmos entre o anúncio, o atendimento e a agenda."
       />
 
       {/* Desktop horizontal timeline */}
@@ -657,33 +710,34 @@ function Method() {
       </div>
 
       {/* Mobile / tablet vertical */}
-      <ol className="relative grid gap-4 lg:hidden">
+      <div className="relative lg:hidden">
         <div
           aria-hidden
-          className="absolute bottom-3 left-[27px] top-3 w-px bg-gradient-to-b from-transparent via-brand/40 to-transparent sm:left-[27px]"
+          className="absolute bottom-3 left-[48px] top-3 w-px bg-gradient-to-b from-transparent via-brand/40 to-transparent"
         />
-        {steps.map((s, i) => (
-          <li
-            key={s.title}
-            className="relative flex items-start gap-4 rounded-2xl border border-border bg-card p-5"
-          >
-            <span className="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full border border-border bg-background text-brand">
-              <s.icon className="h-5 w-5" strokeWidth={1.6} />
-              <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-brand font-mono text-[10px] font-semibold text-brand-foreground">
-                {i + 1}
+        <ol className="relative grid gap-4">
+          {steps.map((s, i) => (
+            <li
+              key={s.title}
+              className="relative flex items-start gap-4 rounded-2xl border border-border bg-card p-5"
+            >
+              <span className="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full border border-border bg-background text-brand">
+                <s.icon className="h-5 w-5" strokeWidth={1.6} />
+                <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-brand font-mono text-[11px] font-semibold text-brand-foreground">
+                  {i + 1}
+                </span>
               </span>
-            </span>
-            <div>
-              <h3 className="font-display text-base font-semibold text-foreground">{s.title}</h3>
-              <p className="mt-1 text-sm text-[color:var(--color-text-muted-2)]">{s.desc}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
+              <div>
+                <h3 className="font-display text-base font-semibold text-foreground">{s.title}</h3>
+                <p className="mt-1 text-sm text-[color:var(--color-text-muted-2)]">{s.desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
 
       <p className="mx-auto mt-12 max-w-xl text-center text-sm italic text-[color:var(--color-text-dim)]">
-        Nenhuma clínica é igual — e nenhum plano deveria ser. A ordem e a intensidade de cada etapa
-        vêm do diagnóstico, nunca de um pacote pronto.
+        A sequência muda conforme a estrutura da clínica e o que precisa ser corrigido primeiro.
       </p>
     </Section>
   );
@@ -696,46 +750,43 @@ function Solutions() {
   return (
     <Section id="solucoes" className="bg-surface/30">
       <SectionHead
-        eyebrow="Frentes de trabalho"
-        title="Soluções organizadas por resultado — não por serviço."
-        subtitle="Cada bloco resolve uma dor específica. A combinação certa aparece depois do diagnóstico."
+        eyebrow="Do primeiro contato à agenda"
+        title="Quatro partes do caminho até a agenda."
+        subtitle="Anúncios atraem. Atendimento responde. Informação esclarece. Os dados mostram o que ajustar."
       />
-      <div className="grid gap-4 lg:grid-cols-6 lg:grid-rows-2">
+      <div className="grid gap-4 md:grid-cols-2">
         <BentoCard
-          className="lg:col-span-4"
-          eyebrow="Bloco 01 · Aquisição"
+          eyebrow="01 · Anúncios"
           icon={Megaphone}
-          title="Gerar novas oportunidades"
-          desc="Colocar sua clínica na frente de quem já está procurando — e transformar essa procura em contato real."
-          items={["Meta Ads", "Google Ads", "Landing Pages", "Rastreamento"]}
-          visual={<AdsVisual />}
+          title="Atrair novos pacientes"
+          desc="Google e Meta Ads apresentam os serviços da clínica a quem procura atendimento."
+          items={["Google Ads", "Meta Ads", "Páginas de campanha"]}
         />
         <BentoCard
-          className="lg:col-span-2"
-          eyebrow="Bloco 02 · Conversão"
+          eyebrow="02 · Atendimento"
           icon={Filter}
-          title="Transformar contato em agenda"
-          desc="Padronizar o WhatsApp, qualificar contatos e recuperar quem esfriou antes de agendar."
-          items={["Scripts", "CRM", "Follow-up"]}
+          title="Responder e retomar contatos"
+          desc="Organizo as respostas no WhatsApp e retomo contato com quem ainda não marcou."
+          items={["WhatsApp", "Cadastro de contatos", "Retornos"]}
         />
         <BentoCard
-          className="lg:col-span-2"
-          eyebrow="Bloco 03 · Autoridade"
+          eyebrow="03 · Informação"
           icon={Sparkles}
-          title="Posicionar como referência"
-          desc="Comunicação, presença e conteúdo que sustentam preço, filtram público e reduzem objeção."
+          title="Explicar os serviços da clínica"
+          desc="Apresentar os serviços e responder às dúvidas que surgem antes do agendamento."
           items={["Conteúdo", "Design", "Vídeo"]}
-          note="Serviços complementares"
+          note="Conteúdo, design e vídeo são contratados à parte."
         />
         <BentoCard
-          className="lg:col-span-4"
-          eyebrow="Bloco 04 · Escala"
+          eyebrow="04 · Acompanhamento"
           icon={TrendingUp}
-          title="Estruturar o crescimento com previsibilidade"
-          desc="Do funil aos indicadores: transformar a captação em um sistema que cresce sem depender de improviso."
-          items={["Jornada", "Funis", "Automações", "Indicadores", "Assessoria"]}
-          visual={<GrowthVisual />}
+          title="Ver o que está funcionando"
+          desc="Acompanho contatos e agendamentos para decidir o que ajustar nas campanhas e no atendimento."
+          items={["Contatos", "Agendamentos", "Dados", "Ajustes"]}
         />
+      </div>
+      <div className="mt-8 flex justify-center">
+        <PrimaryButton href="/#diagnostico">Pedir análise da clínica</PrimaryButton>
       </div>
     </Section>
   );
@@ -747,8 +798,6 @@ function BentoCard({
   title,
   desc,
   items,
-  className = "",
-  visual,
   note,
 }: {
   eyebrow: string;
@@ -756,16 +805,14 @@ function BentoCard({
   title: string;
   desc: string;
   items: string[];
-  className?: string;
-  visual?: React.ReactNode;
   note?: string;
 }) {
   return (
     <article
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition hover:border-[color:var(--color-border-brand)] ${className}`}
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition hover:border-[color:var(--color-border-brand)]"
     >
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
+        <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
           {eyebrow}
         </span>
         <span className="grid h-10 w-10 place-items-center rounded-lg border border-border bg-background/60 text-brand">
@@ -786,83 +833,12 @@ function BentoCard({
           </li>
         ))}
       </ul>
-      {visual && <div className="mt-6 flex-1">{visual}</div>}
       {note && (
         <p className="mt-6 border-t border-border pt-4 text-[11px] uppercase tracking-widest text-[color:var(--color-text-dim)]">
           {note}
         </p>
       )}
-      <a
-        href="#diagnostico"
-        className="mt-6 inline-flex items-center gap-1 text-[13px] font-semibold text-brand transition group-hover:gap-2"
-      >
-        Aplicar em minha clínica <ArrowUpRight className="h-3.5 w-3.5" />
-      </a>
     </article>
-  );
-}
-
-function AdsVisual() {
-  const bars = [22, 38, 30, 55, 48, 70, 62, 84];
-  return (
-    <div
-      className="mt-2 flex h-32 items-end gap-2"
-      role="img"
-      aria-label="Gráfico de crescimento de campanhas de aquisição"
-    >
-      {bars.map((h, i) => (
-        <div key={i} className="flex-1">
-          <div
-            className="w-full rounded-md"
-            style={{
-              height: `${h}%`,
-              background:
-                i === bars.length - 1
-                  ? "linear-gradient(180deg, #ff7849, #ff5a1f)"
-                  : "linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))",
-              boxShadow: i === bars.length - 1 ? "0 0 24px rgba(255,92,31,0.55)" : "none",
-            }}
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function GrowthVisual() {
-  return (
-    <svg
-      viewBox="0 0 400 110"
-      className="mt-2 h-24 w-full"
-      fill="none"
-      role="img"
-      aria-label="Curva de crescimento estruturado com previsibilidade"
-    >
-      <title>Crescimento estruturado ao longo do tempo</title>
-      <defs>
-        <linearGradient id="lg" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#ff5a1f" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#ff5a1f" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M0 90 L50 78 L100 82 L150 60 L200 65 L250 40 L300 45 L350 22 L400 15 L400 110 L0 110 Z"
-        fill="url(#lg)"
-      />
-      <path
-        d="M0 90 L50 78 L100 82 L150 60 L200 65 L250 40 L300 45 L350 22 L400 15"
-        stroke="#ff5a1f"
-        strokeWidth="2"
-      />
-      {[
-        [50, 78],
-        [150, 60],
-        [250, 40],
-        [350, 22],
-      ].map(([cx, cy]) => (
-        <circle key={cx} cx={cx} cy={cy} r="3" fill="#ff5a1f" />
-      ))}
-    </svg>
   );
 }
 
@@ -872,52 +848,52 @@ function GrowthVisual() {
 function Plans() {
   const plans = [
     {
-      tag: "Plano 01 · Iniciar",
-      title: "Começar a captar com previsibilidade",
-      desc: "Para clínicas que dependem de indicação e querem abrir um canal ativo de novos pacientes.",
+      tag: "Opção 01 · Anúncios",
+      title: "Testar anúncios para atrair contatos",
+      desc: "Para clínicas que dependem de indicações e querem testar anúncios para atrair novos contatos.",
       items: [
-        "Diagnóstico inicial da operação",
-        "Planejamento estratégico",
+        "Análise inicial da clínica",
+        "Plano de campanha",
         "Meta Ads ou Google Ads",
-        "Direcionamento para landing page ou WhatsApp",
-        "Rastreamento e otimização",
-        "Relatório mensal de leitura simples",
+        "Definição do caminho até o contato",
+        "Medição dos contatos e ajustes",
+        "Relatório mensal dos dados disponíveis",
       ],
     },
     {
-      tag: "Plano 02 · Escalar",
-      title: "Aumentar volume sem perder eficiência",
-      desc: "Para clínicas que já captam, mas precisam de mais volume, previsibilidade e leitura de dados.",
+      tag: "Opção 02 · Mais canais",
+      title: "Acompanhar melhor os contatos",
+      desc: "Para clínicas que já anunciam e querem acompanhar melhor os contatos e agendamentos.",
       items: [
-        "Meta Ads + Google Ads em conjunto",
-        "Remarketing e recuperação de contatos",
-        "Testes de ofertas e criativos",
+        "Gestão de Meta Ads e Google Ads",
+        "Anúncios para quem já visitou a página",
+        "Teste de anúncios e mensagens",
         "Acompanhamento do atendimento",
-        "Análise da jornada completa",
-        "Otimizações contínuas e recorrentes",
+        "Análise do caminho até o agendamento",
+        "Ajustes periódicos nas campanhas",
       ],
       featured: true,
     },
     {
-      tag: "Plano 03 · Consolidar",
-      title: "Assessoria estratégica completa",
-      desc: "Para clínicas que querem tratar marketing como área da empresa, não como serviço avulso.",
+      tag: "Opção 03 · Anúncios e atendimento",
+      title: "Organizar anúncios e atendimento",
+      desc: "Para clínicas que precisam organizar anúncios, atendimento e acompanhamento em conjunto.",
       items: [
-        "Planejamento estratégico contínuo",
-        "Campanhas e estrutura de funil",
-        "Landing pages e CRM integrados",
-        "Padronização do atendimento e automações",
-        "Indicadores de operação",
-        "Reuniões estratégicas periódicas",
+        "Planejamento e revisão das campanhas",
+        "Campanhas e etapas de contato",
+        "Páginas e cadastro de contatos",
+        "Organização das respostas e retornos",
+        "Acompanhamento dos números da clínica",
+        "Reuniões em datas combinadas",
       ],
     },
   ];
   return (
     <Section>
       <SectionHead
-        eyebrow="Formatos de trabalho"
-        title="Três caminhos. Um recomendado depois de te ouvir."
-        subtitle="Os planos são pontos de partida — não pacotes fechados. O escopo final é ajustado ao seu cenário no diagnóstico."
+        eyebrow="Opções de trabalho"
+        title="O escopo é definido depois de entender sua clínica."
+        subtitle="As opções abaixo servem de referência. A proposta depende da estrutura, dos objetivos e do que precisa ser feito."
       />
       <div className="grid gap-5 lg:grid-cols-3">
         {plans.map((p) => (
@@ -930,11 +906,11 @@ function Plans() {
             }`}
           >
             {p.featured && (
-              <span className="absolute -top-3 left-6 rounded-full border border-[color:var(--color-border-brand)] bg-brand px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-foreground">
-                Mais recomendado
+              <span className="absolute -top-3 left-6 rounded-full border border-[color:var(--color-border-brand)] bg-brand px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-foreground">
+                Meta Ads e Google Ads
               </span>
             )}
-            <span className="text-[10px] font-medium uppercase tracking-[0.24em] text-brand">
+            <span className="text-[11px] font-medium uppercase tracking-[0.24em] text-brand">
               {p.tag}
             </span>
             <h3 className="mt-3 font-display text-xl font-semibold text-foreground md:text-2xl">
@@ -956,16 +932,16 @@ function Plans() {
               {p.featured ? (
                 <a
                   href="#diagnostico"
-                  className="btn-brand inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold hover:[&]:btn-brand-hover"
+                  className="btn-brand inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold hover:btn-brand-hover"
                 >
-                  Quero este plano <ArrowRight className="h-4 w-4" />
+                  Conversar sobre esta opção <ArrowRight className="h-4 w-4" />
                 </a>
               ) : (
                 <a
                   href="#diagnostico"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background/40 px-4 py-3 text-sm font-semibold text-foreground transition hover:border-[color:var(--color-border-brand)]"
                 >
-                  Falar sobre este plano
+                  Conversar sobre esta opção
                 </a>
               )}
             </div>
@@ -973,8 +949,8 @@ function Plans() {
         ))}
       </div>
       <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-[color:var(--color-text-dim)]">
-        O plano ideal só é definido depois de entender o cenário atual, a estrutura e a capacidade
-        real de atendimento da clínica.
+        A proposta depende da equipe, da agenda e do volume de contatos que a clínica consegue
+        atender.
       </p>
     </Section>
   );
@@ -985,28 +961,28 @@ function Plans() {
 // ============================================================
 function ForWho() {
   const forItems = [
-    "Clínicas particulares que querem depender menos de indicação",
-    "Consultórios com boa capacidade de atendimento e agenda ociosa",
-    "Centros de estética que precisam de fluxo constante",
-    "Profissionais da saúde que atendem em rede própria",
-    "Negócios que já usam WhatsApp como canal principal",
-    "Gestores que aceitam olhar dados e ajustar processos",
-    "Quem trata marketing como investimento — não como despesa",
+    "Clínicas que querem receber contatos além das indicações",
+    "Consultórios com horários disponíveis na agenda",
+    "Centros de estética que buscam novos clientes",
+    "Profissionais da saúde com atendimento próprio",
+    "Negócios que recebem pacientes pelo WhatsApp",
+    "Gestores dispostos a rever anúncios e atendimento",
+    "Quem separa verba para anúncios e gestão",
   ];
   const notFor = [
-    "Quem espera resultado imediato sem estrutura",
-    "Quem não pretende investir em mídia",
-    "Quem não consegue responder os contatos que chegam",
-    "Quem não aceita revisar o atendimento",
-    "Quem procura só criativos, posts ou publicações baratas",
-    "Quem espera promessa de faturamento fixo garantido",
+    "Quem precisa de resultado imediato",
+    "Quem não tem verba para anunciar",
+    "Quem não consegue responder aos contatos",
+    "Quem não quer rever o atendimento",
+    "Quem procura apenas posts ou artes avulsas",
+    "Quem exige faturamento garantido",
   ];
   return (
     <Section>
       <SectionHead
-        eyebrow="Alinhamento de expectativa"
-        title="Não é para todo mundo — e isso é proposital."
-        subtitle="Antes de iniciar, preferimos deixar claro o que faz sentido e o que não faz. Assim ninguém perde tempo."
+        eyebrow="Para quem faz sentido"
+        title="Veja se este trabalho combina com sua clínica."
+        subtitle="Anúncios precisam de verba e os contatos precisam de resposta. Essas condições entram na conversa inicial."
       />
       <div className="grid gap-5 md:grid-cols-2">
         <div className="rounded-2xl border border-[color:var(--color-border-brand)] bg-card p-7">
@@ -1052,22 +1028,22 @@ function ForWho() {
 // ============================================================
 export function Process() {
   const steps = [
-    "Preenchimento do diagnóstico",
-    "Análise inicial do cenário",
-    "Reunião estratégica 1:1",
-    "Identificação do gargalo real",
-    "Recomendação da solução ideal",
-    "Proposta personalizada",
-    "Implantação estruturada",
-    "Acompanhamento próximo",
-    "Otimização contínua",
+    "Preencher o formulário",
+    "Analisar as informações da clínica",
+    "Conversar sobre o atendimento e os anúncios",
+    "Localizar onde os contatos param",
+    "Definir o que precisa ser feito",
+    "Enviar a proposta",
+    "Preparar as mudanças aprovadas",
+    "Revisar os primeiros resultados",
+    "Ajustar o que for necessário",
   ];
   return (
     <Section id="processo" className="bg-surface/30">
       <SectionHead
-        eyebrow="Como trabalhamos"
-        title="Um processo claro — do primeiro contato à otimização mês a mês."
-        subtitle="Você sabe exatamente onde está, o que vem depois e por que cada etapa existe."
+        eyebrow="Etapas do trabalho"
+        title="Da primeira conversa aos ajustes nas campanhas."
+        subtitle="Você recebe a análise e a proposta antes de decidir se quer seguir."
       />
       <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {steps.map((s, i) => (
@@ -1093,9 +1069,9 @@ function Proof() {
   return (
     <Section>
       <SectionHead
-        eyebrow="Cases e projetos"
-        title="Resultado real é construído — não prometido."
-        subtitle="Espaço reservado para materiais de clientes reais. Nenhum dado é exposto sem autorização formal."
+        eyebrow="Projetos"
+        title="Projetos de clientes só serão publicados com autorização."
+        subtitle="Ainda não há projetos publicados nesta página."
       />
       <div className="grid gap-4 md:grid-cols-3">
         {[1, 2, 3].map((i) => (
@@ -1104,15 +1080,15 @@ function Proof() {
             className="group relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-2xl border border-dashed border-border bg-card p-6 transition hover:border-[color:var(--color-border-brand)]"
           >
             <div className="absolute inset-0 bg-grid opacity-30" />
-            <span className="relative text-[10px] font-medium uppercase tracking-[0.24em] text-[color:var(--color-text-dim)]">
-              Case {String(i).padStart(2, "0")}
+            <span className="relative text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--color-text-dim)]">
+              Projeto {String(i).padStart(2, "0")}
             </span>
             <div className="relative">
               <p className="font-display text-lg font-semibold text-foreground">
-                Em breve: estudo de caso completo.
+                Projeto não publicado.
               </p>
               <p className="mt-2 text-sm text-[color:var(--color-text-muted-2)]">
-                Depoimentos, campanhas, indicadores e prints de operações reais.
+                Este espaço será atualizado quando houver material autorizado.
               </p>
             </div>
           </div>
@@ -1131,13 +1107,12 @@ function About() {
     "Formado em Administração",
     "Estudante de Psicologia (comportamento de consumo)",
     "Gestor certificado de campanhas Google e Meta",
-    "Estratégia sempre antes da ferramenta",
-    "Estudo contínuo em IA, dados e vendas consultivas",
+    "Defino as ações antes de escolher as ferramentas",
+    "Estudo IA, análise de dados e vendas",
   ];
   return (
     <Section id="sobre" className="bg-surface/30">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_1.1fr] lg:items-center">
-        {/* Photo placeholder — substituir por <img src="..." /> */}
         <div className="relative">
           <div
             aria-hidden
@@ -1147,24 +1122,24 @@ function About() {
                 "radial-gradient(ellipse at 20% 30%, rgba(255,92,31,0.4), transparent 65%)",
             }}
           />
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--color-border-brand)] bg-gradient-to-br from-card-highlight via-card to-background">
-            {/* Substituir este bloco por: <img src="..." alt="Wanderson Paixão" className="h-full w-full object-cover" /> */}
-            <div className="absolute inset-0 bg-grid opacity-30" />
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-[color:var(--color-border-brand)] bg-card">
+            <img
+              src="/wanderson-about.jpg"
+              alt="Wanderson Paixão em uma cafeteria"
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
             <div
               aria-hidden
-              className="absolute -right-20 top-1/3 h-64 w-64 rounded-full opacity-70 blur-3xl"
-              style={{
-                background: "radial-gradient(circle, rgba(255,92,31,0.55), transparent 65%)",
-              }}
+              className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/15 to-transparent"
             />
-            <div className="absolute inset-x-0 bottom-0 flex items-end p-7 text-foreground">
+            <div className="absolute inset-x-0 bottom-0 flex items-end p-7 text-white">
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-brand">
+                <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-brand">
                   AVEX
                 </p>
                 <p className="mt-1 font-display text-2xl font-semibold">Wanderson Paixão</p>
-                <p className="mt-1 text-xs text-[color:var(--color-text-muted-2)]">
-                  Estratégia · Marketing · Crescimento
+                <p className="mt-1 text-xs text-white/75">
+                  Anúncios · Atendimento
                 </p>
               </div>
             </div>
@@ -1174,13 +1149,11 @@ function About() {
         <div>
           <EyebrowTag>Quem está por trás</EyebrowTag>
           <h2 className="mt-5 text-balance font-display text-3xl font-semibold leading-[1.15] text-foreground md:text-4xl lg:text-[44px]">
-            "Meu trabalho começa entendendo o problema — só depois entra a{" "}
-            <span className="text-brand">ferramenta</span>."
+            Entendo como os contatos chegam à clínica.
           </h2>
           <p className="mt-6 text-[color:var(--color-text-muted-2)] md:text-lg">
-            Tráfego pago não é produto de prateleira. Analiso o negócio, entendo a operação,
-            encontro o gargalo real e recomendo o caminho — que pode ser anúncio, atendimento,
-            funil, página, processo ou uma combinação inteligente disso tudo.
+            Vejo quem responde e o que acontece antes do agendamento. Depois sugiro mudanças em
+            anúncios, páginas ou atendimento.
           </p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {bullets.map((b) => (
@@ -1209,6 +1182,8 @@ function DiagnosticForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [savedStep1, setSavedStep1] = useState<Record<string, string>>({});
+  const formRef = useRef<HTMLFormElement>(null);
+  const hasInteracted = useRef(false);
 
   useEffect(() => {
     try {
@@ -1229,15 +1204,34 @@ function DiagnosticForm() {
     const email = String(data.get("email") || "");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = "E-mail inválido";
     setErrors(e);
+    focusFirstError(form, e);
     return Object.keys(e).length === 0;
   }
 
+  function focusFirstError(form: HTMLFormElement, e: Record<string, string>) {
+    const first = Object.keys(e)[0];
+    if (first) form.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
+  }
+
+  // Move o foco para o primeiro campo quando a etapa muda (teclado e leitores de tela)
+  useEffect(() => {
+    if (!formRef.current || !hasInteracted.current) return;
+    formRef.current.querySelector<HTMLElement>("input, textarea, select")?.focus();
+  }, [step]);
+
+  // Leva o usuário até a confirmação após o envio
+  useEffect(() => {
+    if (status === "ok") document.getElementById("diagnostico")?.scrollIntoView({ block: "start" });
+  }, [status]);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    hasInteracted.current = true;
     const form = e.currentTarget;
     if (step === 1) {
       if (validateStep1(form)) {
         const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+        setSavedStep1(data);
         try {
           localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(data));
         } catch {
@@ -1247,8 +1241,17 @@ function DiagnosticForm() {
       }
       return;
     }
+    const step2 = new FormData(form);
+    if (!step2.get("consentimento")) {
+      const e = { consentimento: "Marque a autorização para enviarmos o diagnóstico" };
+      setErrors(e);
+      focusFirstError(form, e);
+      return;
+    }
+    setErrors({});
     setStatus("sending");
-    const data = Object.fromEntries(new FormData(form).entries());
+    // Os campos da etapa 1 não estão mais no DOM: junta com o que foi salvo
+    const data = { ...savedStep1, ...Object.fromEntries(step2.entries()) };
     try {
       if (CONFIG.formEndpoint) {
         const res = await fetch(CONFIG.formEndpoint, {
@@ -1286,18 +1289,17 @@ function DiagnosticForm() {
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-[color:var(--color-border-brand)] bg-brand/15 text-brand">
             <CheckCircle2 className="h-7 w-7" />
           </span>
-          <h2 className="mt-6 font-display text-3xl font-semibold md:text-4xl">
-            Diagnóstico recebido.
+          <h2 className="mt-6 font-display text-3xl font-semibold md:text-4xl" role="status">
+            Recebi suas informações.
           </h2>
           <p className="mt-4 text-[color:var(--color-text-muted-2)]">
-            Vou analisar seu cenário com atenção e retorno em até 3 dias úteis com uma leitura clara
-            do que está travando sua captação — e o caminho recomendado.
+            Retorno em até 3 dias úteis com os pontos que encontrei e uma sugestão de próximo passo.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <PrimaryButton href={waLink}>Adiantar contato pelo WhatsApp</PrimaryButton>
-            <SecondaryButton href={waLink} external>
-              Agendar reunião estratégica
-            </SecondaryButton>
+            <PrimaryButton href={waLink} external>
+              Adiantar pelo WhatsApp
+            </PrimaryButton>
+            <SecondaryButton href="/#faq">Ver dúvidas comuns</SecondaryButton>
           </div>
         </div>
       </Section>
@@ -1305,10 +1307,10 @@ function DiagnosticForm() {
   }
 
   const benefits = [
-    "Mapa claro dos principais gargalos de captação",
-    "Prioridades definidas para os próximos 90 dias",
-    "Recomendações ancoradas no cenário real da clínica",
-    "Indicação honesta do próximo passo — com ou sem contratação",
+    "Leitura das etapas de captação e atendimento",
+    "Pontos que precisam de atenção primeiro",
+    "Sugestões com base nas informações enviadas",
+    "Próximo passo, mesmo que você não contrate",
   ];
 
   return (
@@ -1324,11 +1326,11 @@ function DiagnosticForm() {
         <div>
           <EyebrowTag>Ponto de partida gratuito</EyebrowTag>
           <h2 className="mt-5 text-balance font-display text-3xl font-semibold leading-[1.1] md:text-4xl lg:text-5xl">
-            Diagnóstico Estratégico de <span className="text-brand">Captação e Conversão</span>
+            Vamos descobrir onde os contatos deixam de virar agendamentos.
           </h2>
           <p className="mt-5 text-[color:var(--color-text-muted-2)] md:text-lg">
-            Uma análise honesta do que está impedindo sua clínica de gerar, organizar e converter
-            mais oportunidades — sem compromisso de contratação.
+            Vou analisar como sua clínica atrai contatos, responde e marca consultas. O diagnóstico
+            não obriga você a contratar.
           </p>
           <ul className="mt-8 space-y-3">
             {benefits.map((b) => (
@@ -1342,7 +1344,7 @@ function DiagnosticForm() {
           </ul>
           <div className="mt-8 hidden lg:block">
             <p className="text-xs text-[color:var(--color-text-dim)]">
-              Sem custo. Sem compromisso. Análise entregue em até 3 dias úteis após o envio.
+              Sem custo e sem obrigação de contratar. Retorno em até 3 dias úteis.
             </p>
           </div>
         </div>
@@ -1352,9 +1354,13 @@ function DiagnosticForm() {
           className="relative rounded-3xl border border-[color:var(--color-border-brand)] bg-card-highlight p-6 shadow-2xl shadow-black/50 md:p-8"
         >
           {/* Step indicator */}
-          <div className="mb-6 flex items-center gap-3">
+          <ol className="mb-6 flex items-center gap-3" aria-label={`Etapa ${step} de 2`}>
             {[1, 2].map((n) => (
-              <div key={n} className="flex flex-1 items-center gap-3">
+              <li
+                key={n}
+                className="flex flex-1 items-center gap-3"
+                aria-current={step === n ? "step" : undefined}
+              >
                 <span
                   className={`grid h-8 w-8 place-items-center rounded-full text-xs font-semibold transition ${
                     step >= (n as 1 | 2)
@@ -1371,17 +1377,28 @@ function DiagnosticForm() {
                 >
                   {n === 1 ? "Contato" : "Cenário"}
                 </span>
-                {n === 1 && <div className="mx-1 h-px flex-1 bg-border" />}
-              </div>
+                {n === 1 && (
+                  <span
+                    aria-hidden
+                    className={`mx-1 h-px flex-1 transition-colors duration-300 ${step === 2 ? "bg-brand/60" : "bg-border"}`}
+                  />
+                )}
+              </li>
             ))}
-          </div>
+          </ol>
+          <p className="-mt-2 mb-6 text-sm text-[color:var(--color-text-muted-2)]">
+            {step === 1
+              ? "Leva cerca de 2 minutos. Sem custo e sem compromisso de contratar."
+              : "Quase lá. Essas respostas ajudam a preparar uma análise mais precisa."}
+          </p>
 
-          <form onSubmit={handleSubmit} noValidate>
+          <form ref={formRef} onSubmit={handleSubmit} noValidate>
             {step === 1 && (
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field
                   label="Nome"
                   name="nome"
+                  autoComplete="name"
                   error={errors.nome}
                   required
                   defaultValue={savedStep1.nome}
@@ -1389,6 +1406,7 @@ function DiagnosticForm() {
                 <Field
                   label="Clínica ou negócio"
                   name="clinica"
+                  autoComplete="organization"
                   error={errors.clinica}
                   required
                   defaultValue={savedStep1.clinica}
@@ -1401,6 +1419,7 @@ function DiagnosticForm() {
                 <Field
                   label="Cidade"
                   name="cidade"
+                  autoComplete="address-level2"
                   error={errors.cidade}
                   required
                   defaultValue={savedStep1.cidade}
@@ -1409,6 +1428,8 @@ function DiagnosticForm() {
                   label="WhatsApp"
                   name="whatsapp"
                   type="tel"
+                  inputMode="tel"
+                  autoComplete="tel-national"
                   placeholder="(00) 00000-0000"
                   error={errors.whatsapp}
                   required
@@ -1418,6 +1439,8 @@ function DiagnosticForm() {
                   label="E-mail"
                   name="email"
                   type="email"
+                  inputMode="email"
+                  autoComplete="email"
                   error={errors.email}
                   required
                   defaultValue={savedStep1.email}
@@ -1463,26 +1486,47 @@ function DiagnosticForm() {
                   name="preferencia"
                   options={["WhatsApp", "Reunião agendada", "Tanto faz"]}
                 />
-                <label className="mt-1 flex items-start gap-3 text-sm text-foreground">
-                  <input
-                    type="checkbox"
-                    name="consentimento"
-                    required
-                    className="mt-1 h-4 w-4 accent-[color:var(--color-brand)]"
-                  />
-                  <span className="text-[color:var(--color-text-muted-2)]">
-                    Autorizo o uso destas informações apenas para análise e contato comercial,
-                    conforme a política de privacidade.
-                  </span>
-                </label>
+                <div>
+                  <label className="mt-1 flex cursor-pointer items-start gap-3 rounded-lg p-1 text-sm text-foreground">
+                    <input
+                      type="checkbox"
+                      name="consentimento"
+                      required
+                      aria-invalid={errors.consentimento ? true : undefined}
+                      aria-describedby={errors.consentimento ? "consentimento-erro" : undefined}
+                      onChange={() =>
+                        errors.consentimento &&
+                        setErrors(({ consentimento: _omit, ...rest }) => rest)
+                      }
+                      className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[color:var(--color-brand)]"
+                    />
+                    <span className="text-[color:var(--color-text-muted-2)]">
+                      Autorizo o uso destas informações apenas para análise e contato comercial,
+                      conforme a política de privacidade.
+                    </span>
+                  </label>
+                  {errors.consentimento && (
+                    <p
+                      id="consentimento-erro"
+                      role="alert"
+                      className="mt-1 pl-9 text-xs text-brand-light"
+                    >
+                      {errors.consentimento}
+                    </p>
+                  )}
+                </div>
               </div>
             )}
-            <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+            <div className="mt-8 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
               {step === 2 ? (
                 <button
                   type="button"
-                  onClick={() => setStep(1)}
-                  className="text-sm font-medium text-[color:var(--color-text-muted-2)] hover:text-foreground"
+                  onClick={() => {
+                    hasInteracted.current = true;
+                    setErrors({});
+                    setStep(1);
+                  }}
+                  className="rounded-lg px-2 py-2 text-sm font-medium text-[color:var(--color-text-muted-2)] hover:text-foreground"
                 >
                   ← Voltar
                 </button>
@@ -1492,8 +1536,15 @@ function DiagnosticForm() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="btn-brand inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold hover:[&]:btn-brand-hover disabled:opacity-60"
+                aria-busy={status === "sending"}
+                className="btn-brand inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold hover:btn-brand-hover disabled:cursor-wait disabled:opacity-60 sm:w-auto"
               >
+                {status === "sending" && (
+                  <span
+                    aria-hidden
+                    className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"
+                  />
+                )}
                 {status === "sending"
                   ? "Enviando..."
                   : step === 1
@@ -1503,8 +1554,20 @@ function DiagnosticForm() {
               </button>
             </div>
             {status === "error" && (
-              <p className="mt-4 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
-                Não foi possível enviar agora. Tente novamente ou fale pelo WhatsApp.
+              <p
+                role="alert"
+                className="mt-4 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive"
+              >
+                Não foi possível enviar agora. Tente novamente ou{" "}
+                <a
+                  href={waLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold underline underline-offset-2"
+                >
+                  fale pelo WhatsApp
+                </a>
+                .
               </p>
             )}
           </form>
@@ -1513,6 +1576,10 @@ function DiagnosticForm() {
     </Section>
   );
 }
+
+const fieldLabelCls = "block text-[13px] font-medium text-foreground";
+const fieldControlCls =
+  "mt-2 w-full rounded-lg border border-border bg-background/60 px-3.5 py-3 text-base text-foreground placeholder:text-[color:var(--color-text-dim)] outline-none transition focus:border-[color:var(--color-border-brand)] focus:ring-2 focus:ring-brand/30 aria-[invalid=true]:border-brand/70 md:py-2.5 md:text-sm";
 
 function Field({
   label,
@@ -1523,6 +1590,8 @@ function Field({
   error,
   as,
   defaultValue,
+  autoComplete,
+  inputMode,
 }: {
   label: string;
   name: string;
@@ -1532,43 +1601,66 @@ function Field({
   error?: string;
   as?: "textarea";
   defaultValue?: string;
+  autoComplete?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
 }) {
-  const cls =
-    "mt-2 w-full rounded-lg border border-border bg-background/60 px-3.5 py-2.5 text-sm text-foreground placeholder:text-[color:var(--color-text-dim)] outline-none transition focus:border-[color:var(--color-border-brand)] focus:ring-2 focus:ring-brand/30";
+  const id = `campo-${name}`;
+  const errorId = `${id}-erro`;
+  const a11y = {
+    id,
+    name,
+    "aria-invalid": error ? true : undefined,
+    "aria-describedby": error ? errorId : undefined,
+  };
   return (
-    <label className="block text-xs font-medium uppercase tracking-widest text-[color:var(--color-text-muted-2)]">
-      {label} {required && <span className="text-brand">*</span>}
+    <div>
+      <label htmlFor={id} className={fieldLabelCls}>
+        {label}{" "}
+        {required ? (
+          <span className="text-brand" aria-hidden>
+            *
+          </span>
+        ) : (
+          <span className="font-normal text-[color:var(--color-text-dim)]">(opcional)</span>
+        )}
+      </label>
       {as === "textarea" ? (
         <textarea
-          name={name}
+          {...a11y}
           placeholder={placeholder}
           rows={3}
-          className={cls}
+          className={`${fieldControlCls} resize-y`}
           defaultValue={defaultValue}
         />
       ) : (
         <input
+          {...a11y}
           type={type}
-          name={name}
           placeholder={placeholder}
-          className={cls}
+          className={fieldControlCls}
           required={required}
           defaultValue={defaultValue}
+          autoComplete={autoComplete}
+          inputMode={inputMode}
         />
       )}
-      {error && <span className="mt-1 block text-xs normal-case text-brand">{error}</span>}
-    </label>
+      {error && (
+        <p id={errorId} className="mt-1.5 text-xs text-brand-light">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }
 
 function Select({ label, name, options }: { label: string; name: string; options: string[] }) {
+  const id = `campo-${name}`;
   return (
-    <label className="block text-xs font-medium uppercase tracking-widest text-[color:var(--color-text-muted-2)]">
-      {label}
-      <select
-        name={name}
-        className="mt-2 w-full rounded-lg border border-border bg-background/60 px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-[color:var(--color-border-brand)] focus:ring-2 focus:ring-brand/30"
-      >
+    <div>
+      <label htmlFor={id} className={fieldLabelCls}>
+        {label} <span className="font-normal text-[color:var(--color-text-dim)]">(opcional)</span>
+      </label>
+      <select id={id} name={name} className={`${fieldControlCls} cursor-pointer`}>
         <option value="">Selecione...</option>
         {options.map((o) => (
           <option key={o} value={o}>
@@ -1576,7 +1668,7 @@ function Select({ label, name, options }: { label: string; name: string; options
           </option>
         ))}
       </select>
-    </label>
+    </div>
   );
 }
 
@@ -1587,59 +1679,59 @@ function FAQ() {
   const items = [
     {
       q: "Você trabalha somente com tráfego pago?",
-      a: "Não. Tráfego pago é uma das ferramentas. O trabalho começa entendendo o gargalo — pode ser posicionamento, página, atendimento, processo ou mídia.",
+      a: "Não. Também posso avaliar a página e o atendimento. Primeiro identifico o que precisa de ajuste.",
     },
     {
       q: "O investimento em anúncios está incluído?",
-      a: "Não. A verba de anúncios é paga diretamente por você às plataformas (Google e Meta), separada da gestão.",
+      a: "Não. O pagamento dos anúncios é feito por você diretamente ao Google ou à Meta. Esse valor é separado da gestão.",
     },
     {
       q: "Em quanto tempo as campanhas são implantadas?",
-      a: "Depende da estrutura atual, das aprovações da conta e do material disponível. Normalmente entre alguns dias e algumas semanas.",
+      a: "O prazo depende dos acessos, dos materiais e dos ajustes necessários. Depois de analisar a conta, passo uma estimativa.",
     },
     {
       q: "Você garante quantidade de pacientes?",
-      a: "Não. Nenhum profissional sério garante volume de pacientes, pois resultado depende de mercado, oferta, atendimento e capacidade operacional.",
+      a: "Não. A procura, os serviços, o atendimento e a agenda influenciam o número de pacientes.",
     },
     {
       q: "É necessário ter site?",
-      a: "Nem sempre. Em muitos casos uma landing page dedicada converte melhor que um site institucional.",
+      a: "Nem sempre. A página depende dos serviços e de como o paciente agenda.",
     },
     {
-      q: "Você também cria landing pages?",
-      a: "Sim, landing pages fazem parte do escopo quando são o gargalo identificado ou parte da estratégia recomendada.",
+      q: "Você cria páginas para campanhas?",
+      a: "Sim. A página pode entrar na proposta quando fizer parte do trabalho combinado.",
     },
     {
       q: "Você ajuda a recepção?",
-      a: "Sim. Scripts, perguntas de qualificação, organização do WhatsApp e treinamento fazem parte do trabalho de conversão.",
+      a: "Sim. Posso ajudar a organizar as respostas, as perguntas e o retorno aos contatos. Combinamos o escopo antes de começar.",
     },
     {
       q: "Você atende somente clínicas?",
-      a: "O foco é saúde: clínicas, consultórios, centros de estética e profissionais da área. Outros segmentos são avaliados caso a caso.",
+      a: "Atendo clínicas, consultórios, centros de estética e profissionais da saúde. Outros segmentos são avaliados antes da proposta.",
     },
     {
       q: "Os serviços de conteúdo estão incluídos?",
-      a: "Produção de conteúdo, design, gravação e edição são contratados como serviços complementares, quando necessários.",
+      a: "Não estão incluídos na gestão de anúncios. Se você precisar desses serviços, eles entram em uma proposta separada.",
     },
     {
       q: "Como funciona o diagnóstico?",
-      a: "Você preenche o formulário, analiso o cenário e retorno com pontos de atenção, prioridades e recomendação do próximo passo.",
+      a: "Você preenche o formulário. Analiso as informações e retorno em até 3 dias úteis com o que encontrei.",
     },
     {
       q: "Qual é o prazo mínimo recomendado?",
-      a: "Trabalhos de captação e conversão exigem tempo de teste e ajustes. O prazo mínimo é discutido conforme o cenário.",
+      a: "O prazo depende do trabalho e do tempo necessário para testar os ajustes. Definimos isso na proposta.",
     },
     {
       q: "Como os resultados são acompanhados?",
-      a: "Com indicadores claros de cada etapa da jornada: cliques, contatos, qualificados, agendados e convertidos, além de reuniões periódicas.",
+      a: "Acompanhamos os dados disponíveis, como cliques, contatos e agendamentos. A frequência das reuniões fica definida no escopo.",
     },
   ];
   return (
     <Section id="faq">
       <SectionHead
-        eyebrow="Perguntas frequentes"
-        title="Respostas honestas antes de você decidir."
-        subtitle="Se sua dúvida não estiver aqui, mande uma mensagem — respondo pessoalmente."
+        eyebrow="Dúvidas comuns"
+        title="O que você precisa saber antes de conversar."
+        subtitle="Se ficou alguma dúvida, fale comigo pelo WhatsApp."
       />
       <div className="mx-auto max-w-3xl divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
         {items.map((it, i) => (
@@ -1663,9 +1755,16 @@ function FAQ() {
 // ============================================================
 // CTA FINAL
 // ============================================================
-export function FinalCTA() {
+export function FinalCTA({
+  eyebrow = "Último passo",
+  headingLevel = "h2",
+}: {
+  eyebrow?: string;
+  headingLevel?: "h1" | "h2";
+} = {}) {
+  const Heading = headingLevel;
   return (
-    <section className="relative overflow-hidden px-5 py-24 md:px-8 md:py-36">
+    <section className="relative overflow-hidden px-5 py-20 md:px-8 md:py-28">
       <div
         aria-hidden
         className="bg-grid pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_center,black_25%,transparent_70%)]"
@@ -1678,14 +1777,13 @@ export function FinalCTA() {
         }}
       />
       <div className="mx-auto max-w-3xl text-center">
-        <EyebrowTag>Último passo</EyebrowTag>
-        <h2 className="mt-6 text-balance font-display text-4xl font-semibold leading-[1.05] md:text-5xl lg:text-[64px]">
-          Antes de gastar mais em anúncio, descubra onde sua clínica está{" "}
-          <span className="text-gradient-brand">perdendo pacientes</span>.
-        </h2>
+        <EyebrowTag>{eyebrow}</EyebrowTag>
+        <Heading className="mt-6 text-balance font-display text-4xl font-semibold leading-[1.05] md:text-5xl lg:text-[64px]">
+          Descubra em que etapa sua clínica perde contatos antes do agendamento.
+        </Heading>
         <p className="mx-auto mt-6 max-w-xl text-pretty text-base text-[color:var(--color-text-muted-2)] md:text-lg">
-          Uma análise honesta mostra em minutos se o problema está na captação, na mensagem, na
-          página, no atendimento — ou na falta de acompanhamento.
+          Vamos olhar anúncios, página, WhatsApp e retorno aos contatos para entender onde a
+          conversa para.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <PrimaryButton href="/#diagnostico">Solicitar meu diagnóstico gratuito</PrimaryButton>
@@ -1725,8 +1823,7 @@ export function Footer() {
         <div className="md:col-span-2">
           <img src="/logo-avex-site.png" alt="AVEX · Wanderson Paixão" className="h-12 w-auto" />
           <p className="mt-5 max-w-sm text-sm text-[color:var(--color-text-muted-2)]">
-            Consultoria de captação, jornada comercial e melhoria contínua para clínicas,
-            consultórios e profissionais da saúde.
+            Anúncios e atendimento para clínicas e consultórios.
           </p>
           <p className="mt-4 text-xs text-[color:var(--color-text-dim)]">{CONFIG.cidade}</p>
         </div>
@@ -1791,8 +1888,8 @@ export function Footer() {
             © {new Date().getFullYear()} AVEX · Wanderson Paixão. Todos os direitos reservados.
           </p>
           <p className="max-w-xl text-xs text-[color:var(--color-text-dim)]">
-            Resultados dependem de mercado, investimento, oferta, atendimento e capacidade
-            operacional. Nenhum resultado é garantido.
+            Os resultados variam conforme a procura, o investimento, os serviços e a capacidade de
+            atendimento. Não há garantia de resultados.
           </p>
         </div>
       </div>
@@ -1804,13 +1901,28 @@ export function Footer() {
 // WHATSAPP FLOAT (mobile)
 // ============================================================
 export function WhatsAppFloat() {
-  const [visible, setVisible] = useState(false);
+  const [scrolledPast, setScrolledPast] = useState(false);
+  const [formInView, setFormInView] = useState(false);
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 400);
+    const onScroll = () => setScrolledPast(window.scrollY > 400);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    // Esconde o botão enquanto o formulário está na tela, para não cobrir o envio
+    const form = document.getElementById("formulario");
+    const io =
+      form && "IntersectionObserver" in window
+        ? new IntersectionObserver(([entry]) => setFormInView(entry.isIntersecting), {
+            threshold: 0.1,
+          })
+        : null;
+    if (form && io) io.observe(form);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      io?.disconnect();
+    };
   }, []);
+  const visible = scrolledPast && !formInView;
 
   return (
     <a
@@ -1818,7 +1930,9 @@ export function WhatsAppFloat() {
       target="_blank"
       rel="noreferrer"
       aria-label="Falar no WhatsApp"
-      className={`btn-brand fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold shadow-2xl transition md:hidden ${
+      tabIndex={visible ? undefined : -1}
+      aria-hidden={visible ? undefined : true}
+      className={`btn-brand fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold shadow-2xl transition md:hidden ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >

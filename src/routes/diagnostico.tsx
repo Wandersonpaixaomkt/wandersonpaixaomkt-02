@@ -1,21 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  DiagnosticSplit,
-  FinalCTA,
-  Footer,
-  Header,
-  Process,
-  WhatsAppFloat,
-} from "./index";
+import { DiagnosticSplit, FinalCTA, Footer, Header, Process, WhatsAppFloat } from "./index";
 
 export const Route = createFileRoute("/diagnostico")({
   head: () => ({
     meta: [
-      { title: "Diagnóstico e processo · AVEX" },
+      { title: "AVEX · Diagnóstico da clínica" },
       {
         name: "description",
-        content:
-          "Entenda os gargalos da captação da sua clínica e conheça as etapas do processo AVEX.",
+        content: "Veja onde os contatos param e como funciona o processo de análise da AVEX.",
       },
     ],
   }),
@@ -27,7 +19,7 @@ function DiagnosticPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        <FinalCTA />
+        <FinalCTA eyebrow="Diagnóstico gratuito" headingLevel="h1" />
         <DiagnosticSplit />
         <Process />
       </main>

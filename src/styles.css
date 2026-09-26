@@ -1,5 +1,7 @@
 @import "tailwindcss" source(none);
-@source "../src";
+@source "../src/**/*.tsx";
+@source "../src/**/*.ts";
+@source not "../src/routeTree.gen.ts";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -40,7 +42,7 @@
   --color-ring: var(--brand);
   --color-success: #3ddc97;
   --color-warning: #ffb547;
-  --color-text-dim: #707070;
+  --color-text-dim: #8a8a8a; /* ≥4.5:1 sobre o fundo (antes #707070 ≈ 4.1:1) */
   --color-text-muted-2: #a3a3a3;
 
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;

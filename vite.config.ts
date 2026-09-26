@@ -16,21 +16,51 @@
 //  - `tsConfigPaths` runs first so alias `@/...` resolves in all plugins.
 //
 // Reference: https://github.com/TanStack/router/discussions/5478
-import { defineConfig } from "vite";
-import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import { defineConfig, type Plugin } from "vite";
 import viteReact from "@vitejs/plugin-react";
 import tsConfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
+// The project lives under a folder whose name contains `|`. TanStack Start
+// builds a RegExp from the absolute path of `routeTree.gen.ts` without
+// escaping, so `|` is treated as regex OR and the route-tree `load()` hook
+// hijacks every module in this tree (CSS, routes, the lot).
+function escapeStartRouteTreeFilter(): Plugin {
+  const escapeRe = (value: string) =>
+    value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  return {
+    name: "escape-start-route-tree-filter",
+    configResolved(config) {
+      for (const plugin of config.plugins) {
+        if (plugin.name !== "tanstack-start:route-tree-client-plugin") continue;
+        const load = plugin.load as
+          | { filter?: { id?: { include?: RegExp | RegExp[] } } }
+          | undefined;
+        const include = load?.filter?.id?.include;
+        if (!include) continue;
+        const patch = (re: RegExp) => new RegExp(escapeRe(re.source), re.flags);
+        if (include instanceof RegExp) {
+          load.filter!.id!.include = patch(include);
+        } else if (Array.isArray(include)) {
+          load.filter!.id!.include = include.map((re) =>
+            re instanceof RegExp ? patch(re) : re,
+          );
+        }
+      }
+    },
+  };
+}
+
 export default defineConfig({
   plugins: [
-    tsConfigPaths(),
-    tailwindcss(),
-    tanstackRouter({
-      target: "react",
-      autoCodeSplitting: true,
+    escapeStartRouteTreeFilter(),
+    tsConfigPaths({
+      projects: ["./tsconfig.json"],
+      skip: (dir) => dir === "node_modules-backup",
     }),
+    tailwindcss(),
     tanstackStart({
       spa: {
         enabled: true,
