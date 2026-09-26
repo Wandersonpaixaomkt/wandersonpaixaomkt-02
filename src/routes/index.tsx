@@ -494,7 +494,7 @@ export function DiagnosticSplit() {
             ))}
           </ul>
           <div className="mt-8">
-            <PrimaryButton href="#diagnostico">Mapear meus gargalos</PrimaryButton>
+            <PrimaryButton href="/#diagnostico">Mapear meus gargalos</PrimaryButton>
           </div>
         </div>
 
