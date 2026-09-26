@@ -99,9 +99,17 @@ export const Route = createFileRoute("/")({
 // ============================================================
 // PRIMITIVES
 // ============================================================
-function EyebrowTag({ children }: { children: React.ReactNode }) {
+function EyebrowTag({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-text-muted-2)]">
+    <span
+      className={`inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-text-muted-2)] ${className}`}
+    >
       <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_2px_rgba(255,92,31,0.55)]" />
       {children}
     </span>
@@ -267,7 +275,7 @@ export function Header() {
             href={waLink}
             target="_blank"
             rel="noreferrer"
-              className="hidden items-center gap-1.5 whitespace-nowrap rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3.5 py-2 text-[13px] font-medium text-emerald-300 transition hover:border-emerald-400 hover:bg-emerald-500/20 md:inline-flex"
+            className="hidden items-center gap-1.5 whitespace-nowrap rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3.5 py-2 text-[13px] font-medium text-emerald-300 transition hover:border-emerald-400 hover:bg-emerald-500/20 md:inline-flex"
           >
             <MessageCircle className="h-3.5 w-3.5" />
             WhatsApp
@@ -340,7 +348,7 @@ function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate overflow-hidden px-5 pb-24 pt-20 md:px-8 md:pb-28 md:pt-28 lg:pb-0 lg:pt-28"
+      className="relative isolate overflow-hidden px-5 pb-14 pt-6 md:px-8 md:pb-28 md:pt-28 lg:pb-0 lg:pt-28"
     >
       {/* subtle grid */}
       <div
@@ -362,48 +370,69 @@ function Hero() {
         }}
       />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-          <EyebrowTag>Anúncios e atendimento para clínicas</EyebrowTag>
-          <h1 className="mt-6 max-w-3xl text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-6xl lg:text-[60px]">
+      <div className="relative mx-auto min-h-[640px] w-full max-w-[440px] lg:grid lg:min-h-0 lg:max-w-6xl lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+        <div className="pointer-events-none absolute inset-0 z-0 lg:relative lg:inset-auto lg:order-2 lg:h-[520px] lg:overflow-visible">
+          <div
+            aria-hidden
+            className="absolute left-1/2 top-[7%] z-0 h-[48%] w-[110%] -translate-x-1/2 rounded-full opacity-90 blur-[70px] animate-glow-pulse lg:hidden"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, rgba(255,92,31,0.62), rgba(201,56,10,0.24) 48%, transparent 74%)",
+            }}
+          />
+          <img
+            src="/wanderson-hero-cutout.png"
+            alt="Wanderson Paixão"
+            className="absolute left-1/2 top-0 z-10 h-[78%] w-auto max-w-none -translate-x-1/2 object-contain object-top [mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)] lg:bottom-0 lg:[mask-image:none] lg:left-auto lg:right-[-4%] lg:top-auto lg:h-full lg:translate-x-0 lg:object-bottom"
+          />
+          {/* Sombra entre a foto e os textos (mobile) */}
+          <div
+            aria-hidden
+            className="absolute -inset-x-5 -bottom-14 z-10 h-[calc(62%+3.5rem)] lg:hidden"
+            style={{
+              background:
+                "linear-gradient(to bottom, transparent 0%, rgba(6,6,6,0.6) 16%, rgba(6,6,6,0.88) 30%, rgba(6,6,6,0.96) 45%, #060606 62%)",
+            }}
+          />
+          <div
+            aria-hidden
+            className="absolute bottom-[4%] right-[-2%] z-0 hidden h-[90%] w-[110%] rounded-full opacity-100 blur-[85px] animate-glow-pulse lg:block"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, rgba(255,92,31,0.68), rgba(201,56,10,0.28) 45%, transparent 72%)",
+            }}
+          />
+        </div>
+
+        <div className="relative z-20 flex flex-col items-center pt-[330px] text-center lg:order-1 lg:items-start lg:pt-0 lg:text-left">
+          <EyebrowTag className="whitespace-nowrap tracking-[0.08em] backdrop-blur-sm sm:tracking-[0.18em]">
+            Anúncios e atendimento para clínicas
+          </EyebrowTag>
+          <h1 className="mt-4 max-w-3xl text-balance text-[32px] font-semibold leading-[1.08] tracking-tight text-foreground md:text-6xl lg:mt-6 lg:text-[60px]">
             Onde os contatos param antes de chegar à agenda.
           </h1>
-          <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg">
+          <p className="mt-4 max-w-2xl text-pretty text-sm leading-relaxed text-[color:var(--color-text-muted-2)] md:text-lg lg:mt-6">
             Reviso anúncios, páginas e atendimento para localizar o que precisa mudar.
           </p>
 
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-            <PrimaryButton href="/#diagnostico">Quero meu diagnóstico gratuito</PrimaryButton>
+          <div className="mt-7 flex w-full max-w-sm flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center lg:mt-9 lg:justify-start">
+            <PrimaryButton href="/#diagnostico" className="text-sm md:text-[15px]">
+              Quero meu diagnóstico gratuito
+            </PrimaryButton>
             <SecondaryButton
               href={waLink}
               external
-              className="border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:border-emerald-400 hover:bg-emerald-500/20"
+              className="border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:border-emerald-400 hover:bg-emerald-500/20 text-sm md:text-[15px]"
             >
               <MessageCircle className="h-4 w-4" />
               Conversar no WhatsApp
             </SecondaryButton>
           </div>
 
-          <p className="mt-5 max-w-xl text-sm text-[color:var(--color-text-dim)]">
+          <p className="mt-4 max-w-xs text-xs leading-relaxed text-[color:var(--color-text-dim)] sm:max-w-xl md:text-sm">
             Vou olhar os anúncios e o atendimento da clínica. O diagnóstico não obriga você a
             contratar.
           </p>
-        </div>
-
-        <div className="pointer-events-none relative isolate mx-auto h-[360px] w-full max-w-[420px] lg:h-[520px] lg:max-w-none">
-          <div
-            aria-hidden
-            className="absolute bottom-[4%] right-[-2%] z-0 h-[90%] w-[110%] rounded-full opacity-100 blur-[85px] animate-glow-pulse"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(255,92,31,0.68), rgba(201,56,10,0.28) 45%, transparent 72%)",
-            }}
-          />
-          <img
-            src="/wanderson-hero-cutout.png"
-            alt="Wanderson Paixão"
-            className="absolute bottom-0 left-1/2 z-10 h-full w-auto max-w-none -translate-x-1/2 object-contain object-bottom lg:left-auto lg:right-[-4%] lg:translate-x-0"
-          />
         </div>
       </div>
     </section>
@@ -414,14 +443,7 @@ function Hero() {
 // FAIXA DE AUTORIDADE
 // ============================================================
 function Authority() {
-  const areas = [
-    "Google Ads",
-    "Meta Ads",
-    "Páginas de campanha",
-    "Atendimento",
-    "CRM",
-    "WhatsApp",
-  ];
+  const areas = ["Google Ads", "Meta Ads", "Páginas de campanha", "Atendimento", "CRM", "WhatsApp"];
   return (
     <div className="border-y border-border bg-surface/40">
       <div className="mx-auto flex min-h-[76px] max-w-6xl items-center justify-center overflow-hidden px-5 py-5 md:min-h-[84px] md:px-8">
@@ -754,7 +776,7 @@ function Solutions() {
         title="Quatro partes do caminho até a agenda."
         subtitle="Anúncios atraem. Atendimento responde. Informação esclarece. Os dados mostram o que ajustar."
       />
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 min-[400px]:grid-cols-2">
         <BentoCard
           eyebrow="01 · Anúncios"
           icon={Megaphone}
@@ -808,9 +830,7 @@ function BentoCard({
   note?: string;
 }) {
   return (
-    <article
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition hover:border-[color:var(--color-border-brand)]"
-    >
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition hover:border-[color:var(--color-border-brand)]">
       <div className="flex items-center justify-between">
         <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-text-dim)]">
           {eyebrow}
@@ -1138,9 +1158,7 @@ function About() {
                   AVEX
                 </p>
                 <p className="mt-1 font-display text-2xl font-semibold">Wanderson Paixão</p>
-                <p className="mt-1 text-xs text-white/75">
-                  Anúncios · Atendimento
-                </p>
+                <p className="mt-1 text-xs text-white/75">Anúncios · Atendimento</p>
               </div>
             </div>
           </div>
