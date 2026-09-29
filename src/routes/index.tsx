@@ -28,8 +28,8 @@ import {
 // CONFIGURAÇÃO — Altere aqui os dados de contato e integrações
 // ============================================================
 const CONFIG = {
-  // TODO: substitua pelo número real — formato DDI+DDD+número, ex: 5594999999999
-  whatsapp: "5599999999999",
+  // WhatsApp no formato DDI+DDD+número.
+  whatsapp: "5594991960570",
   whatsappMessage:
     "Olá, Wanderson. Quero conversar sobre os anúncios e o atendimento da minha clínica.",
   email: "contato@avex.com.br",
