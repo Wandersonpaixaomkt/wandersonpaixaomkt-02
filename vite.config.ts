@@ -54,6 +54,12 @@ function escapeStartRouteTreeFilter(): Plugin {
 }
 
 export default defineConfig({
+  // Explicitly bind Vite's temporary preview server on every interface.
+  // Hostinger's build container otherwise reports the prerender preview as
+  // unreachable on both localhost addresses.
+  preview: {
+    host: "0.0.0.0",
+  },
   plugins: [
     escapeStartRouteTreeFilter(),
     tsConfigPaths({
