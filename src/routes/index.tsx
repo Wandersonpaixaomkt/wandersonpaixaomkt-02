@@ -35,8 +35,10 @@ const CONFIG = {
   email: "contato@avex.com.br",
   instagram: "https://instagram.com/wandersonpaixaomkt",
   cidade: "Atendimento online em todo o Brasil",
-  // TODO: cole aqui a URL do webhook (Zapier, Make, Supabase Functions, etc.)
-  formEndpoint: "",
+  // URL do Apps Script que grava os envios na planilha "AVEX · Leads do diagnóstico"
+  // (termina em /exec). Instruções em scripts/google-sheets-leads.gs.
+  formEndpoint:
+    "https://script.google.com/macros/s/AKfycbx6kheSAYSjq3Z8eIWjg2t-LTsMq8CYJfypz-DxEweiN3-pL9dQ57-r8mEovQH8qlUa/exec",
   // URL pública do site (sem barra final) — usada no canonical e OG
   siteUrl: "https://avex.ads.br",
   // TODO: URL da imagem OG (1200×630px) hospedada publicamente
@@ -1269,15 +1271,21 @@ function DiagnosticForm() {
     setErrors({});
     setStatus("sending");
     // Os campos da etapa 1 não estão mais no DOM: junta com o que foi salvo
-    const data = { ...savedStep1, ...Object.fromEntries(step2.entries()) };
+    const data = {
+      ...savedStep1,
+      ...Object.fromEntries(step2.entries()),
+      pagina: window.location.pathname,
+    };
     try {
       if (CONFIG.formEndpoint) {
         const res = await fetch(CONFIG.formEndpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          // text/plain evita o preflight de CORS, que o Apps Script não responde
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(data),
         });
-        if (!res.ok) throw new Error("Falha no envio");
+        const body = (await res.json().catch(() => null)) as { ok?: boolean } | null;
+        if (!res.ok || body?.ok === false) throw new Error("Falha no envio");
       } else {
         await new Promise((r) => setTimeout(r, 700));
       }
@@ -1311,7 +1319,7 @@ function DiagnosticForm() {
             Recebi suas informações.
           </h2>
           <p className="mt-4 text-[color:var(--color-text-muted-2)]">
-            Retorno em até 3 dias úteis com os pontos que encontrei e uma sugestão de próximo passo.
+            Retorno em até 12h com os pontos que encontrei e uma sugestão de próximo passo.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <PrimaryButton href={waLink} external>
@@ -1411,6 +1419,15 @@ function DiagnosticForm() {
           </p>
 
           <form ref={formRef} onSubmit={handleSubmit} noValidate>
+            {/* Armadilha anti-spam: invisível para pessoas, robôs costumam preencher */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden
+              className="absolute -left-[9999px] h-px w-px opacity-0"
+            />
             {step === 1 && (
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field
