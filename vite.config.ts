@@ -16,7 +16,10 @@
 //  - `tsConfigPaths` runs first so alias `@/...` resolves in all plugins.
 //
 // Reference: https://github.com/TanStack/router/discussions/5478
-import { defineConfig, type Plugin } from "vite";
+import { writeFile } from "node:fs/promises";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
+import { defineConfig, type Plugin, type ViteBuilder } from "vite";
 import viteReact from "@vitejs/plugin-react";
 import tsConfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
@@ -27,8 +30,7 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 // escaping, so `|` is treated as regex OR and the route-tree `load()` hook
 // hijacks every module in this tree (CSS, routes, the lot).
 function escapeStartRouteTreeFilter(): Plugin {
-  const escapeRe = (value: string) =>
-    value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const escapeRe = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
   return {
     name: "escape-start-route-tree-filter",
@@ -36,32 +38,66 @@ function escapeStartRouteTreeFilter(): Plugin {
       for (const plugin of config.plugins) {
         if (plugin.name !== "tanstack-start:route-tree-client-plugin") continue;
         const load = plugin.load as
-          | { filter?: { id?: { include?: RegExp | RegExp[] } } }
-          | undefined;
+          { filter?: { id?: { include?: RegExp | RegExp[] } } } | undefined;
         const include = load?.filter?.id?.include;
         if (!include) continue;
         const patch = (re: RegExp) => new RegExp(escapeRe(re.source), re.flags);
         if (include instanceof RegExp) {
           load.filter!.id!.include = patch(include);
         } else if (Array.isArray(include)) {
-          load.filter!.id!.include = include.map((re) =>
-            re instanceof RegExp ? patch(re) : re,
-          );
+          load.filter!.id!.include = include.map((re) => (re instanceof RegExp ? patch(re) : re));
         }
       }
     },
   };
 }
 
+// TanStack Start's SPA mode renders `index.html` by starting a temporary
+// `vite preview` server and fetching it over HTTP. Hostinger's build
+// container can't reach that server (the request times out), so the build
+// fails. We replace that step: import the freshly built server bundle and
+// call its `fetch` handler in-process — same HTML, no network involved.
+function inProcessSpaShell(): Plugin {
+  const SHELL_HEADER = "X-TSS_SHELL"; // HEADERS.TSS_SHELL in start-server-core
+
+  async function renderShell(builder: ViteBuilder) {
+    const client = builder.environments.client;
+    const server = builder.environments.ssr;
+    if (!client || !server) throw new Error("[spa-shell] client/ssr environment missing");
+
+    const root = builder.config.root;
+    const clientOut = path.resolve(root, client.config.build.outDir);
+    const serverEntry = path.resolve(root, server.config.build.outDir, "server.js");
+
+    process.env.TSS_PRERENDERING = "true";
+    process.env.TSS_CLIENT_OUTPUT_DIR = clientOut;
+    const { default: handler } = await import(pathToFileURL(serverEntry).href);
+    const res: Response = await handler.fetch(
+      new Request("http://localhost/", { headers: { [SHELL_HEADER]: "true" } }),
+    );
+    if (!res.ok) throw new Error(`[spa-shell] render failed: ${res.status} ${res.statusText}`);
+
+    await writeFile(path.join(clientOut, "index.html"), await res.text());
+    builder.config.logger.info("[spa-shell] wrote index.html (in-process, no preview server)");
+  }
+
+  return {
+    name: "in-process-spa-shell",
+    configResolved(config) {
+      const postBuild = config.plugins.find((p) => p.name === "tanstack-start-core:post-build");
+      const hook = postBuild?.buildApp;
+      if (!hook || typeof hook !== "object") {
+        throw new Error("[spa-shell] tanstack-start-core:post-build hook not found");
+      }
+      hook.handler = renderShell;
+    },
+  };
+}
+
 export default defineConfig({
-  // Explicitly bind Vite's temporary preview server on every interface.
-  // Hostinger's build container otherwise reports the prerender preview as
-  // unreachable on both localhost addresses.
-  preview: {
-    host: "0.0.0.0",
-  },
   plugins: [
     escapeStartRouteTreeFilter(),
+    inProcessSpaShell(),
     tsConfigPaths({
       projects: ["./tsconfig.json"],
       skip: (dir) => dir === "node_modules-backup",

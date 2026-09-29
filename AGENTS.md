@@ -42,7 +42,12 @@ Project notes for AI coding agents working in this repository.
 4. If the build "completes" but the page is still 403, check the
    Hostinger file manager for the published path — the document root
    in the panel must point at the same directory Vite writes to.
-5. If using `bun install` on Hostinger, see `bunfig.toml` — supply-chain
+5. If the build fails with a prerender / preview-server timeout: the
+   plugin's default SPA shell step starts `vite preview` and fetches it
+   over HTTP, which Hostinger's build container can't reach. The
+   `inProcessSpaShell` plugin in `vite.config.ts` replaces that step by
+   calling the built server bundle's `fetch` directly — keep it.
+6. If using `bun install` on Hostinger, see `bunfig.toml` — supply-chain
    guards (`minimumReleaseAge`) can stall installs there.
 
 ## Conventions
