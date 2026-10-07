@@ -89,6 +89,13 @@ function inProcessSpaShell(): Plugin {
       if (entry === "sada" || entry === ".server" || entry.startsWith("._")) continue;
       await cp(path.join(clientOut, entry), path.join(subdomainOut, entry), { recursive: true });
     }
+    // Render this shell for /diagnostico so its initial HTML has the
+    // diagnostic canonical, rather than keeping the home page's metadata.
+    const diagnosticRes: Response = await handler.fetch(
+      new Request("http://localhost/diagnostico", { headers: { [SHELL_HEADER]: "true" } }),
+    );
+    if (!diagnosticRes.ok) throw new Error(`[sada] render failed: ${diagnosticRes.status}`);
+    await writeFile(path.join(subdomainOut, "index.html"), await diagnosticRes.text());
     builder.config.logger.info("[sada] wrote subdomain shell and public assets");
   }
 
