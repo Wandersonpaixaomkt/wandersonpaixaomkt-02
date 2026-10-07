@@ -52,6 +52,13 @@ Project notes for AI coding agents working in this repository.
 
 ## Conventions
 
+- The diagnostic page is published at `https://sada.avexmkt.com.br/diagnostico`.
+  Hostinger maps that subdomain to `public_html/sada`. After rendering the SPA
+  shell, `inProcessSpaShell` copies the client output into `dist/sada`, including
+  `.htaccess` and public assets but excluding `.server` and the `sada` directory
+  itself. Keep that copy step so automatic GitHub deployments update the subdomain.
+  Diagnostic links and canonical metadata use `DIAGNOSTIC_URL` in `src/routes/index.tsx`.
+
 - Components live in `src/components/`; shadcn primitives in `src/components/ui/`.
 - Utility helpers in `src/lib/`, hooks in `src/hooks/`.
 - Routes in `src/routes/`, generated tree in `src/routeTree.gen.ts` (do not edit by hand).

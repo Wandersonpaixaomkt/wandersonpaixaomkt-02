@@ -16,7 +16,7 @@
 //  - `tsConfigPaths` runs first so alias `@/...` resolves in all plugins.
 //
 // Reference: https://github.com/TanStack/router/discussions/5478
-import { writeFile } from "node:fs/promises";
+import { cp, mkdir, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { defineConfig, type Plugin, type ViteBuilder } from "vite";
@@ -79,6 +79,17 @@ function inProcessSpaShell(): Plugin {
 
     await writeFile(path.join(clientOut, "index.html"), await res.text());
     builder.config.logger.info("[spa-shell] wrote index.html (in-process, no preview server)");
+
+    // Hostinger maps sada.avexmkt.com.br to public_html/sada. Include its
+    // SPA shell and public assets in every GitHub deployment as well.
+    const subdomainOut = path.join(clientOut, "sada");
+    await mkdir(subdomainOut, { recursive: true });
+    const entries = await readdir(clientOut);
+    for (const entry of entries) {
+      if (entry === "sada" || entry === ".server" || entry.startsWith("._")) continue;
+      await cp(path.join(clientOut, entry), path.join(subdomainOut, entry), { recursive: true });
+    }
+    builder.config.logger.info("[sada] wrote subdomain shell and public assets");
   }
 
   return {

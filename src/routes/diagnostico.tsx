@@ -1,5 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { DiagnosticSplit, FinalCTA, Footer, Header, Process, WhatsAppFloat } from "./index";
+import {
+  DIAGNOSTIC_URL,
+  DiagnosticSplit,
+  FinalCTA,
+  Footer,
+  Header,
+  Process,
+  WhatsAppFloat,
+} from "./index";
 
 export const Route = createFileRoute("/diagnostico")({
   head: () => ({
@@ -9,7 +17,9 @@ export const Route = createFileRoute("/diagnostico")({
         name: "description",
         content: "Veja onde os contatos param e como funciona o processo de análise da AVEX.",
       },
+      { property: "og:url", content: DIAGNOSTIC_URL },
     ],
+    links: [{ rel: "canonical", href: DIAGNOSTIC_URL }],
   }),
   component: DiagnosticPage,
 });
