@@ -237,13 +237,13 @@ export function Header() {
   }, [open]);
 
   const links = [
-    { href: "/#problemas", label: "Problemas" },
-    { href: "/#metodo", label: "Método" },
-    { href: "/#solucoes", label: "Soluções" },
+    { href: `${CONFIG.siteUrl}/#problemas`, label: "Problemas" },
+    { href: `${CONFIG.siteUrl}/#metodo`, label: "Método" },
+    { href: `${CONFIG.siteUrl}/#solucoes`, label: "Soluções" },
     { href: DIAGNOSTIC_URL, label: "Diagnóstico" },
     { href: `${DIAGNOSTIC_URL}#processo`, label: "Processo" },
-    { href: "/#sobre", label: "Sobre" },
-    { href: "/#faq", label: "FAQ" },
+    { href: `${CONFIG.siteUrl}/#sobre`, label: "Sobre" },
+    { href: `${CONFIG.siteUrl}/#faq`, label: "FAQ" },
   ];
   return (
     <header
@@ -254,7 +254,7 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-4 px-5 md:px-8">
-        <a href="/" className="flex shrink-0 items-center" aria-label="AVEX · página inicial">
+        <a href={CONFIG.siteUrl} className="flex shrink-0 items-center" aria-label="AVEX · página inicial">
           <img
             src="/logo-avex-site.png"
             alt="AVEX · Wanderson Paixão"
@@ -285,7 +285,7 @@ export function Header() {
             WhatsApp
           </a>
           <a
-            href={`${DIAGNOSTIC_URL}#diagnostico`}
+            href={`${CONFIG.siteUrl}/#diagnostico`}
             className="btn-brand hidden items-center gap-1.5 whitespace-nowrap rounded-lg px-4 py-2 text-[13px] font-semibold hover:btn-brand-hover sm:inline-flex"
           >
             Solicitar diagnóstico
@@ -332,7 +332,7 @@ export function Header() {
               Falar no WhatsApp
             </a>
             <a
-              href={`${DIAGNOSTIC_URL}#diagnostico`}
+              href={`${CONFIG.siteUrl}/#diagnostico`}
               onClick={() => setOpen(false)}
               className="btn-brand rounded-lg px-4 py-3 text-center text-sm font-semibold"
             >
@@ -420,7 +420,7 @@ function Hero() {
           </p>
 
           <div className="mt-7 flex w-full max-w-sm flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center lg:mt-9 lg:justify-start">
-            <PrimaryButton href={`${DIAGNOSTIC_URL}#diagnostico`} className="text-sm md:text-[15px]">
+            <PrimaryButton href={`${CONFIG.siteUrl}/#diagnostico`} className="text-sm md:text-[15px]">
               Quero meu diagnóstico gratuito
             </PrimaryButton>
             <SecondaryButton
@@ -573,7 +573,7 @@ export function DiagnosticSplit() {
             ))}
           </ul>
           <div className="mt-8">
-            <PrimaryButton href={`${DIAGNOSTIC_URL}#diagnostico`}>Pedir análise da clínica</PrimaryButton>
+            <PrimaryButton href={`${CONFIG.siteUrl}/#diagnostico`}>Pedir análise da clínica</PrimaryButton>
           </div>
         </div>
 
@@ -812,7 +812,7 @@ function Solutions() {
         />
       </div>
       <div className="mt-8 flex justify-center">
-        <PrimaryButton href={`${DIAGNOSTIC_URL}#diagnostico`}>Pedir análise da clínica</PrimaryButton>
+        <PrimaryButton href={`${CONFIG.siteUrl}/#diagnostico`}>Pedir análise da clínica</PrimaryButton>
       </div>
     </Section>
   );
@@ -1823,7 +1823,7 @@ export function FinalCTA({
           conversa para.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
-          <PrimaryButton href={`${DIAGNOSTIC_URL}#diagnostico`}>Solicitar meu diagnóstico gratuito</PrimaryButton>
+          <PrimaryButton href={`${CONFIG.siteUrl}/#diagnostico`}>Solicitar meu diagnóstico gratuito</PrimaryButton>
           <SecondaryButton href={waLink} external>
             <MessageCircle className="h-4 w-4" />
             Falar direto com Wanderson
@@ -1912,7 +1912,7 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a href={`${DIAGNOSTIC_URL}#diagnostico`} className="transition hover:text-brand">
+              <a href={`${CONFIG.siteUrl}/#diagnostico`} className="transition hover:text-brand">
                 Solicitar diagnóstico
               </a>
             </li>

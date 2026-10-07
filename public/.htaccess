@@ -6,6 +6,12 @@
   RewriteEngine On
   RewriteBase /
 
+  # Move the main site's diagnostic URL to the subdomain. The host check
+  # prevents a redirect loop when this file is copied into dist/sada.
+  # Apache keeps the original query string (including campaign parameters).
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?avexmkt\.com\.br$ [NC]
+  RewriteRule ^diagnostico/?$ https://sada.avexmkt.com.br/diagnostico [R=301,L,NE]
+
   # If the request corresponds to a real file or folder, serve it as-is.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
